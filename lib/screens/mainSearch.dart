@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../appStyle.dart';
+
 class SearchMain extends StatefulWidget {
   SearchMain({super.key});
   final Color bakcgroundColor = Color(0xFFF9F8FD);
@@ -191,7 +193,7 @@ class _SearchMainState extends State<SearchMain> {
       itemBuilder: (context, index) {
         return _buildGridItem(
           gridItems[index].label,
-          textStyle,
+          AppTheme.textTheme.caption!,
           gridItems[index].iconPath,
           gridItems[index].route,
           singleItemHeight,
@@ -224,10 +226,10 @@ class _SearchMainState extends State<SearchMain> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         showUnselectedLabels: true,
-        unselectedItemColor: NavigationBarColor.unselectedItemColor,
-        selectedItemColor: NavigationBarColor.selectedItemColor,
-        unselectedFontSize: NavigationBarColor.unselectedFontSize,
-        selectedFontSize: NavigationBarColor.selectedFontSize,
+        unselectedItemColor: NavigationBarStyle.unselectedItemColor,
+        selectedItemColor: NavigationBarStyle.selectedItemColor,
+        unselectedFontSize: NavigationBarStyle.unselectedFontSize,
+        selectedFontSize: NavigationBarStyle.selectedFontSize,
         type: BottomNavigationBarType.fixed,
         onTap: (index) {
           setState(() {
@@ -270,8 +272,8 @@ class _SearchMainState extends State<SearchMain> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              NavigationBarColor.gradientStartColor,
-              NavigationBarColor.gradientEndColor,
+              NavigationBarStyle.gradientStartColor,
+              NavigationBarStyle.gradientEndColor,
             ],
           ),
         ),
@@ -285,7 +287,6 @@ class _SearchMainState extends State<SearchMain> {
             //Where the first part use h1headline and username use h2headline
             Container(
               height : MediaQuery.of(context).size.height * 0.11,
-              width : MediaQuery.of(context).size.width * 1,
               child: RichText(
                 text: TextSpan(
                   style: Theme.of(context).textTheme.headline1,
@@ -293,7 +294,7 @@ class _SearchMainState extends State<SearchMain> {
                     TextSpan(text: 'What are you looking for, '),
                     TextSpan(
                       text: '$userName ?',
-                      style: Theme.of(context).textTheme.headline2,
+                      style: Theme.of(context).textTheme.headline1!.copyWith(color: Colors.orange),
                     ),
                   ],
                 ),
@@ -309,23 +310,6 @@ class _SearchMainState extends State<SearchMain> {
       ),
     );
   }
-}
-
-class NavigationBarColor {
-  //gradient bg
-  static const Color gradientStartColor = Color(0xFFF9F8FD);
-  static const Color gradientEndColor = Color(0xFFFFFF);
-
-  static const Color unselectedItemColor = Colors.grey;
-  static const Color selectedItemColor = Color(0xFF4552CB);
-
-  static const TextStyle unselectedLabelStyle = TextStyle(
-    color: Colors.grey,
-  );
-  static const TextStyle selectedLabelStyle =
-      TextStyle(color: selectedItemColor);
-  static const double unselectedFontSize = 14.0;
-  static const double selectedFontSize = 14.0;
 }
 
 class MainSearchGridItem {
