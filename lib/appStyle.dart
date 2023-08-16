@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 ThemeData AppTheme = ThemeData(
-    colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-    useMaterial3: true,
-    textTheme:  TextTheme(
+    colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF4552CB)),
+    textTheme: TextTheme(
       //Usage: Main search title text
       headline1: TextStyle(
         fontSize: 34.0,
@@ -13,7 +12,7 @@ ThemeData AppTheme = ThemeData(
         height: 1.25,
         fontFamily: 'EncodeSans',
       ),
-      
+
       //Usage:
       headline2: TextStyle(
         fontSize: 24.0,
@@ -37,7 +36,6 @@ ThemeData AppTheme = ThemeData(
         color: Color(0xFF070821),
         height: 20 / 16,
         fontFamily: 'EncodeSans',
-        
       ),
       headline5: TextStyle(
         fontSize: 14.0,
@@ -45,7 +43,6 @@ ThemeData AppTheme = ThemeData(
         color: Color(0xFF070821),
         height: 17.5 / 14,
         fontFamily: 'EncodeSans',
-       
       ),
       headline6: TextStyle(
         fontSize: 13.0,
@@ -55,39 +52,39 @@ ThemeData AppTheme = ThemeData(
         letterSpacing: 0.01,
         fontFamily: 'EncodeSans',
       ),
-      //Usage: 
+      //Usage:
       bodyText1: TextStyle(
         fontSize: 16.0,
         fontWeight: FontWeight.w400,
         color: Color(0xFF070821),
-        
-        height: 24/16,
+
+        height: 24 / 16,
         letterSpacing: 0.01,
         //font encode sans
         fontFamily: 'EncodeSans',
       ),
-      subtitle2:  TextStyle(
+      subtitle2: TextStyle(
         fontSize: 14.0,
         fontWeight: FontWeight.w500,
 
         //0.1 opacity
         color: ColorConstants.sub2Color,
-        height: 21/14,
+        height: 21 / 14,
         letterSpacing: 0.01,
         fontFamily: 'EncodeSans',
       ),
-      button:  TextStyle(
+      button: TextStyle(
         fontSize: 16.0,
         fontWeight: FontWeight.w700,
         color: Color(0xFF070821),
-        height: 20/16,
+        height: 20 / 16,
         fontFamily: 'EncodeSans',
       ),
-      bodyText2:  TextStyle(
+      bodyText2: TextStyle(
         fontSize: 14.0,
         fontWeight: FontWeight.w400,
         color: Color(0xFF070821),
-        height: 28/14,
+        height: 28 / 14,
         letterSpacing: 0.25,
         fontFamily: 'EncodeSans',
       ),
@@ -95,27 +92,24 @@ ThemeData AppTheme = ThemeData(
         fontSize: 11.0,
         fontWeight: FontWeight.w500,
         color: Color(0xFF070821),
-        height: 16/11,
+        height: 16 / 11,
         letterSpacing: 0.04 / 11,
         fontFamily: 'EncodeSans',
       ),
-      overline:  TextStyle(
+      overline: TextStyle(
         fontSize: 10.0,
         fontWeight: FontWeight.w700,
         color: Color(0xFF070821),
-        height: 16/10,
+        height: 16 / 10,
         letterSpacing: 1.5 / 10,
         fontFamily: 'EncodeSans',
       ),
-      
-
     ));
 
-
-class ColorConstants
-{
+class ColorConstants {
   static Color sub2Color = Color(0xFF070821).withOpacity(0.1);
 }
+
 class NavigationBarStyle {
   //gradient bg
   static const Color gradientStartColor = Color(0xFFF9F8FD);
@@ -132,7 +126,7 @@ class NavigationBarStyle {
   static const double unselectedFontSize = 14.0;
   static const double selectedFontSize = 14.0;
 
-  static TextStyle menu  = TextStyle(
+  static TextStyle menu = TextStyle(
     fontSize: 10.0,
     fontWeight: FontWeight.w500,
     color: Color(0xFF070821),
@@ -140,5 +134,4 @@ class NavigationBarStyle {
     letterSpacing: 0.04,
     fontFamily: 'EncodeSans',
   );
-
 }
