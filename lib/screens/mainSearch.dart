@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import '../appStyle.dart';
 
 class SearchMain extends StatefulWidget {
-  SearchMain({super.key});
-  final Color bakcgroundColor = Color(0xFFF9F8FD);
-  final Color iconColor = Color(0xFF4552CB);
+  const SearchMain({super.key});
+  final Color bakcgroundColor = const Color(0xFFF9F8FD);
+  final Color iconColor = const Color(0xFF4552CB);
 
   @override
   State<SearchMain> createState() => _SearchMainState();
@@ -94,14 +94,14 @@ class _SearchMainState extends State<SearchMain> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text("Alert"),
-              content: Text("This feature is not available yet."),
+              title: const Text("Alert"),
+              content: const Text("This feature is not available yet."),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text("OK"),
+                  child: const Text("OK"),
                 ),
               ],
             );
@@ -112,7 +112,7 @@ class _SearchMainState extends State<SearchMain> {
     child: Ink(
       decoration: BoxDecoration(
                   
-                  gradient: LinearGradient(
+                  gradient: const LinearGradient(
                     //White
                     colors: [Colors.white, Colors.white], 
                     begin: Alignment.topLeft,
@@ -137,7 +137,7 @@ class _SearchMainState extends State<SearchMain> {
                 width: width * 0.5,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Text(
@@ -174,16 +174,16 @@ class _SearchMainState extends State<SearchMain> {
     fontSizeFactor = 0.7; // Adjust this factor as needed
   }
 
-  TextStyle textStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
-    fontSize: Theme.of(context).textTheme.bodyText1!.fontSize! * fontSizeFactor,
+  TextStyle textStyle = Theme.of(context).textTheme.bodyLarge!.copyWith(
+    fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize! * fontSizeFactor,
   );
 
-  return Container(
+  return SizedBox(
     height: gridViewHeight,
     width: gridViewWidth,
     
     child: GridView.builder(
-      physics:  NeverScrollableScrollPhysics(),
+      physics:  const NeverScrollableScrollPhysics(),
       itemCount: gridItems.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: columns,
@@ -193,7 +193,7 @@ class _SearchMainState extends State<SearchMain> {
       itemBuilder: (context, index) {
         return _buildGridItem(
           gridItems[index].label,
-          AppTheme.textTheme.caption!,
+          AppTheme.textTheme.bodySmall!,
           gridItems[index].iconPath,
           gridItems[index].route,
           singleItemHeight,
@@ -236,7 +236,7 @@ class _SearchMainState extends State<SearchMain> {
             currentIndex = index;
           });
         },
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
               Icons.search,
@@ -267,7 +267,7 @@ class _SearchMainState extends State<SearchMain> {
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -285,16 +285,16 @@ class _SearchMainState extends State<SearchMain> {
             ),
             //"What are you looking for $"username"?
             //Where the first part use h1headline and username use h2headline
-            Container(
+            SizedBox(
               height : MediaQuery.of(context).size.height * 0.11,
               child: RichText(
                 text: TextSpan(
-                  style: Theme.of(context).textTheme.headline1,
+                  style: Theme.of(context).textTheme.displayLarge,
                   children: <TextSpan>[
-                    TextSpan(text: 'What are you looking for, '),
+                    const TextSpan(text: 'What are you looking for, '),
                     TextSpan(
                       text: '$userName ?',
-                      style: Theme.of(context).textTheme.headline1!.copyWith(color: Colors.orange),
+                      style: Theme.of(context).textTheme.displayLarge!.copyWith(color: Colors.orange),
                     ),
                   ],
                 ),

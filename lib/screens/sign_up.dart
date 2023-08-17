@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:petcare_search/screens/registration.dart';
+import 'registration.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _SignInState extends State<SignIn> {
+class _SignUpState extends State<SignUp> {
+  final FocusNode _nameFocus = FocusNode();
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
+  bool isNameCorrect = false;
+  RegExp rex = RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
   bool isEmailCorrect = false;
   bool passwordObscure = true;
   @override
@@ -21,6 +24,7 @@ class _SignInState extends State<SignIn> {
 
   @override
   void dispose() {
+    _nameFocus.dispose();
     _emailFocus.dispose();
     _passwordFocus.dispose();
     super.dispose();
@@ -59,7 +63,7 @@ class _SignInState extends State<SignIn> {
                 child: Align(
                   alignment: const Alignment(-0.7, -0.3),
                   child: Text(
-                    'Sign In',
+                    'Sign Up',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -84,7 +88,7 @@ class _SignInState extends State<SignIn> {
                   top: scaleH(171),
                   left: scaleW(20),
                   child: Container(
-                    height: scaleH(290),
+                    height: scaleH(406),
                     width: scaleW(335),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -94,6 +98,54 @@ class _SignInState extends State<SignIn> {
                       children: [
                         Padding(
                             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: _nameFocus.hasFocus
+                                    ? Colors.grey.shade100
+                                    : Colors.white,
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(15, 7, 15, 12),
+                                child: TextFormField(
+                                  onChanged: (val) {
+                                    setState(() {
+                                      isNameCorrect = rex.hasMatch(val);
+                                    });
+                                  },
+                                  focusNode: _nameFocus,
+                                  onTap: () {
+                                    _requestFocus(_nameFocus);
+                                  },
+                                  decoration: InputDecoration(
+                                      suffix: isNameCorrect
+                                          ? const Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  0, 0, 10, 0),
+                                              child: Image(
+                                                image: AssetImage(
+                                                    'assets/icons/success.png'),
+                                                fit: BoxFit.fill,
+                                              ),
+                                            )
+                                          : null,
+                                      labelText: 'Full name',
+                                      labelStyle: TextStyle(
+                                          color: _emailFocus.hasFocus
+                                              ? const Color(0xFF4552CB)
+                                              : Colors.grey.shade300,
+                                          fontSize: 19,
+                                          fontWeight: FontWeight.bold),
+                                      focusedBorder: const UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 2,
+                                              color: Color(0xFF4552CB)))),
+                                ),
+                              ),
+                            )),
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
@@ -238,7 +290,7 @@ class _SignInState extends State<SignIn> {
                     ),
                   )),
               Positioned(
-                top: scaleH(502),
+                top: scaleH(606),
                 left: scaleW(20),
                 right: scaleH(20),
                 child: Row(
@@ -268,7 +320,7 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
               Positioned(
-                  top: scaleH(537),
+                  top: scaleH(642),
                   left: scaleW(104),
                   child: IconButton(
                       iconSize: scaleH(56),
@@ -282,7 +334,7 @@ class _SignInState extends State<SignIn> {
                         ),
                       ))),
               Positioned(
-                  top: scaleH(537),
+                  top: scaleH(642),
                   right: scaleW(104),
                   child: IconButton(
                       iconSize: scaleH(56),
@@ -296,7 +348,7 @@ class _SignInState extends State<SignIn> {
                         ),
                       ))),
               Positioned(
-                  bottom: scaleH(90),
+                  bottom: scaleH(50),
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: Row(
