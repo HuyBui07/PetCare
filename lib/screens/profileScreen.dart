@@ -70,7 +70,7 @@ class ProfileScreen extends StatelessWidget {
           children: [
             Container(
               margin: EdgeInsetsDirectional.only(bottom: scaleH(10, context)),
-              height: scaleH(314, context),
+              height: scaleH(226, context),
               decoration: BoxDecoration(
                   color: Colors.white,
                   boxShadow: [
@@ -94,7 +94,7 @@ class ProfileScreen extends StatelessWidget {
                     CircleAvatar(
                       backgroundImage:
                           const AssetImage('assets/profileImgs/photo.png'),
-                      radius: scaleW(90, context),
+                      radius: scaleW(56, context),
                     ),
                     Column(
                       children: [
