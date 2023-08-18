@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -5,7 +6,21 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../utils/pet_events_list.dart';
 
-class AddDetailPet extends StatelessWidget {
+class AddDetailPet extends StatefulWidget {
+  @override
+  State<AddDetailPet> createState() => _AddDetailPetState();
+}
+
+class _AddDetailPetState extends State<AddDetailPet> {
+  var filter = false;
+  var filter1 = false;
+  var filter2 = false;
+  var filter3 = false;
+  var filter4 = false;
+  var filter5 = false;
+  var filter6 = false;
+  var filter7 = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,12 +104,12 @@ class AddDetailPet extends StatelessWidget {
                             ),
                           ),
                           child: IconButton(
-                            iconSize: 25,
+                            iconSize: 22,
                             onPressed: () {},
                             icon: const Icon(
                               Icons.add,
                               color: Colors.white,
-                              weight: 8,
+                              weight: 5,
                             ),
                           ),
                         ),
@@ -108,7 +123,7 @@ class AddDetailPet extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 20),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    
                     children: [
                       Text(
                         'General\ninformation',
@@ -265,9 +280,9 @@ class AddDetailPet extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              spreadRadius: 2,
-                              blurRadius: 30,
+                              color: Color(0xff4552CB).withOpacity(0.09),
+                              spreadRadius: 0,
+                              blurRadius: 13,
                               offset: Offset(0, 10),
                             ),
                           ],
@@ -370,23 +385,6 @@ class AddDetailPet extends StatelessWidget {
                         'Additional Information',
                         style: GoogleFonts.encodeSans(
                           textStyle: TextStyle(
-                            fontSize: 23,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0XFF070821),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Reminders',
-                        style: GoogleFonts.encodeSans(
-                          textStyle: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w700,
                             color: Color(0XFF070821),
@@ -396,8 +394,282 @@ class AddDetailPet extends StatelessWidget {
                     ],
                   ),
                 ),
+
+                const SizedBox(
+                  height: 30,
+                ),
+
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, top: 16),
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Neutered',
+                        style: GoogleFonts.encodeSans(
+                          textStyle: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0XFF070821),
+                          ),
+                        ),
+                      ),
+                      Spacer(),
+                      CupertinoSwitch(
+                        value: filter,
+                        onChanged: (isChecked) {
+                          setState(() {
+                            filter = isChecked;
+                          });
+                        },
+                        trackColor: Color(0xffF5F5F5),
+                        activeColor: Color(0xff4552CB),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Vaccinated',
+                        style: GoogleFonts.encodeSans(
+                          textStyle: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0XFF070821),
+                          ),
+                        ),
+                      ),
+                      Spacer(),
+                      CupertinoSwitch(
+                        value: filter1,
+                        onChanged: (isChecked) {
+                          setState(() {
+                            filter1 = isChecked;
+                          });
+                        },
+                        trackColor: Color(0xffF5F5F5),
+                        activeColor: Color(0xff4552CB),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Friendly with dogs',
+                        style: GoogleFonts.encodeSans(
+                          textStyle: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0XFF070821),
+                          ),
+                        ),
+                      ),
+                      Spacer(),
+                      CupertinoSwitch(
+                        value: filter2,
+                        onChanged: (isChecked) {
+                          setState(() {
+                            filter2 = isChecked;
+                          });
+                        },
+                        trackColor: Color(0xffF5F5F5),
+                        activeColor: Color(0xff4552CB),
+                      ),
+                    ],
+                  ),
+                ),
+
+               Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Friendly with cats',
+                        style: GoogleFonts.encodeSans(
+                          textStyle: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0XFF070821),
+                          ),
+                        ),
+                      ),
+                      Spacer(),
+                      CupertinoSwitch(
+                        value: filter3,
+                        onChanged: (isChecked) {
+                          setState(() {
+                            filter3 = isChecked;
+                          });
+                        },
+                        trackColor: Color(0xffF5F5F5),
+                        activeColor: Color(0xff4552CB),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Friendly with kids <10 years',
+                        style: GoogleFonts.encodeSans(
+                          textStyle: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0XFF070821),
+                          ),
+                        ),
+                      ),
+                      Spacer(),
+                      CupertinoSwitch(
+                        value: filter4,
+                        onChanged: (isChecked) {
+                          setState(() {
+                            filter4 = isChecked;
+                          });
+                        },
+                        trackColor: Color(0xffF5F5F5),
+                        activeColor: Color(0xff4552CB),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Friendly with kids >10 years',
+                        style: GoogleFonts.encodeSans(
+                          textStyle: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0XFF070821),
+                          ),
+                        ),
+                      ),
+                      Spacer(),
+                      CupertinoSwitch(
+                        value: filter5,
+                        onChanged: (isChecked) {
+                          setState(() {
+                            filter5 = isChecked;
+                          });
+                        },
+                        trackColor: Color(0xffF5F5F5),
+                        activeColor: Color(0xff4552CB),
+                      ),
+                    ],
+                  ),
+                ),
+
+Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Microchipped',
+                        style: GoogleFonts.encodeSans(
+                          textStyle: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0XFF070821),
+                          ),
+                        ),
+                      ),
+                      Spacer(),
+                      CupertinoSwitch(
+                        value: filter6,
+                        onChanged: (isChecked) {
+                          setState(() {
+                            filter6 = isChecked;
+                          });
+                        },
+                        trackColor: Color(0xffF5F5F5),
+                        activeColor: Color(0xff4552CB),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Purebred',
+                        style: GoogleFonts.encodeSans(
+                          textStyle: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0XFF070821),
+                          ),
+                        ),
+                      ),
+                      Spacer(),
+                      CupertinoSwitch(
+                        value: filter7,
+                        onChanged: (isChecked) {
+                          setState(() {
+                            filter7 = isChecked;
+                          });
+                        },
+                        trackColor: Color(0xffF5F5F5),
+                        activeColor: Color(0xff4552CB),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFFF0F0F8),
+                          width: 1.5,
+                        ),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Color(0xFFF0F0F8), width: 2),
+                      ),
+                      
+                    ),
+                  ),
+                ),
+                
+                
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, top: 32),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Reminders',
+                        style: GoogleFonts.encodeSans(
+                          textStyle: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0XFF070821),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, top: 14),
                   child: Row(
                     children: [
                       Text(
@@ -414,7 +686,7 @@ class AddDetailPet extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
                   child: Row(
                     children: <Widget>[
                       Container(
@@ -423,7 +695,7 @@ class AddDetailPet extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.09),
+                              color: Color(0xff2D368A).withOpacity(0.09),
                               spreadRadius: 2,
                               blurRadius: 50,
                               offset: Offset(0, 10),
@@ -437,8 +709,8 @@ class AddDetailPet extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(top: 30),
                               child: Container(
-                                height: 50,
-                                width: 50,
+                                height: 55,
+                                width: 55,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(100),
                                   boxShadow: [
@@ -462,7 +734,7 @@ class AddDetailPet extends StatelessWidget {
                                     Icons.add,
                                     color: Colors.white,
                                     weight: 5,
-                                    size: 35,
+                                    size: 40,
                                   ),
                                 ),
                               ),
@@ -489,24 +761,25 @@ class AddDetailPet extends StatelessWidget {
                       const Expanded(
                         child: SizedBox(
                           height: 150,
-                          child: ListItem(
-                            title: [
-                              'Measles vaccine',
-                              'Measles vaccine',
-                              'Measles vaccine',
-                            ],
-                          ),
+                          child: ListItem(title: [
+                            'Measles vaccine',
+                            'Measles vaccine',
+                            'Measles vaccine',
+                          ]),
                         ),
                       ),
                     ],
                   ),
                 ),
 
-                //nút next
+                //nút save
 
                 Padding(
                   padding: const EdgeInsets.only(top: 24, left: 20),
                   child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     height: 46,
                     width: 380,
                     child: TextButton(
@@ -515,7 +788,7 @@ class AddDetailPet extends StatelessWidget {
                       ),
                       onPressed: () {},
                       child: Text(
-                        'Next',
+                        'Save',
                         style: GoogleFonts.encodeSans(
                           textStyle: const TextStyle(
                             fontSize: 18,
