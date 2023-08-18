@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:petcare_search/appStyle.dart';
 import 'package:petcare_search/screens/profileScreen.dart';
 import 'package:petcare_search/screens/sign_in.dart';
+import 'package:petcare_search/screens/welcome.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Balls',
       theme: AppTheme,
-      home: ProfileScreen(),
+      home: Welcome(),
     );
   }
 }
