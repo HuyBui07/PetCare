@@ -20,10 +20,10 @@ class ListItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.09),
+                  color: Color(0xff2D368A).withOpacity(0.008),
                   spreadRadius: 1,
-                  blurRadius: 10,
-                  offset: const Offset(0, 0),
+                  blurRadius: 28,
+                  offset: const Offset(4, 6),
                 ),
               ],
             ),
