@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:petcare_search/utils/addPetDetail/cupertino_switch.dart';
+import 'package:petcare_search/utils/addPetDetail/textFormField.dart';
+import 'package:petcare_search/utils/addPetDetail/violetButton.dart';
+import '../constants/colors.dart';
+import '../utils/widget_utils.dart';
 
 import '../utils/pet_events_list.dart';
 
@@ -12,62 +17,39 @@ class AddDetailPet extends StatefulWidget {
 }
 
 class _AddDetailPetState extends State<AddDetailPet> {
-  var filter = false;
-  var filter1 = false;
-  var filter2 = false;
-  var filter3 = false;
-  var filter4 = false;
-  var filter5 = false;
-  var filter6 = false;
-  var filter7 = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: Colors.white,
-        leading: Icon(
-          Icons.arrow_back,
-          color: Color(0xFF4552CB),
-          size: 30,
-          weight: 8,
-        ),
+        leading: const Icon(Icons.arrow_back, color: AppColors.violet),
         centerTitle: true,
         title: Text(
           'Add pet detail',
-          style: GoogleFonts.encodeSans(
-            textStyle: TextStyle(
-              fontSize: 23,
-              fontWeight: FontWeight.w700,
-              color: Color(0XFF070821),
-            ),
-          ),
+          style: Theme.of(context).textTheme.headline3,
         ),
         actions: [
           TextButton(
             onPressed: () {},
             child: Text(
               'Skip',
-              style: GoogleFonts.encodeSans(
-                textStyle: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF4552CB),
-                ),
-              ),
+              style: Theme.of(context).textTheme.headline6?.apply(
+                    color: AppColors.violet,
+                  ),
             ),
           ),
         ],
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.only(top: 32),
+          padding: EdgeInsets.only(top: scaleH(32, context)),
           child: SingleChildScrollView(
             child: Column(
               children: [
                 SizedBox(
-                  height: 112,
-                  width: 112,
+                  height: scaleH(112, context),
+                  width: scaleH(112, context),
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
@@ -83,19 +65,10 @@ class _AddDetailPetState extends State<AddDetailPet> {
                         right: 10,
                         top: 0,
                         child: Container(
-                          height: 40,
-                          width: 40,
+                          height: scaleH(30, context),
+                          width: scaleH(30, context),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
-                            boxShadow: [
-                              BoxShadow(
-                                color:
-                                    const Color(0xff4552CB).withOpacity(0.23),
-                                spreadRadius: 5,
-                                blurRadius: 17,
-                                offset: const Offset(0, 10),
-                              ),
-                            ],
                             gradient: const LinearGradient(
                               colors: <Color>[
                                 Color(0xff4596EA),
@@ -104,12 +77,11 @@ class _AddDetailPetState extends State<AddDetailPet> {
                             ),
                           ),
                           child: IconButton(
-                            iconSize: 22,
+                            iconSize: scaleH(16, context),
                             onPressed: () {},
                             icon: const Icon(
                               Icons.add,
                               color: Colors.white,
-                              weight: 5,
                             ),
                           ),
                         ),
@@ -117,163 +89,55 @@ class _AddDetailPetState extends State<AddDetailPet> {
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 32,
-                ),
+
                 Padding(
-                  padding: const EdgeInsets.only(left: 20),
+                  padding: EdgeInsets.only(
+                      left: scaleH(20, context), top: scaleH(32, context)),
                   child: Row(
-                    
                     children: [
                       Text(
                         'General\ninformation',
-                        style: GoogleFonts.encodeSans(
-                          textStyle: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0XFF070821),
-                          ),
-                        ),
-                      )
+                        style: Theme.of(context).textTheme.headline3,
+                      ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFFF0F0F8),
-                          width: 1.5,
-                        ),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Color(0xFFF0F0F8), width: 2),
-                      ),
-                      label: Text(
-                        "Pet's name",
-                        style: GoogleFonts.encodeSans(
-                          textStyle: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0XFFBBC3CE),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                    padding: EdgeInsets.only(
+                        left: scaleH(20, context), right: scaleH(20, context)),
+                    child: CustomTextformfield(text: "Pet's name")),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFFF0F0F8),
-                          width: 1.5,
-                        ),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Color(0xFFF0F0F8), width: 2),
-                      ),
-                      label: Text(
-                        "Species of your pet",
-                        style: GoogleFonts.encodeSans(
-                          textStyle: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0XFFBBC3CE),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                    padding: EdgeInsets.only(
+                        left: scaleH(20, context), right: scaleH(20, context)),
+                    child: CustomTextformfield(text: "Species of your pet")),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFFF0F0F8),
-                          width: 1.5,
-                        ),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Color(0xFFF0F0F8), width: 2),
-                      ),
-                      label: Text(
-                        "Breed",
-                        style: GoogleFonts.encodeSans(
-                          textStyle: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0XFFBBC3CE),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                    padding: EdgeInsets.only(
+                        left: scaleH(20, context), right: scaleH(20, context)),
+                    child: CustomTextformfield(text: "Breed")),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFFF0F0F8),
-                          width: 1.5,
-                        ),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Color(0xFFF0F0F8), width: 2),
-                      ),
-                      label: Text(
-                        "Size (opsional)",
-                        style: GoogleFonts.encodeSans(
-                          textStyle: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0XFFBBC3CE),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 24,
-                ),
+                    padding: EdgeInsets.only(
+                        left: scaleH(20, context), right: scaleH(20, context)),
+                    child: CustomTextformfield(text: "Size (optional)")),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20),
+                  padding: EdgeInsets.only(
+                      left: scaleH(20, context), top: scaleH(24, context)),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
                         "Gender",
-                        style: GoogleFonts.encodeSans(
-                          textStyle: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0XFFBBC3CE),
-                          ),
-                        ),
+                        style: Theme.of(context).textTheme.headline6?.apply(
+                              color: AppColors.gray,
+                            ),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 13,
-                ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  padding: EdgeInsets.only(
+                      left: scaleH(20, context),
+                      right: scaleH(20, context),
+                      top: scaleH(13, context)),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
                         decoration: BoxDecoration(
@@ -348,31 +212,8 @@ class _AddDetailPetState extends State<AddDetailPet> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xFFF0F0F8),
-                          width: 1.5,
-                        ),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Color(0xFFF0F0F8), width: 2),
-                      ),
-                      label: Text(
-                        "Date of birth",
-                        style: GoogleFonts.encodeSans(
-                          textStyle: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0XFFBBC3CE),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  padding:EdgeInsets.only(left: scaleW(20, context), right: scaleH(20, context)),
+                  child: CustomTextformfield(text: "Date of birth")
                 ),
                 const SizedBox(
                   height: 20,
@@ -383,310 +224,129 @@ class _AddDetailPetState extends State<AddDetailPet> {
                     children: [
                       Text(
                         'Additional Information',
-                        style: GoogleFonts.encodeSans(
-                          textStyle: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0XFF070821),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(
-                  height: 30,
-                ),
-
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Neutered',
-                        style: GoogleFonts.encodeSans(
-                          textStyle: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0XFF070821),
-                          ),
-                        ),
-                      ),
-                      Spacer(),
-                      CupertinoSwitch(
-                        value: filter,
-                        onChanged: (isChecked) {
-                          setState(() {
-                            filter = isChecked;
-                          });
-                        },
-                        trackColor: Color(0xffF5F5F5),
-                        activeColor: Color(0xff4552CB),
+                        style: Theme.of(context).textTheme.headline3,
                       ),
                     ],
                   ),
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Vaccinated',
-                        style: GoogleFonts.encodeSans(
-                          textStyle: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0XFF070821),
-                          ),
-                        ),
-                      ),
-                      Spacer(),
-                      CupertinoSwitch(
-                        value: filter1,
-                        onChanged: (isChecked) {
-                          setState(() {
-                            filter1 = isChecked;
-                          });
-                        },
-                        trackColor: Color(0xffF5F5F5),
-                        activeColor: Color(0xff4552CB),
-                      ),
-                    ],
-                  ),
+                  padding: EdgeInsets.only(
+                      left: scaleH(20, context),
+                      top: scaleH(37, context),
+                      right: scaleH(20, context)),
+                  child: CusCupertinoswitch(text: 'Neutered'),
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Friendly with dogs',
-                        style: GoogleFonts.encodeSans(
-                          textStyle: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0XFF070821),
-                          ),
-                        ),
-                      ),
-                      Spacer(),
-                      CupertinoSwitch(
-                        value: filter2,
-                        onChanged: (isChecked) {
-                          setState(() {
-                            filter2 = isChecked;
-                          });
-                        },
-                        trackColor: Color(0xffF5F5F5),
-                        activeColor: Color(0xff4552CB),
-                      ),
-                    ],
-                  ),
-                ),
-
-               Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Friendly with cats',
-                        style: GoogleFonts.encodeSans(
-                          textStyle: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0XFF070821),
-                          ),
-                        ),
-                      ),
-                      Spacer(),
-                      CupertinoSwitch(
-                        value: filter3,
-                        onChanged: (isChecked) {
-                          setState(() {
-                            filter3 = isChecked;
-                          });
-                        },
-                        trackColor: Color(0xffF5F5F5),
-                        activeColor: Color(0xff4552CB),
-                      ),
-                    ],
-                  ),
+                  padding: EdgeInsets.only(
+                      left: scaleH(20, context),
+                      top: scaleH(24, context),
+                      right: scaleH(20, context)),
+                  child: CusCupertinoswitch(text: 'Vaccinated'),
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Friendly with kids <10 years',
-                        style: GoogleFonts.encodeSans(
-                          textStyle: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0XFF070821),
-                          ),
-                        ),
-                      ),
-                      Spacer(),
-                      CupertinoSwitch(
-                        value: filter4,
-                        onChanged: (isChecked) {
-                          setState(() {
-                            filter4 = isChecked;
-                          });
-                        },
-                        trackColor: Color(0xffF5F5F5),
-                        activeColor: Color(0xff4552CB),
-                      ),
-                    ],
-                  ),
+                  padding: EdgeInsets.only(
+                      left: scaleH(20, context),
+                      top: scaleH(24, context),
+                      right: scaleH(20, context)),
+                  child: CusCupertinoswitch(text: 'Friendly with dogs'),
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Friendly with kids >10 years',
-                        style: GoogleFonts.encodeSans(
-                          textStyle: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0XFF070821),
-                          ),
-                        ),
-                      ),
-                      Spacer(),
-                      CupertinoSwitch(
-                        value: filter5,
-                        onChanged: (isChecked) {
-                          setState(() {
-                            filter5 = isChecked;
-                          });
-                        },
-                        trackColor: Color(0xffF5F5F5),
-                        activeColor: Color(0xff4552CB),
-                      ),
-                    ],
-                  ),
-                ),
-
-Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Microchipped',
-                        style: GoogleFonts.encodeSans(
-                          textStyle: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0XFF070821),
-                          ),
-                        ),
-                      ),
-                      Spacer(),
-                      CupertinoSwitch(
-                        value: filter6,
-                        onChanged: (isChecked) {
-                          setState(() {
-                            filter6 = isChecked;
-                          });
-                        },
-                        trackColor: Color(0xffF5F5F5),
-                        activeColor: Color(0xff4552CB),
-                      ),
-                    ],
-                  ),
+                  padding: EdgeInsets.only(
+                      left: scaleH(20, context),
+                      top: scaleH(24, context),
+                      right: scaleH(20, context)),
+                  child: CusCupertinoswitch(text: 'Friendly with cats'),
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Purebred',
-                        style: GoogleFonts.encodeSans(
-                          textStyle: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0XFF070821),
-                          ),
-                        ),
-                      ),
-                      Spacer(),
-                      CupertinoSwitch(
-                        value: filter7,
-                        onChanged: (isChecked) {
-                          setState(() {
-                            filter7 = isChecked;
-                          });
-                        },
-                        trackColor: Color(0xffF5F5F5),
-                        activeColor: Color(0xff4552CB),
-                      ),
-                    ],
-                  ),
+                  padding: EdgeInsets.only(
+                      left: scaleH(20, context),
+                      top: scaleH(24, context),
+                      right: scaleH(20, context)),
+                  child:
+                      CusCupertinoswitch(text: 'Friendly with kids <10 years'),
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
+                  padding: EdgeInsets.only(
+                      left: scaleH(20, context),
+                      top: scaleH(24, context),
+                      right: scaleH(20, context)),
+                  child:
+                      CusCupertinoswitch(text: 'Friendly with kids >10 years'),
+                ),
+
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: scaleH(20, context),
+                      top: scaleH(24, context),
+                      right: scaleH(20, context)),
+                  child: CusCupertinoswitch(text: 'Microchipped'),
+                ),
+
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: scaleH(20, context),
+                      top: scaleH(24, context),
+                      right: scaleH(20, context)),
+                  child: CusCupertinoswitch(text: 'Purebred'),
+                ),
+
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: scaleH(20, context),
+                      top: scaleH(24, context),
+                      right: scaleH(20, context)),
                   child: TextFormField(
                     decoration: InputDecoration(
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
-                          color: Color(0xFFF0F0F8),
+                          color: AppColors.lightgrey2,
                           width: 1.5,
                         ),
                       ),
                       focusedBorder: UnderlineInputBorder(
                         borderSide:
-                            BorderSide(color: Color(0xFFF0F0F8), width: 2),
+                            BorderSide(color: AppColors.lightgrey2, width: 2),
                       ),
-                      
                     ),
                   ),
                 ),
-                
-                
+
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, top: 32),
+                  padding: EdgeInsets.only(
+                    left: scaleH(20, context),
+                    top: scaleH(32, context),
+                  ),
                   child: Row(
                     children: [
                       Text(
                         'Reminders',
-                        style: GoogleFonts.encodeSans(
-                          textStyle: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0XFF070821),
-                          ),
-                        ),
+                        style: Theme.of(context).textTheme.headline3,
                       ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, top: 14),
+                  padding: EdgeInsets.only(
+                    left: scaleH(20, context),
+                    top: scaleH(14, context),
+                  ),
                   child: Row(
                     children: [
                       Text(
                         'Add vaccines, haircuts, pills, estrus, etc. and\nyou will receive notifications for the next\nevent.',
-                        style: GoogleFonts.encodeSans(
-                          textStyle: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0XFF070821),
-                          ),
-                        ),
+                        style: Theme.of(context).textTheme.bodyText1,
                       ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
+                  padding: EdgeInsets.only(left: scaleW(20, context), right: scaleW(20, context), top: scaleH(24, context)),
                   child: Row(
                     children: <Widget>[
                       Container(
@@ -695,7 +355,7 @@ Padding(
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: [
                             BoxShadow(
-                              color: Color(0xff2D368A).withOpacity(0.09),
+                              color: AppColors.violet.withOpacity(0.09),
                               spreadRadius: 2,
                               blurRadius: 50,
                               offset: Offset(0, 10),
@@ -715,7 +375,8 @@ Padding(
                                   borderRadius: BorderRadius.circular(100),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Color(0xff4552CB).withOpacity(0.23),
+                                      color:
+                                          Color(0xff4552CB).withOpacity(0.23),
                                       spreadRadius: 5,
                                       blurRadius: 17,
                                       offset: Offset(0, 10),
@@ -775,30 +436,8 @@ Padding(
                 //nút save
 
                 Padding(
-                  padding: const EdgeInsets.only(top: 24, left: 20),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    height: 46,
-                    width: 380,
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: Color(0xff4552CB),
-                      ),
-                      onPressed: () {},
-                      child: Text(
-                        'Save',
-                        style: GoogleFonts.encodeSans(
-                          textStyle: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  padding:EdgeInsets.only(top: scaleH(24, context), ),
+                  child: Violetbutton(height: scaleH(46, context), width: scaleW(335, context), text: 'Next')
                 ),
               ],
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_search/appStyle.dart';
 import 'package:petcare_search/screens/add_detail_pet.dart';
+import 'package:petcare_search/screens/appointmentScreen.dart';
 import 'package:petcare_search/screens/profileScreen.dart';
 import 'package:petcare_search/screens/sign_in.dart';
 import 'package:petcare_search/screens/welcome.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Balls',
       theme: AppTheme,
-      home: AddDetailPet(),
+      home: AddDetailPet()
     );
   }
 }
