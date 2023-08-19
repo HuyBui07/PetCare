@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Balls',
       theme: AppTheme,
-      home: Welcome(),
+      home: PetProfileScreen(),
     );
   }
 }

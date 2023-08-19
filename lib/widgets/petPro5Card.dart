@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_search/constants/colors.dart';
+import 'package:petcare_search/screens/petPro5_Screen.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
 
 class PetProfileCard extends StatelessWidget {
-  const PetProfileCard({super.key});
+  final Pet pet;
+  const PetProfileCard({super.key, required this.pet});
 
   @override
   Widget build(BuildContext context) {
@@ -12,10 +14,10 @@ class PetProfileCard extends StatelessWidget {
         margin: EdgeInsets.all(scaleW(20, context)),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(scaleW(18, context)),
-          color: Colors.yellow,
+          color: Colors.white,
           boxShadow: [
             BoxShadow(
-                color: const Color(0xff2D368A).withOpacity(0.0),
+                color: const Color(0xff2D368A).withOpacity(0.08),
                 offset: const Offset(
                   4.0,
                   6.0,
@@ -51,13 +53,24 @@ class PetProfileCard extends StatelessWidget {
                   )),
             ),
           ),
-          Center(
-            child: CircleAvatar(
-              radius: scaleW(56, context),
-              backgroundImage:
-                  const AssetImage('assets/imgs/petPro5Imgs/Troy_pet.jpg'),
-            ),
-          )
+          CircleAvatar(
+            radius: scaleW(56, context),
+            backgroundImage: AssetImage(pet.ImagePath),
+          ),
+          SizedBox(
+            height: scaleH(10, context),
+          ),
+          Text(
+            pet.name,
+            style: Theme.of(context).textTheme.headline2,
+          ),
+          Text(
+            pet.breed,
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1!
+                .apply(color: AppColors.gray),
+          ),
         ]));
   }
 }
