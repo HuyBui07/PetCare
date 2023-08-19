@@ -14,7 +14,7 @@ class SearchMain extends StatefulWidget {
 class _SearchMainState extends State<SearchMain> {
   int currentIndex = 0;
   String? userName = "Maria";
-  
+
   //List of grid items
   List<MainSearchGridItem> gridItems = [
     MainSearchGridItem(
@@ -62,147 +62,141 @@ class _SearchMainState extends State<SearchMain> {
       iconPath: 'assets/mainSearchIcon/other.png',
       route: '/',
     ),
-    
-    
-    
   ];
-  
 
   //Grid item widget. Icon takes image path. Height and width are optional. Should be used along with grid view builder to scale the grid item size.
   Widget _buildGridItem(String label, TextStyle textStyle,
-    [String iconPath = 'assets/mainSearchIcon/other.png',
-    String route = '/',
-    double height = 0.1,
-    double width = 0.1,
-    double borderRadiusFactor = 1.0]) {
-  double borderRadius = 35 * borderRadiusFactor;
+      [String iconPath = 'assets/mainSearchIcon/other.png',
+      String route = '/',
+      double height = 0.1,
+      double width = 0.1,
+      double borderRadiusFactor = 1.0]) {
+    double borderRadius = 35 * borderRadiusFactor;
 
-  return InkWell(
-    borderRadius: BorderRadius.circular(borderRadius),
-   
-    //effect
+    return InkWell(
+      borderRadius: BorderRadius.circular(borderRadius),
 
-    
-    onTap: () {
-      if (route != '/') {
-        Navigator.pushNamed(context, route);
-      }
-      else
-      {
-        //Alert dialog
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("Alert"),
-              content: Text("This feature is not available yet."),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text("OK"),
-                ),
-              ],
-            );
-          },
-        );
-      }
-    },
-    child: Ink(
-      decoration: BoxDecoration(
-                  
-                  gradient: LinearGradient(
-                    //White
-                    colors: [Colors.white, Colors.white], 
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
+      //effect
+
+      onTap: () {
+        if (route != '/') {
+          Navigator.pushNamed(context, route);
+        } else {
+          //Alert dialog
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Alert"),
+                content: Text("This feature is not available yet."),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("OK"),
                   ),
-                  borderRadius: BorderRadius.circular(borderRadius),
-                  ),
-      child: Container(
-        height: MediaQuery.of(context).size.height * height,
-        width: MediaQuery.of(context).size.width * width,
+                ],
+              );
+            },
+          );
+        }
+      },
+      child: Ink(
         decoration: BoxDecoration(
-          color: Colors.transparent,
+          gradient: LinearGradient(
+            //White
+            colors: [Colors.white, Colors.white],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
           borderRadius: BorderRadius.circular(borderRadius),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              child: Image.asset(
-                iconPath,
-                height: height * 0.5,
-                width: width * 0.5,
+        child: Container(
+          height: MediaQuery.of(context).size.height * height,
+          width: MediaQuery.of(context).size.width * width,
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(borderRadius),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                child: Image.asset(
+                  iconPath,
+                  height: height * 0.5,
+                  width: width * 0.5,
+                ),
               ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Text(
-              label,
-              textAlign: TextAlign.center,
-              style: textStyle,
-            ),
-          ],
+              SizedBox(
+                height: 8,
+              ),
+              Text(
+                label,
+                textAlign: TextAlign.center,
+                style: textStyle,
+              ),
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
-
-  //Build grid view, based on the number of items. Maximum height is 0.375 of the screen size, maximum width is 0.8 of the screen. Scale accordingly. 
-  //Each grid view item should have height and width based on how many items are in the grid view.
-  //Always has 3 columns
- Widget _buildGridView() {
-  int itemsCount = gridItems.length;
-  int maxColumns = 3; // Maximum number of columns
-  int defaultItemCount = 9; // Default number of items
-
-  int columns = (itemsCount > defaultItemCount) ? maxColumns + 1 : maxColumns;
-
-  double gridViewHeight = MediaQuery.of(context).size.height * 0.375;
-  double gridViewWidth = MediaQuery.of(context).size.width * 0.8;
-
-  double singleItemHeight = (gridViewHeight / columns).roundToDouble();
-  double singleItemWidth = (gridViewWidth / columns).roundToDouble();
-
-  double fontSizeFactor = 1.0;
-
-  if (itemsCount > defaultItemCount) {
-    fontSizeFactor = 0.7; // Adjust this factor as needed
+    );
   }
 
-  TextStyle textStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
-    fontSize: Theme.of(context).textTheme.bodyText1!.fontSize! * fontSizeFactor,
-  );
+  //Build grid view, based on the number of items. Maximum height is 0.375 of the screen size, maximum width is 0.8 of the screen. Scale accordingly.
+  //Each grid view item should have height and width based on how many items are in the grid view.
+  //Always has 3 columns
+  Widget _buildGridView() {
+    int itemsCount = gridItems.length;
+    int maxColumns = 3; // Maximum number of columns
+    int defaultItemCount = 9; // Default number of items
 
-  return Container(
-    height: gridViewHeight,
-    width: gridViewWidth,
-    
-    child: GridView.builder(
-      physics:  NeverScrollableScrollPhysics(),
-      itemCount: gridItems.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: columns,
-        crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
-      ),
-      itemBuilder: (context, index) {
-        return _buildGridItem(
-          gridItems[index].label,
-          AppTheme.textTheme.caption!,
-          gridItems[index].iconPath,
-          gridItems[index].route,
-          singleItemHeight,
-          singleItemWidth,
+    // int columns = (itemsCount > defaultItemCount) ? maxColumns + 1 : maxColumns;
+    int columns = maxColumns;
+    int rows = (itemsCount / columns).ceil();
+    // double gridViewHeight = MediaQuery.of(context).size.height * 0.375;
+    double gridViewWidth = MediaQuery.of(context).size.width * 0.8;
+    double gridViewHeight = gridViewWidth;
+    double singleItemHeight = (gridViewHeight / rows);
+    double singleItemWidth = (gridViewWidth / columns);
+
+    double fontSizeFactor = 1.0;
+
+    if (itemsCount > defaultItemCount) {
+      fontSizeFactor = 0.7; // Adjust this factor as needed
+    }
+
+    TextStyle textStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
+          fontSize:
+              Theme.of(context).textTheme.bodyText1!.fontSize! * fontSizeFactor,
         );
-      },
-    ),
-  );
-}
+
+    return Container(
+      height: gridViewHeight,
+      width: gridViewWidth,
+     
+      child: GridView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: gridItems.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: columns,
+          crossAxisSpacing: 16,
+          mainAxisSpacing: 16,
+        ),
+        itemBuilder: (context, index) {
+          return _buildGridItem(
+            gridItems[index].label,
+            AppTheme.textTheme.caption!,
+            gridItems[index].iconPath,
+            gridItems[index].route,
+            singleItemHeight,
+            singleItemWidth,
+          );
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -223,45 +217,47 @@ class _SearchMainState extends State<SearchMain> {
         ],
       ),
       //Bottom tab menu
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        showUnselectedLabels: true,
-        unselectedItemColor: NavigationBarStyle.unselectedItemColor,
-        selectedItemColor: NavigationBarStyle.selectedItemColor,
-        unselectedFontSize: NavigationBarStyle.unselectedFontSize,
-        selectedFontSize: NavigationBarStyle.selectedFontSize,
-        type: BottomNavigationBarType.fixed,
-        onTap: (index) {
-          setState(() {
-            currentIndex = index;
-          });
-        },
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.search,
+      bottomNavigationBar: Container(
+        child: BottomNavigationBar(
+          currentIndex: currentIndex,
+          showUnselectedLabels: true,
+          unselectedItemColor: NavigationBarStyle.unselectedItemColor,
+          selectedItemColor: NavigationBarStyle.selectedItemColor,
+          unselectedFontSize: NavigationBarStyle.unselectedFontSize,
+          selectedFontSize: NavigationBarStyle.selectedFontSize,
+          type: BottomNavigationBarType.fixed,
+          onTap: (index) {
+            setState(() {
+              currentIndex = index;
+            });
+          },
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.search,
+              ),
+              label: 'Search',
             ),
-            label: 'Search',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.schedule,
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.schedule,
+              ),
+              label: 'Appointment',
             ),
-            label: 'Appointment',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.explore,
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.explore,
+              ),
+              label: 'Explore',
             ),
-            label: 'Explore',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person,
+              ),
+              label: 'Profile',
             ),
-            label: 'Profile',
-          ),
-        ],
+          ],
+        ),
       ),
 
       body: Container(
@@ -284,22 +280,30 @@ class _SearchMainState extends State<SearchMain> {
               height: MediaQuery.of(context).size.height * 0.05,
             ),
             //"What are you looking for $"username"?
-            //Where the first part use h1headline and username use h2headline
+
             Container(
-              height : MediaQuery.of(context).size.height * 0.11,
+              height: MediaQuery.of(context).size.height * 0.11,
               child: RichText(
                 text: TextSpan(
                   style: Theme.of(context).textTheme.headline1,
                   children: <TextSpan>[
-                    TextSpan(text: 'What are you looking for, '),
                     TextSpan(
-                      text: '$userName ?',
-                      style: Theme.of(context).textTheme.headline1!.copyWith(color: Colors.orange),
+                      text: 'What are you looking for, ',
+                      style: Theme.of(context).textTheme.headline1!.copyWith(
+                            fontSize: MediaQuery.of(context).size.width * 0.078,
+                          ),
+                    ),
+                    TextSpan(
+                      text: ' $userName?',
+                      style: Theme.of(context).textTheme.headline1!.copyWith(
+                          fontSize: MediaQuery.of(context).size.width * 0.078,
+                          color: Colors.orange),
                     ),
                   ],
                 ),
               ),
             ),
+
             //Grid view currrently contains 9 items, each with its own icon and label that will be used to navigate to a new page. Where icon takes from assets\mainSearchIcon
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.05,
@@ -316,10 +320,7 @@ class MainSearchGridItem {
   final String label;
   final String iconPath;
   final String route;
-  
-  MainSearchGridItem({
-    required this.label,
-    required this.iconPath,
-    this.route = "/"
-  });
+
+  MainSearchGridItem(
+      {required this.label, required this.iconPath, this.route = "/"});
 }
