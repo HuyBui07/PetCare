@@ -58,7 +58,7 @@ class _AddDetailPetState extends State<AddDetailPet> {
                         child: CircleAvatar(
                           radius: 50,
                           backgroundImage:
-                              AssetImage('assets/welcomeImgs/Avt_Pet.png'),
+                              AssetImage('assets/imgs/welcomeImgs/Avt_Pet.png'),
                         ),
                       ),
                       Positioned(
@@ -212,9 +212,9 @@ class _AddDetailPetState extends State<AddDetailPet> {
                   ),
                 ),
                 Padding(
-                  padding:EdgeInsets.only(left: scaleW(20, context), right: scaleH(20, context)),
-                  child: CustomTextformfield(text: "Date of birth")
-                ),
+                    padding: EdgeInsets.only(
+                        left: scaleW(20, context), right: scaleH(20, context)),
+                    child: CustomTextformfield(text: "Date of birth")),
                 const SizedBox(
                   height: 20,
                 ),
@@ -346,7 +346,10 @@ class _AddDetailPetState extends State<AddDetailPet> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: scaleW(20, context), right: scaleW(20, context), top: scaleH(24, context)),
+                  padding: EdgeInsets.only(
+                      left: scaleW(20, context),
+                      right: scaleW(20, context),
+                      top: scaleH(24, context)),
                   child: Row(
                     children: <Widget>[
                       Container(
@@ -436,9 +439,13 @@ class _AddDetailPetState extends State<AddDetailPet> {
                 //nút save
 
                 Padding(
-                  padding:EdgeInsets.only(top: scaleH(24, context), ),
-                  child: Violetbutton(height: scaleH(46, context), width: scaleW(335, context), text: 'Next')
-                ),
+                    padding: EdgeInsets.only(
+                      top: scaleH(24, context),
+                    ),
+                    child: Violetbutton(
+                        height: scaleH(46, context),
+                        width: scaleW(335, context),
+                        text: 'Next')),
               ],
             ),
           ),

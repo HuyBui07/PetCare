@@ -6,8 +6,9 @@ import 'package:petcare_search/screens/add_detail_pet.dart';
 import 'package:petcare_search/screens/appointmentScreen.dart';
 
 import 'package:petcare_search/screens/editPro5_Screen.dart';
+import 'package:petcare_search/screens/petPro5_Screen.dart';
 
-import 'package:petcare_search/screens/profileScreen.dart';
+import 'package:petcare_search/screens/profile_Screen.dart';
 import 'package:petcare_search/screens/sign_in.dart';
 import 'package:petcare_search/screens/welcome.dart';
 
@@ -28,10 +29,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Balls',
       theme: AppTheme,
-
-      home: AddDetailPet(),
-
-
+      home: PetProfileScreen(),
     );
   }
 }

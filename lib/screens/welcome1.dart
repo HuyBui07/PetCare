@@ -11,11 +11,10 @@ class Welcome1 extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            
             Padding(
               padding: const EdgeInsets.only(top: 70),
               child: Image.asset(
-                'assets/welcomeImgs/welcome1.png',
+                'assets/imgs/welcomeImgs/welcome1.png',
                 fit: BoxFit.cover,
                 width: 410,
               ),
