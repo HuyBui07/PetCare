@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:petcare_search/constants/colors.dart';
-import 'package:petcare_search/utils/widget_utils.dart';
+
+import '../utils/widget_utils.dart';
 //import 'package:petcare_search/constants/styles.dart';
 
 List<ListItem> items = [
@@ -70,7 +71,7 @@ class ProfileScreen extends StatelessWidget {
           children: [
             Container(
               margin: EdgeInsetsDirectional.only(bottom: scaleH(10, context)),
-              height: scaleH(226, context),
+              height: scaleH(314, context),
               decoration: BoxDecoration(
                   color: Colors.white,
                   boxShadow: [
@@ -94,7 +95,7 @@ class ProfileScreen extends StatelessWidget {
                     CircleAvatar(
                       backgroundImage:
                           const AssetImage('assets/profileImgs/photo.png'),
-                      radius: scaleW(56, context),
+                      radius: scaleW(90, context),
                     ),
                     Column(
                       children: [
@@ -166,6 +167,6 @@ class ListItem {
   ListItem({
     required this.label,
     this.iconSVG,
-    this.icon,
+    this.icon, 
   });
 }

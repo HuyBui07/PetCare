@@ -1,14 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:petcare_search/utils/addPetDetail/cupertino_switch.dart';
-import 'package:petcare_search/utils/addPetDetail/textFormField.dart';
-import 'package:petcare_search/utils/addPetDetail/violetButton.dart';
 import '../constants/colors.dart';
+import '../widgets/addPetDetail/cupertino_switch.dart';
+import '../widgets/addPetDetail/textFormField.dart';
+import '../widgets/addPetDetail/violetButton.dart';
 import '../utils/widget_utils.dart';
-
 import '../utils/pet_events_list.dart';
 
 class AddDetailPet extends StatefulWidget {
@@ -162,13 +158,9 @@ class _AddDetailPetState extends State<AddDetailPet> {
                           ),
                           label: Text(
                             'Male',
-                            style: GoogleFonts.encodeSans(
-                              textStyle: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                              ),
-                            ),
+                            style: Theme.of(context).textTheme.headline6?.apply(
+                                  color: Colors.white,
+                                ),
                           ),
                           style: TextButton.styleFrom(
                             backgroundColor: Color(0xFF4552CB),
@@ -191,13 +183,9 @@ class _AddDetailPetState extends State<AddDetailPet> {
                           ),
                           label: Text(
                             'Female',
-                            style: GoogleFonts.encodeSans(
-                              textStyle: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xff070821),
-                              ),
-                            ),
+                            style: Theme.of(context).textTheme.headline6?.apply(
+                                  color: Color(0xff070821),
+                                ),
                           ),
                           style: TextButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -212,9 +200,9 @@ class _AddDetailPetState extends State<AddDetailPet> {
                   ),
                 ),
                 Padding(
-                  padding:EdgeInsets.only(left: scaleW(20, context), right: scaleH(20, context)),
-                  child: CustomTextformfield(text: "Date of birth")
-                ),
+                    padding: EdgeInsets.only(
+                        left: scaleW(20, context), right: scaleH(20, context)),
+                    child: CustomTextformfield(text: "Date of birth")),
                 const SizedBox(
                   height: 20,
                 ),
@@ -346,7 +334,10 @@ class _AddDetailPetState extends State<AddDetailPet> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: scaleW(20, context), right: scaleW(20, context), top: scaleH(24, context)),
+                  padding: EdgeInsets.only(
+                      left: scaleW(20, context),
+                      right: scaleW(20, context),
+                      top: scaleH(24, context)),
                   child: Row(
                     children: <Widget>[
                       Container(
@@ -404,13 +395,12 @@ class _AddDetailPetState extends State<AddDetailPet> {
                               padding: const EdgeInsets.only(top: 20),
                               child: Text(
                                 'Add event',
-                                style: GoogleFonts.encodeSans(
-                                  textStyle: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0XFF070821),
-                                  ),
-                                ),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline5
+                                    ?.apply(
+                                      color: Color(0xff070821),
+                                    ),
                               ),
                             ),
                           ],
@@ -422,7 +412,7 @@ class _AddDetailPetState extends State<AddDetailPet> {
                       const Expanded(
                         child: SizedBox(
                           height: 150,
-                          child: ListItem(title: [
+                          child: Listitem(title: [
                             'Measles vaccine',
                             'Measles vaccine',
                             'Measles vaccine',
@@ -436,9 +426,13 @@ class _AddDetailPetState extends State<AddDetailPet> {
                 //nút save
 
                 Padding(
-                  padding:EdgeInsets.only(top: scaleH(24, context), ),
-                  child: Violetbutton(height: scaleH(46, context), width: scaleW(335, context), text: 'Next')
-                ),
+                    padding: EdgeInsets.only(
+                      top: scaleH(24, context),
+                    ),
+                    child: Violetbutton(
+                        height: scaleH(46, context),
+                        width: scaleW(335, context),
+                        text: 'Next')),
               ],
             ),
           ),

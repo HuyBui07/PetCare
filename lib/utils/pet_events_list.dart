@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ListItem extends StatelessWidget {
-  const ListItem({super.key, required this.title});
+class Listitem extends StatelessWidget {
+  const Listitem({super.key, required this.title});
 
   final List<String> title;
 

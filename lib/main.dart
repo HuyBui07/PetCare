@@ -4,6 +4,7 @@ import 'package:petcare_search/appStyle.dart';
 import 'package:petcare_search/screens/add_detail_pet.dart';
 
 import 'package:petcare_search/screens/appointmentScreen.dart';
+import 'package:petcare_search/screens/customtabbar.dart';
 
 import 'package:petcare_search/screens/editPro5_Screen.dart';
 
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
       title: 'Balls',
       theme: AppTheme,
 
-      home: AddDetailPet(),
+      home: AppointmentScreen(),
 
 
     );
