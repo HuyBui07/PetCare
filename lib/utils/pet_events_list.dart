@@ -33,7 +33,8 @@ class ListItem extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 30),
-                  child: Image.asset('assets/welcomeImgs/vaccine_icon.png'),
+                  child:
+                      Image.asset('assets/imgs/welcomeImgs/vaccine_icon.png'),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 16),
