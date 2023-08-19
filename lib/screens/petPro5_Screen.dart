@@ -12,10 +12,10 @@ class Pet {
 }
 
 List<Pet> petList = [
-  Pet('Troy', 'Toy terrier', 'ImagePath'),
-  Pet('Troy', 'Toy terrier', 'ImagePath'),
-  Pet('Troy', 'Toy terrier', 'ImagePath'),
-  Pet('Troy', 'Toy terrier', 'ImagePath'),
+  Pet('Troy', 'Toy terrier', 'assets/imgs/petPro5Imgs/Troy_pet.jpg'),
+  Pet('Troy1', 'Husky', 'assets/imgs/petPro5Imgs//husky_dog.jpg'),
+  Pet('Troy2', 'Golden', 'assets/imgs/petPro5Imgs/golden_dog.jpg'),
+  Pet('Troy3', 'Alaska', 'assets/imgs/petPro5Imgs/alaska_dog.jpg'),
 ];
 
 class PetProfileScreen extends StatelessWidget {
@@ -58,7 +58,7 @@ class PetProfileScreen extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return index == petList.length
                   ? const ButtonLight('Add another pet', Icons.add)
-                  : PetProfileCard();
+                  : PetProfileCard(pet: petList[index]);
             }),
       ),
       bottomNavigationBar: BottomAppBar(
