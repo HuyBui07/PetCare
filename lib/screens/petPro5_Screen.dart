@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_search/constants/colors.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
+import 'package:petcare_search/widgets/buttonLightStyle.dart';
 import 'package:petcare_search/widgets/petPro5Card.dart';
 
 class Pet {
@@ -10,7 +11,12 @@ class Pet {
   Pet(this.name, this.breed, this.ImagePath);
 }
 
-List<Pet> petList = [Pet('Troy', 'Toy terrier', 'ImagePath')];
+List<Pet> petList = [
+  Pet('Troy', 'Toy terrier', 'ImagePath'),
+  Pet('Troy', 'Toy terrier', 'ImagePath'),
+  Pet('Troy', 'Toy terrier', 'ImagePath'),
+  Pet('Troy', 'Toy terrier', 'ImagePath'),
+];
 
 class PetProfileScreen extends StatelessWidget {
   const PetProfileScreen({super.key});
@@ -19,7 +25,7 @@ class PetProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.lightgray,
         elevation: 0,
         title: Text(
           'My Pets',
@@ -44,12 +50,21 @@ class PetProfileScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(scaleH(20, context)),
-          // child: Column(
-          //     children: [ListView.builder(itemBuilder: PetProfileCard())]),
-        ),
+      body: Container(
+        color: AppColors.lightgray,
+        child: ListView.builder(
+            padding: const EdgeInsets.only(bottom: 20),
+            itemCount: petList.length + 1,
+            itemBuilder: (BuildContext context, int index) {
+              return index == petList.length
+                  ? const ButtonLight('Add another pet', Icons.add)
+                  : PetProfileCard();
+            }),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        height: scaleH(83, context),
+        color: Colors.amber,
+        // child: Icon(Icons.home),
       ),
     );
   }

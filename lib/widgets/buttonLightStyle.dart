@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:petcare_search/constants/colors.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
 
 class ButtonLight extends StatelessWidget {
   final String label;
-  final Icon icon;
+  final IconData icon;
   const ButtonLight(this.label, this.icon, {super.key});
 
   @override
@@ -11,20 +12,30 @@ class ButtonLight extends StatelessWidget {
     return Center(
       child: Container(
         height: scaleH(46, context),
-        width: scaleW(280, context),
-        child: TextButton(
+        margin: EdgeInsets.symmetric(horizontal: scaleW(20, context)),
+        width: scaleW(335, context),
+        child: ElevatedButton(
           style: TextButton.styleFrom(
-            backgroundColor: Color(0xff4552CB),
+            backgroundColor: AppColors.lightgrey2,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(scaleW(24, context)),
+              borderRadius: BorderRadius.circular(scaleW(10, context)),
             ),
           ),
           onPressed: () {},
-          child: Text(
-            label,
-            style: Theme.of(context).textTheme.button!.apply(
-                  color: Colors.white,
-                ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                color: AppColors.violet,
+              ),
+              Text(
+                label,
+                style: Theme.of(context).textTheme.button!.apply(
+                      color: AppColors.violet,
+                    ),
+              ),
+            ],
           ),
         ),
       ),
