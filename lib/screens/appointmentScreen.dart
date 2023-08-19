@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:petcare_search/screens/pastScreen.dart';
+import 'package:petcare_search/screens/upComingScreen.dart';
+import 'package:petcare_search/widgets/customTabBar.dart';
 
 import '../constants/colors.dart';
 import '../utils/widget_utils.dart';
@@ -42,8 +45,7 @@ class _AppointmentScreenState extends State<AppointmentScreen>
         child: Column(
           children: [
             Container(
-              margin: EdgeInsetsDirectional.only(bottom: scaleH(10, context)),
-              height: scaleH(176, context),
+              height: scaleH(120, context),
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: [
@@ -62,42 +64,16 @@ class _AppointmentScreenState extends State<AppointmentScreen>
                 ),
               ),
               child: Center(
-                child: Container(
-                  
-                  padding: EdgeInsets.only(top: scaleH(112, context)),
-                  width: scaleW(335, context),
-                  height: scaleH(38, context),
-                  decoration: BoxDecoration(
-                    color: AppColors.violet,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                        child: TabBar(
-                          unselectedLabelColor: Colors.white,
-                          labelColor: Colors.white,
-                          indicatorColor: Colors.black,
-                          indicatorWeight: 2,
-                          indicator: BoxDecoration(
-                            color: AppColors.violet,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          controller: tabController,
-                          tabs: const [
-                            Tab(
-                              text: 'Tab1',
-                            ),
-                            Tab(
-                              text: 'Tab1',
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                child: CustomTabBar(height: 38, width: 335, tab1: 'Upcoming', tab2: 'Past'),
+              ),
+            ),
+            Expanded(
+              child: TabBarView(
+                controller: tabController,
+                children: [
+                  UpcomingScreen(),
+                  PastScreen(),
+                ],
               ),
             ),
           ],
