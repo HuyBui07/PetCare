@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_search/appStyle.dart';
 import 'package:petcare_search/screens/sign_in.dart';
+import 'package:petcare_search/screens/sign_up.dart';
 
 class Registration extends StatefulWidget {
   const Registration({super.key});
@@ -143,10 +144,8 @@ class _RegistrationState extends State<Registration> {
               width: double.infinity,
               child: ElevatedButton(
                   onPressed: () {
-                    //Navigator.of(context).push(
-                    //MaterialPageRoute(
-                    //builder: (context) =>
-                    //SearchMain()));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const SignUp()));
                   },
                   style: ElevatedButton.styleFrom(
                       side: const BorderSide(color: Colors.white),

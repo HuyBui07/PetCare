@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:petcare_search/screens/mainSearch.dart';
 import 'registration.dart';
 
 class SignUp extends StatefulWidget {
@@ -10,6 +12,8 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   final FocusNode _nameFocus = FocusNode();
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
@@ -157,6 +161,7 @@ class _SignUpState extends State<SignUp> {
                                 padding:
                                     const EdgeInsets.fromLTRB(15, 7, 15, 12),
                                 child: TextFormField(
+                                  controller: _emailController,
                                   onChanged: (val) {
                                     setState(() {
                                       isEmailCorrect =
@@ -206,6 +211,7 @@ class _SignUpState extends State<SignUp> {
                                 padding:
                                     const EdgeInsets.fromLTRB(15, 7, 15, 12),
                                 child: TextFormField(
+                                  controller: _passwordController,
                                   obscureText: passwordObscure,
                                   focusNode: _passwordFocus,
                                   onTap: () {
@@ -241,21 +247,6 @@ class _SignUpState extends State<SignUp> {
                                 ),
                               ),
                             )),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 4, 25, 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              GestureDetector(
-                                child: const Text(
-                                  'Do not remember password?',
-                                  style: TextStyle(
-                                      color: Color(0xFF4552CB), fontSize: 15),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
                         Expanded(
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -265,10 +256,19 @@ class _SignUpState extends State<SignUp> {
                                   width: scaleW(295),
                                   child: ElevatedButton(
                                       onPressed: () {
-                                        //Navigator.of(context).push(
-                                        //MaterialPageRoute(
-                                        //builder: (context) =>
-                                        //SearchMain()));
+                                        FirebaseAuth.instance
+                                            .createUserWithEmailAndPassword(
+                                                email: _emailController.text,
+                                                password:
+                                                    _passwordController.text)
+                                            .then((value) {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const SearchMain()));
+                                        }).onError((error, stackTrace) {
+                                          print("Error");
+                                        });
                                       },
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor:
@@ -280,7 +280,7 @@ class _SignUpState extends State<SignUp> {
                                               borderRadius:
                                                   BorderRadius.circular(25))),
                                       child: const Text(
-                                        'Sign In ',
+                                        'Sign Up',
                                         style: TextStyle(color: Colors.white),
                                       )),
                                 ),

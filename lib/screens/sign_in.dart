@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:petcare_search/screens/mainSearch.dart';
 import 'package:petcare_search/screens/registration.dart';
 
 class SignIn extends StatefulWidget {
@@ -10,6 +12,8 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
   bool isEmailCorrect = false;
@@ -213,10 +217,19 @@ class _SignInState extends State<SignIn> {
                                   width: scaleW(295),
                                   child: ElevatedButton(
                                       onPressed: () {
-                                        //Navigator.of(context).push(
-                                        //MaterialPageRoute(
-                                        //builder: (context) =>
-                                        //SearchMain()));
+                                        FirebaseAuth.instance
+                                            .signInWithEmailAndPassword(
+                                                email: _emailController.text,
+                                                password:
+                                                    _passwordController.text)
+                                            .then((value) {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const SearchMain()));
+                                        }).onError((error, stackTrace) {
+                                          print('error');
+                                        });
                                       },
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor:
