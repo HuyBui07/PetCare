@@ -8,7 +8,7 @@ List<ListItem> items = [
   ListItem(
       label: 'My pets',
       iconSVG: SvgPicture.asset(
-        'assets/iconsvg/pets.svg',
+        'assets/icons/iconsvg/pets.svg',
       )),
   ListItem(
       label: 'My favourites',
@@ -23,7 +23,7 @@ List<ListItem> items = [
   ListItem(
       label: 'Invite friends',
       iconSVG: SvgPicture.asset(
-        'assets/iconsvg/megaphone.svg',
+        'assets/icons/iconsvg/megaphone.svg',
       )),
   ListItem(
       label: 'Help',
@@ -70,7 +70,7 @@ class ProfileScreen extends StatelessWidget {
           children: [
             Container(
               margin: EdgeInsetsDirectional.only(bottom: scaleH(10, context)),
-              height: scaleH(314, context),
+              height: scaleH(226, context),
               decoration: BoxDecoration(
                   color: Colors.white,
                   boxShadow: [
@@ -93,8 +93,8 @@ class ProfileScreen extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       backgroundImage:
-                          const AssetImage('assets/profileImgs/photo.png'),
-                      radius: scaleW(90, context),
+                          const AssetImage('assets/imgs/profileImgs/photo.png'),
+                      radius: scaleW(56, context),
                     ),
                     Column(
                       children: [
