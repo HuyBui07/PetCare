@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_search/screens/pastScreen.dart';
 import 'package:petcare_search/screens/upComingScreen.dart';
-import 'package:petcare_search/widgets/customTabBar.dart';
+import 'package:petcare_search/widgets/customTabBart.dart';
 
 import '../constants/colors.dart';
 import '../utils/widget_utils.dart';

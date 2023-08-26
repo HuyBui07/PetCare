@@ -69,7 +69,7 @@ class _CustomTabBarState extends State<CustomTabBar>
             child: Text(
               widget.tab1,
               style: GoogleFonts.encodeSans(
-                fontSize: 16.0,
+                fontSize: 14.0,
                 fontWeight: FontWeight.w600,
                 height: 20 / 16,
               ),
@@ -79,7 +79,7 @@ class _CustomTabBarState extends State<CustomTabBar>
             child: Text(
               widget.tab2,
               style: GoogleFonts.encodeSans(
-                fontSize: 16.0,
+                fontSize: 14.0,
                 fontWeight: FontWeight.w600,
                 height: 20 / 16,
               ),
