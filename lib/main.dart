@@ -39,41 +39,9 @@ class MyApp extends StatelessWidget {
       title: 'Balls',
       theme: AppTheme,
       initialRoute: RouteGenerator.loading,
-      onGenerateRoute: (RouteSettings settings) {
-        switch (settings.name) {
-          case '/':
-            return CupertinoPageRoute(
-                builder: (_) => LoaderScreen(), settings: settings);
-          case 'loading':
-            return CupertinoPageRoute(
-                builder: (_) => LoaderScreen(), settings: settings);
-          case 'welcome':
-            return CupertinoPageRoute(
-                builder: (_) => Welcome(), settings: settings);
-          case 'signin':
-            return CupertinoPageRoute(
-                builder: (_) => SignIn(), settings: settings);
-          case 'main':
-            return CupertinoPageRoute(
-                builder: (_) => MainScreen(), settings: settings);
-          case 'search':
-            return CupertinoPageRoute(
-                builder: (_) => SearchMain(), settings: settings);
-          case 'appoitment':
-            return CupertinoPageRoute(
-                builder: (_) => AppointmentScreen(), settings: settings);
-          case 'explore':
-            return CupertinoPageRoute(
-                builder: (_) => ExploreScreen(), settings: settings);
-          case 'pro5':
-            return CupertinoPageRoute(
-                builder: (_) => ProfileScreen(), settings: settings);
-          case 'editpro5':
-            return CupertinoPageRoute(
-                builder: (_) => EditProfileScreen(), settings: settings);
-        }
-      },
-      //home: LoaderScreen(),
+      onGenerateRoute: RouteGenerator.generateRoute,
+     
     );
   }
+
 }
