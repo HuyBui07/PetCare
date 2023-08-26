@@ -23,7 +23,9 @@ class _AddDetailPetState extends State<AddDetailPet> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        leading: const Icon(Icons.arrow_back, color: AppColors.violet),
+        leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Icons.arrow_back, color: AppColors.violet)),
         centerTitle: true,
         title: Text(
           'Add pet detail',
