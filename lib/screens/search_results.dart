@@ -119,7 +119,6 @@ class _SearchResultsState extends State<SearchResults>
                                 color: Color(0xff070821),
                                 size: 27,
                               ),
-
                               hintText: 'search',
                               hintStyle:
                                   Theme.of(context).textTheme.headline5?.apply(
@@ -129,7 +128,7 @@ class _SearchResultsState extends State<SearchResults>
                                 borderSide: BorderSide.none,
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              isDense: true, 
+                              isDense: true,
                               contentPadding: EdgeInsets.all(8),
                             ),
                           ),
@@ -208,7 +207,8 @@ class _SearchResultsState extends State<SearchResults>
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                   ),
-                                  icon: SvgPicture.asset('assets/icons/iconsvg/filter.svg'),
+                                  icon: SvgPicture.asset(
+                                      'assets/icons/iconsvg/filter.svg'),
                                   label: Text('Filter',
                                       style: Theme.of(context)
                                           .textTheme
@@ -219,17 +219,15 @@ class _SearchResultsState extends State<SearchResults>
                             ],
                           ),
                         ),
-                    
                       ],
                     ),
                   ),
-                  
                 ),
-
               ],
             ),
           ),
-          Expanded(child:  TabBarView(
+          Expanded(
+            child: TabBarView(
               controller: tabController,
               children: [
                 Expanded(
@@ -255,7 +253,8 @@ class _SearchResultsState extends State<SearchResults>
                   ),
                 ),
               ],
-            ),)
+            ),
+          ),
         ],
       ),
     );
