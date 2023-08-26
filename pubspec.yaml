@@ -41,6 +41,7 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   intl_phone_field: ^3.2.0
   image_picker: ^1.0.2
+  get_it: ^7.6.0
 
 dev_dependencies:
   flutter_test:
@@ -74,7 +75,8 @@ flutter:
     - assets/imgs/petPro5Imgs/
     - assets/imgs/profileImgs/
     - assets/imgs/welcomeImgs/
-    - assets/Imgs/appointmentImgs
+    - assets/imgs/appointmentImgs/
+    - assets/imgs/petFootprint/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

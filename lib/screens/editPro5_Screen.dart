@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:petcare_search/constants/colors.dart';
+import 'package:petcare_search/routes/routes.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
 import 'package:petcare_search/widgets/bottomButton.dart';
 import 'package:petcare_search/widgets/genderWidget.dart';
@@ -39,13 +40,14 @@ class _EditProfileState extends State<EditProfileScreen> {
             style: Theme.of(context).textTheme.headline3,
           ),
           centerTitle: true,
-          leading: Icon(
-            Icons.arrow_back,
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: Icon(Icons.arrow_back),
             color: AppColors.violet,
           ),
           actions: [
             TextButton(
-              onPressed: () {},
+              onPressed: () => Navigator.pop(context),
               child: Text('Skip',
                   style: Theme.of(context).textTheme.headline6?.apply(
                         color: AppColors.violet,
@@ -176,6 +178,8 @@ class _EditProfileState extends State<EditProfileScreen> {
                             onPressed: () {
                               setState(() {
                                 _selectedGender = 'Male';
+                                Navigator.pushNamed(
+                                    context, RouteGenerator.petpro5);
                               });
                             },
                             selected: _selectedGender,
@@ -301,11 +305,11 @@ class _EditProfileState extends State<EditProfileScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        height: scaleH(83, context),
-        color: Colors.amber,
-        // child: Icon(Icons.home),
-      ),
+      // bottomNavigationBar: BottomAppBar(
+      //   height: scaleH(83, context),
+      //   color: Colors.amber,
+      //   // child: Icon(Icons.home),
+      // ),
     );
   }
 

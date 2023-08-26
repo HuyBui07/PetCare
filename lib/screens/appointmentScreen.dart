@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_search/screens/pastScreen.dart';
 import 'package:petcare_search/screens/upComingScreen.dart';
-import 'package:petcare_search/widgets/customTabBar.dart';
+import 'package:petcare_search/widgets/customTabBart.dart';
 
 import '../constants/colors.dart';
 import '../utils/widget_utils.dart';
@@ -63,8 +63,9 @@ class _AppointmentScreenState extends State<AppointmentScreen>
                   bottomRight: Radius.circular(scaleW(34, context)),
                 ),
               ),
-              child: Center(
-                child: CustomTabBar(height: 38, width: 335, tab1: 'Upcoming', tab2: 'Past'),
+              child: const Center(
+                child: CustomTabBar(
+                    height: 38, width: 335, tab1: 'Upcoming', tab2: 'Past'),
               ),
             ),
             Expanded(
