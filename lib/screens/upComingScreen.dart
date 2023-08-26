@@ -13,7 +13,7 @@ class UpcomingScreen extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.only(top: scaleH(94, context)),
-            child: Image.asset('assets/Imgs/appointmentImgs/Clock.png'),
+            child: Image.asset('assets/imgs/appointmentImgs/Clock.png'),
           ),
           Padding(
             padding: EdgeInsets.only(top: scaleH(11, context)),

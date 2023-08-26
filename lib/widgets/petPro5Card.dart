@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_search/constants/colors.dart';
+import 'package:petcare_search/routes/routes.dart';
 import 'package:petcare_search/screens/petPro5_Screen.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
 
@@ -38,7 +39,9 @@ class PetProfileCard extends StatelessWidget {
                           MaterialStatePropertyAll(Colors.transparent),
                       shadowColor: MaterialStatePropertyAll(Colors.white),
                       elevation: MaterialStatePropertyAll(0)),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, RouteGenerator.addpet);
+                  },
                   child: Row(
                     children: [
                       const Icon(
@@ -55,7 +58,7 @@ class PetProfileCard extends StatelessWidget {
           ),
           CircleAvatar(
             radius: scaleW(56, context),
-            backgroundImage: AssetImage(pet.ImagePath),
+            backgroundImage: AssetImage(pet.imagePath),
           ),
           SizedBox(
             height: scaleH(10, context),

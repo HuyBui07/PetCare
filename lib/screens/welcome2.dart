@@ -4,6 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class Welcome2 extends StatelessWidget {
+  final VoidCallback onPressed;
+
+  const Welcome2({super.key, required this.onPressed});
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -57,7 +60,7 @@ class Welcome2 extends StatelessWidget {
                 style: TextButton.styleFrom(
                   backgroundColor: Color(0xff4552CB),
                 ),
-                onPressed: () {},
+                onPressed: onPressed,
                 child: Text(
                   'Next',
                   style: GoogleFonts.encodeSans(

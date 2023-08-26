@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:petcare_search/constants/colors.dart';
+import 'package:petcare_search/routes/routes.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
 //import 'package:petcare_search/constants/styles.dart';
 
@@ -9,28 +10,34 @@ List<ListItem> items = [
       label: 'My pets',
       iconSVG: SvgPicture.asset(
         'assets/icons/iconsvg/pets.svg',
-      )),
+      ),
+      route: RouteGenerator.petpro5),
   ListItem(
       label: 'My favourites',
       icon: const Icon(
         Icons.favorite_border_outlined,
         color: AppColors.violet,
-      )),
+      ),
+      route: 'RouteGenerator.editpro5'),
   ListItem(
       label: 'Add pet service',
       icon:
-          const Icon(Icons.medical_services_outlined, color: AppColors.violet)),
+          const Icon(Icons.medical_services_outlined, color: AppColors.violet),
+      route: 'RouteGenerator.editpro5'),
   ListItem(
       label: 'Invite friends',
       iconSVG: SvgPicture.asset(
         'assets/icons/iconsvg/megaphone.svg',
-      )),
+      ),
+      route: 'RouteGenerator.editpro5'),
   ListItem(
       label: 'Help',
-      icon: const Icon(Icons.help_outline, color: AppColors.violet)),
+      icon: const Icon(Icons.help_outline, color: AppColors.violet),
+      route: 'RouteGenerator.editpro5'),
   ListItem(
       label: 'Settings',
-      icon: const Icon(Icons.settings_outlined, color: AppColors.violet)),
+      icon: const Icon(Icons.settings_outlined, color: AppColors.violet),
+      route: 'RouteGenerator.editpro5'),
 ];
 
 class ProfileScreen extends StatelessWidget {
@@ -48,6 +55,9 @@ class ProfileScreen extends StatelessWidget {
         centerTitle: true,
         actions: [
           GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, RouteGenerator.editpro5);
+            },
             child: Row(children: [
               Icon(
                 Icons.edit_outlined,
@@ -125,6 +135,9 @@ class ProfileScreen extends StatelessWidget {
                       surfaceTintColor: Colors.transparent,
                       shadowColor: AppColors.lightgray.withOpacity(0.2),
                       child: ListTile(
+                        onTap: () => {
+                          Navigator.pushNamed(context, items[index].route),
+                        },
                         leading: Container(
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
@@ -141,7 +154,7 @@ class ProfileScreen extends StatelessWidget {
                           style: Theme.of(context).textTheme.bodyText1,
                         ),
                         contentPadding: EdgeInsets.symmetric(
-                            vertical: scaleH(5, context),
+                            vertical: scaleH(2, context),
                             horizontal: scaleW(20, context)),
                         trailing: const Icon(
                           Icons.navigate_next,
@@ -162,10 +175,7 @@ class ListItem {
   final String label;
   final SvgPicture? iconSVG;
   final Icon? icon;
+  String route;
 
-  ListItem({
-    required this.label,
-    this.iconSVG,
-    this.icon,
-  });
+  ListItem({required this.label, this.iconSVG, this.icon, required this.route});
 }

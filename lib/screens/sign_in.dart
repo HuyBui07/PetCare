@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:petcare_search/routes/routes.dart';
 import 'mainSearch.dart';
 
 class SignIn extends StatefulWidget {
@@ -199,11 +200,14 @@ class _SignInState extends State<SignIn> {
                                   height: scaleH(46),
                                   width: scaleW(295),
                                   child: ElevatedButton(
+                                      // onPressed: () {
+                                      //   Navigator.of(context).push(
+                                      //       MaterialPageRoute(
+                                      //           builder: (context) =>
+                                      //               SearchMain()));
+                                      // },
                                       onPressed: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    SearchMain()));
+                                        Navigator.pushNamed(context, 'main');
                                       },
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor:
@@ -227,7 +231,7 @@ class _SignInState extends State<SignIn> {
               Positioned(
                 top: scaleH(502),
                 left: scaleW(20),
-                right: scaleH(20),
+                //right: scaleH(20),
                 child: Row(
                   children: [
                     Container(
