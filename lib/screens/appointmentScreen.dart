@@ -65,7 +65,7 @@ class _AppointmentScreenState extends State<AppointmentScreen>
                   bottomRight: Radius.circular(scaleW(34, context)),
                 ),
               ),
-              child: Center(
+              child: const Center(
                 child: CustomTabBar(
                     height: 38, width: 335, tab1: 'Upcoming', tab2: 'Past'),
               ),

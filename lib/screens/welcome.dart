@@ -19,8 +19,20 @@ class Welcome extends StatelessWidget {
           PageView(
             controller: _controller,
             children: [
-              Welcome1(),
-              Welcome2(),
+              Welcome1(
+                onPressed: () {
+                  _controller.animateToPage(1,
+                      curve: Curves.decelerate,
+                      duration: Duration(milliseconds: 300));
+                },
+              ),
+              Welcome2(
+                onPressed: () {
+                  _controller.animateToPage(2,
+                      curve: Curves.decelerate,
+                      duration: Duration(milliseconds: 300));
+                },
+              ),
               Welcome3(),
             ],
           ),

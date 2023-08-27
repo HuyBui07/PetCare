@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:petcare_search/screens/registration.dart';
+import 'package:petcare_search/routes/routes.dart';
 
 class Welcome3 extends StatelessWidget {
+  // final VoidCallback onPressed;
+
+  // const Welcome3({super.key, required this.onPressed});
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -58,8 +61,7 @@ class Welcome3 extends StatelessWidget {
                   backgroundColor: const Color(0xff4552CB),
                 ),
                 onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => Registration()));
+                  Navigator.pushNamed(context, 'signin');
                 },
                 child: Text(
                   'Get Started',

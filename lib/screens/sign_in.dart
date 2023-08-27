@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:petcare_search/screens/mainSearch.dart';
-import 'package:petcare_search/screens/registration.dart';
-import 'package:petcare_search/screens/sign_up.dart';
+import 'package:petcare_search/routes/routes.dart';
+import 'mainSearch.dart';
+import 'registration.dart';
+import 'sign_up.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -217,6 +218,12 @@ class _SignInState extends State<SignIn> {
                                   height: scaleH(46),
                                   width: scaleW(295),
                                   child: ElevatedButton(
+                                      // onPressed: () {
+                                      //   Navigator.of(context).push(
+                                      //       MaterialPageRoute(
+                                      //           builder: (context) =>
+                                      //               SearchMain()));
+                                      // },
                                       onPressed: () {
                                         showDialog(
                                             context: context,
@@ -267,7 +274,7 @@ class _SignInState extends State<SignIn> {
               Positioned(
                 top: scaleH(502),
                 left: scaleW(20),
-                right: scaleH(20),
+                //right: scaleH(20),
                 child: Row(
                   children: [
                     Container(
