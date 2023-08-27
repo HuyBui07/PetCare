@@ -4,7 +4,7 @@ ThemeData AppTheme = ThemeData(
     colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF4552CB)),
     textTheme: TextTheme(
       //Usage: Main search title text
-      headline1: TextStyle(
+      displayLarge: const TextStyle(
         fontSize: 34.0,
         fontWeight: FontWeight.w700,
         color: Color(0xFF070821),
@@ -14,7 +14,7 @@ ThemeData AppTheme = ThemeData(
       ),
 
       //Usage:
-      headline2: TextStyle(
+      displayMedium: const TextStyle(
         fontSize: 24.0,
         fontWeight: FontWeight.w700,
         color: Color(0xFF070821),
@@ -22,7 +22,7 @@ ThemeData AppTheme = ThemeData(
         letterSpacing: 0.02,
         fontFamily: 'EncodeSans',
       ),
-      headline3: TextStyle(
+      displaySmall: const TextStyle(
         fontSize: 18.0,
         fontWeight: FontWeight.w700,
         color: Color(0xFF070821),
@@ -30,21 +30,21 @@ ThemeData AppTheme = ThemeData(
         letterSpacing: 0.02,
         fontFamily: 'EncodeSans',
       ),
-      headline4: TextStyle(
+      headlineMedium: const TextStyle(
         fontSize: 16.0,
         fontWeight: FontWeight.w600,
         color: Color(0xFF070821),
         height: 20 / 16,
         fontFamily: 'EncodeSans',
       ),
-      headline5: TextStyle(
+      headlineSmall: const TextStyle(
         fontSize: 14.0,
         fontWeight: FontWeight.w600,
         color: Color(0xFF070821),
         height: 17.5 / 14,
         fontFamily: 'EncodeSans',
       ),
-      headline6: TextStyle(
+      titleLarge: const TextStyle(
         fontSize: 13.0,
         fontWeight: FontWeight.w600,
         color: Color(0xFF070821),
@@ -53,7 +53,7 @@ ThemeData AppTheme = ThemeData(
         fontFamily: 'EncodeSans',
       ),
       //Usage:
-      bodyText1: TextStyle(
+      bodyLarge: const TextStyle(
         fontSize: 16.0,
         fontWeight: FontWeight.w400,
         color: Color(0xFF070821),
@@ -63,7 +63,7 @@ ThemeData AppTheme = ThemeData(
         //font encode sans
         fontFamily: 'EncodeSans',
       ),
-      subtitle2: TextStyle(
+      titleSmall: TextStyle(
         fontSize: 14.0,
         fontWeight: FontWeight.w500,
 
@@ -73,14 +73,14 @@ ThemeData AppTheme = ThemeData(
         letterSpacing: 0.01,
         fontFamily: 'EncodeSans',
       ),
-      button: TextStyle(
+      labelLarge: const TextStyle(
         fontSize: 16.0,
         fontWeight: FontWeight.w700,
         color: Color(0xFF070821),
         height: 20 / 16,
         fontFamily: 'EncodeSans',
       ),
-      bodyText2: TextStyle(
+      bodyMedium: const TextStyle(
         fontSize: 14.0,
         fontWeight: FontWeight.w400,
         color: Color(0xFF070821),
@@ -88,7 +88,7 @@ ThemeData AppTheme = ThemeData(
         letterSpacing: 0.25,
         fontFamily: 'EncodeSans',
       ),
-      caption: TextStyle(
+      bodySmall: const TextStyle(
         fontSize: 11.0,
         fontWeight: FontWeight.w500,
         color: Color(0xFF070821),
@@ -96,7 +96,7 @@ ThemeData AppTheme = ThemeData(
         letterSpacing: 0.04 / 11,
         fontFamily: 'EncodeSans',
       ),
-      overline: TextStyle(
+      labelSmall: const TextStyle(
         fontSize: 10.0,
         fontWeight: FontWeight.w700,
         color: Color(0xFF070821),
@@ -107,13 +107,13 @@ ThemeData AppTheme = ThemeData(
     ));
 
 class ColorConstants {
-  static Color sub2Color = Color(0xFF070821).withOpacity(0.1);
+  static Color sub2Color = const Color(0xFF070821).withOpacity(0.1);
 }
 
 class NavigationBarStyle {
   //gradient bg
   static const Color gradientStartColor = Color(0xFFF9F8FD);
-  static const Color gradientEndColor = Color(0xFFFFFF);
+  static const Color gradientEndColor = Color(0x00ffffff);
 
   static const Color unselectedItemColor = Colors.grey;
   static const Color selectedItemColor = Color(0xFF4552CB);
@@ -126,7 +126,7 @@ class NavigationBarStyle {
   static const double unselectedFontSize = 14.0;
   static const double selectedFontSize = 14.0;
 
-  static TextStyle menu = TextStyle(
+  static TextStyle menu = const TextStyle(
     fontSize: 10.0,
     fontWeight: FontWeight.w500,
     color: Color(0xFF070821),

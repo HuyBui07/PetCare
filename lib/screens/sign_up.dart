@@ -1,23 +1,27 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:petcare_search/routes/routes.dart';
-import 'mainSearch.dart';
+import 'package:petcare_search/screens/mainSearch.dart';
+import 'package:petcare_search/screens/sign_in.dart';
 import 'registration.dart';
-import 'sign_up.dart';
+import '../services/auth_service.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _SignInState extends State<SignIn> {
+class _SignUpState extends State<SignUp> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final FocusNode _nameFocus = FocusNode();
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
+  bool isNameCorrect = false;
+  RegExp rexName =
+      RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
   bool isEmailCorrect = false;
   bool passwordObscure = true;
   @override
@@ -27,6 +31,7 @@ class _SignInState extends State<SignIn> {
 
   @override
   void dispose() {
+    _nameFocus.dispose();
     _emailFocus.dispose();
     _passwordFocus.dispose();
     super.dispose();
@@ -65,7 +70,7 @@ class _SignInState extends State<SignIn> {
                 child: Align(
                   alignment: const Alignment(-0.7, -0.3),
                   child: Text(
-                    'Sign In',
+                    'Sign Up',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -90,7 +95,7 @@ class _SignInState extends State<SignIn> {
                   top: scaleH(171),
                   left: scaleW(20),
                   child: Container(
-                    height: scaleH(290),
+                    height: scaleH(406),
                     width: scaleW(335),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -103,6 +108,54 @@ class _SignInState extends State<SignIn> {
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
+                                color: _nameFocus.hasFocus
+                                    ? Colors.grey.shade100
+                                    : Colors.white,
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(15, 7, 15, 12),
+                                child: TextFormField(
+                                  onChanged: (val) {
+                                    setState(() {
+                                      isNameCorrect = rexName.hasMatch(val);
+                                    });
+                                  },
+                                  focusNode: _nameFocus,
+                                  onTap: () {
+                                    _requestFocus(_nameFocus);
+                                  },
+                                  decoration: InputDecoration(
+                                      suffix: isNameCorrect
+                                          ? const Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  0, 0, 10, 0),
+                                              child: Image(
+                                                image: AssetImage(
+                                                    'assets/icons/success.png'),
+                                                fit: BoxFit.fill,
+                                              ),
+                                            )
+                                          : null,
+                                      labelText: 'Full name',
+                                      labelStyle: TextStyle(
+                                          color: _emailFocus.hasFocus
+                                              ? const Color(0xFF4552CB)
+                                              : Colors.grey.shade300,
+                                          fontSize: 19,
+                                          fontWeight: FontWeight.bold),
+                                      focusedBorder: const UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 2,
+                                              color: Color(0xFF4552CB)))),
+                                ),
+                              ),
+                            )),
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
                                 color: _emailFocus.hasFocus
                                     ? Colors.grey.shade100
                                     : Colors.white,
@@ -111,6 +164,7 @@ class _SignInState extends State<SignIn> {
                                 padding:
                                     const EdgeInsets.fromLTRB(15, 7, 15, 12),
                                 child: TextFormField(
+                                  controller: _emailController,
                                   onChanged: (val) {
                                     setState(() {
                                       isEmailCorrect =
@@ -160,6 +214,7 @@ class _SignInState extends State<SignIn> {
                                 padding:
                                     const EdgeInsets.fromLTRB(15, 7, 15, 12),
                                 child: TextFormField(
+                                  controller: _passwordController,
                                   obscureText: passwordObscure,
                                   focusNode: _passwordFocus,
                                   onTap: () {
@@ -195,21 +250,6 @@ class _SignInState extends State<SignIn> {
                                 ),
                               ),
                             )),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 4, 25, 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              GestureDetector(
-                                child: const Text(
-                                  'Do not remember password?',
-                                  style: TextStyle(
-                                      color: Color(0xFF4552CB), fontSize: 15),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
                         Expanded(
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -218,18 +258,7 @@ class _SignInState extends State<SignIn> {
                                   height: scaleH(46),
                                   width: scaleW(295),
                                   child: ElevatedButton(
-                                      // onPressed: () {
-                                      //   Navigator.of(context).push(
-                                      //       MaterialPageRoute(
-                                      //           builder: (context) =>
-                                      //               SearchMain()));
-                                      // },
                                       onPressed: () {
-
-                                        Navigator.pushNamed(
-                                            context, RouteGenerator.main,
-                                            arguments: 0);
-
                                         showDialog(
                                             context: context,
                                             builder: (context) {
@@ -240,9 +269,8 @@ class _SignInState extends State<SignIn> {
                                                 ),
                                               );
                                             });
-
                                         FirebaseAuth.instance
-                                            .signInWithEmailAndPassword(
+                                            .createUserWithEmailAndPassword(
                                                 email: _emailController.text,
                                                 password:
                                                     _passwordController.text)
@@ -252,11 +280,10 @@ class _SignInState extends State<SignIn> {
                                                   builder: (context) =>
                                                       const SearchMain()));
                                         }).onError((error, stackTrace) {
-                                          print('error');
+                                          print("Error");
                                         });
 
                                         Navigator.of(context).pop();
-
                                       },
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor:
@@ -268,7 +295,7 @@ class _SignInState extends State<SignIn> {
                                               borderRadius:
                                                   BorderRadius.circular(25))),
                                       child: const Text(
-                                        'Sign In ',
+                                        'Sign Up',
                                         style: TextStyle(color: Colors.white),
                                       )),
                                 ),
@@ -278,9 +305,9 @@ class _SignInState extends State<SignIn> {
                     ),
                   )),
               Positioned(
-                top: scaleH(502),
+                top: scaleH(606),
                 left: scaleW(20),
-                //right: scaleH(20),
+                right: scaleH(20),
                 child: Row(
                   children: [
                     Container(
@@ -308,7 +335,7 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
               Positioned(
-                  top: scaleH(537),
+                  top: scaleH(642),
                   left: scaleW(104),
                   child: IconButton(
                       iconSize: scaleH(56),
@@ -322,11 +349,27 @@ class _SignInState extends State<SignIn> {
                         ),
                       ))),
               Positioned(
-                  top: scaleH(537),
+                  top: scaleH(642),
                   right: scaleW(104),
                   child: IconButton(
                       iconSize: scaleH(56),
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const Center(
+                                child: CircularProgressIndicator(
+                                  color: Color(0xFF4552CB),
+                                ),
+                              );
+                            });
+
+                        googleLogIn().then((value) => Navigator.of(context)
+                            .push(MaterialPageRoute(
+                                builder: (context) => const SearchMain())));
+
+                        Navigator.of(context).pop();
+                      },
                       icon: Container(
                         height: scaleH(56),
                         decoration: const BoxDecoration(
@@ -336,14 +379,14 @@ class _SignInState extends State<SignIn> {
                         ),
                       ))),
               Positioned(
-                  bottom: scaleH(90),
+                  bottom: scaleH(50),
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Don\'t have an account yet?',
+                            'Already have an account?',
                             style: TextStyle(
                                 fontSize: scaleH(16), letterSpacing: 0.16),
                           ),
@@ -353,10 +396,10 @@ class _SignInState extends State<SignIn> {
                           GestureDetector(
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => const SignUp()));
+                                  builder: (context) => const SignIn()));
                             },
                             child: Text(
-                              'Registration',
+                              'Sign In',
                               style: TextStyle(
                                   color: const Color(0xFF4552CB),
                                   fontSize: scaleH(16),

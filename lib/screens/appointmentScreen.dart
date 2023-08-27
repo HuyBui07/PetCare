@@ -7,6 +7,8 @@ import '../constants/colors.dart';
 import '../utils/widget_utils.dart';
 
 class AppointmentScreen extends StatefulWidget {
+  const AppointmentScreen({super.key});
+
   @override
   State<AppointmentScreen> createState() => _AppointmentScreenState();
 }
