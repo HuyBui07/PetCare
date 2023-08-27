@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_search/routes/routes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../appStyle.dart';
 
@@ -14,7 +15,7 @@ class SearchMain extends StatefulWidget {
 
 class _SearchMainState extends State<SearchMain> {
   int currentIndex = 0;
-  String? userName = "Maria";
+  final User? user = FirebaseAuth.instance.currentUser;
 
   //List of grid items
   List<MainSearchGridItem> gridItems = [
@@ -286,7 +287,7 @@ class _SearchMainState extends State<SearchMain> {
                   children: <TextSpan>[
                     const TextSpan(text: 'What are you looking for, '),
                     TextSpan(
-                      text: '$userName ?',
+                      text: '${user?.displayName.toString()} ?',
                       style: Theme.of(context)
                           .textTheme
                           .displayLarge!

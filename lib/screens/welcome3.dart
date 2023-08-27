@@ -61,7 +61,7 @@ class Welcome3 extends StatelessWidget {
                   backgroundColor: const Color(0xff4552CB),
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, 'signin');
+                  Navigator.pushNamed(context, 'registration');
                 },
                 child: Text(
                   'Get Started',
