@@ -9,6 +9,7 @@ import 'package:petcare_search/screens/loader_screen.dart';
 import 'package:petcare_search/screens/mainSearch.dart';
 import 'package:petcare_search/screens/petPro5_Screen.dart';
 import 'package:petcare_search/screens/profile_Screen.dart';
+import 'package:petcare_search/screens/registration.dart';
 import 'package:petcare_search/screens/sign_in.dart';
 import 'package:petcare_search/screens/welcome.dart';
 import 'package:petcare_search/screens/welcome1.dart';
@@ -69,6 +70,10 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => AddDetailPet(),
         );
+      case registration:
+        return MaterialPageRoute(
+          builder: (_) => Registration(),
+        );
       default:
         throw const RouteException("Route not found");
     }
@@ -86,6 +91,7 @@ class RouteGenerator {
   static const editpro5 = '/editpro5';
   static const petpro5 = '/petpro5';
   static const addpet = '/addpet';
+  static const registration = '/registration';
 }
 
 class RouteException implements Exception {
