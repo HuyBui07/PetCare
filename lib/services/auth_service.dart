@@ -15,9 +15,9 @@ Future googleLogIn() async {
   await FirebaseAuth.instance.signInWithCredential(credential);
 }
 
-Future facebookLogin() async {
-  FacebookAuth.instance
-      .login(permissions: ["public_profile", "email"]).then((value) {
-    FacebookAuth.instance.getUserData().then((userData) async {});
-  });
+Future<UserCredential> facebookLogin() async {
+  final LoginResult result = await FacebookAuth.instance.login();
+  final OAuthCredential facebookAuthCredential =
+      FacebookAuthProvider.credential(result.accessToken!.token);
+  return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
 }
