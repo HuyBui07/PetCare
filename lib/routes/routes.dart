@@ -83,11 +83,10 @@ class RouteGenerator {
       case thanks:
         return MaterialPageRoute(
           builder: (_) => SearchThanks(),
-
+        );
       case registration:
         return MaterialPageRoute(
           builder: (_) => Registration(),
-
         );
       default:
         throw const RouteException("Route not found");
@@ -110,7 +109,6 @@ class RouteGenerator {
   static const thanks = '/thanks';
 
   static const registration = '/registration';
-
 }
 
 class RouteException implements Exception {
