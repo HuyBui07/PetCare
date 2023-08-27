@@ -85,7 +85,7 @@ class RouteGenerator {
           builder: (_) => SearchThanks(),
         );
       case registration:
-        return MaterialPageRoute(
+        return MaterialPageRoute<Registration>(
           builder: (_) => Registration(),
         );
       default:

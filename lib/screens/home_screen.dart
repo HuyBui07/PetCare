@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:petcare_search/appStyle.dart';
-import 'package:petcare_search/constants/colors.dart';
 import 'package:petcare_search/routes/routes.dart';
 import 'package:petcare_search/screens/appointmentScreen.dart';
 import 'package:petcare_search/screens/explore_screen.dart';

@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:petcare_search/constants/colors.dart';
 import 'package:petcare_search/routes/routes.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
+import '../users/user_data.dart';
 //import 'package:petcare_search/constants/styles.dart';
 
 List<ListItem> items = [
@@ -102,14 +103,16 @@ class ProfileScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     CircleAvatar(
-                      backgroundImage:
-                          const AssetImage('assets/imgs/profileImgs/photo.png'),
+                      foregroundImage: GlobalData.avatar != null
+                          ? NetworkImage(GlobalData.avatar.toString())
+                          : const NetworkImage(
+                              'https://www.gravatar.com/avatar/?d=blank'),
                       radius: scaleW(56, context),
                     ),
                     Column(
                       children: [
                         Text(
-                          'Maria Martinez',
+                          GlobalData.displayName.toString(),
                           style: Theme.of(context).textTheme.headline2,
                         ),
                         Text(
