@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:petcare_search/appStyle.dart';
+import 'package:petcare_search/routes/routes.dart';
 import 'package:petcare_search/screens/home_screen.dart';
 import 'package:petcare_search/screens/sign_in.dart';
 import 'package:petcare_search/screens/sign_up.dart';
@@ -73,7 +74,9 @@ class _RegistrationState extends State<Registration> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MainScreen()));
+                                builder: (context) => MainScreen(
+                                      index: 0,
+                                    )));
                       }
                     } catch (e) {
                       print(e.toString());
@@ -128,7 +131,9 @@ class _RegistrationState extends State<Registration> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MainScreen()));
+                                builder: (context) => MainScreen(
+                                      index: 0,
+                                    )));
                       }
                     } catch (e) {
                       print(e.toString());

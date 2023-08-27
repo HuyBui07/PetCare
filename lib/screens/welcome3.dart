@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:petcare_search/routes/routes.dart';
 
 class Welcome3 extends StatelessWidget {
   const Welcome3({super.key});
@@ -60,7 +61,7 @@ class Welcome3 extends StatelessWidget {
                   backgroundColor: const Color(0xff4552CB),
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, 'registration');
+                  Navigator.pushNamed(context, RouteGenerator.registration);
                 },
                 child: Text(
                   'Get Started',

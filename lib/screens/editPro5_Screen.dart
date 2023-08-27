@@ -300,7 +300,7 @@ class _EditProfileState extends State<EditProfileScreen> {
                       )
                     ],
                   ),
-                  BottomButtom('Get Started')
+                  BottomButtom('Get Started', () {})
                 ],
               ),
             ),

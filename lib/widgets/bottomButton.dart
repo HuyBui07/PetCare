@@ -3,8 +3,9 @@ import 'package:flutter/widgets.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
 
 class BottomButtom extends StatelessWidget {
-  final String label;
-  const BottomButtom(this.label, {super.key});
+  final VoidCallback onPressed;
+  String label;
+  BottomButtom(this.label, this.onPressed, {super.key});
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -18,7 +19,7 @@ class BottomButtom extends StatelessWidget {
               borderRadius: BorderRadius.circular(scaleW(24, context)),
             ),
           ),
-          onPressed: () {},
+          onPressed: onPressed,
           child: Text(
             label,
             style: Theme.of(context).textTheme.button!.apply(
