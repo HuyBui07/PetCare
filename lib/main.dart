@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme,
       initialRoute: RouteGenerator.loading,
       onGenerateRoute: RouteGenerator.generateRoute,
+      //home: SearchThanks(),
     );
   }
 }
