@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 ThemeData AppTheme = ThemeData(
     colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF4552CB)),
+    bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.transparent),
     textTheme: TextTheme(
       //Usage: Main search title text
       displayLarge: const TextStyle(

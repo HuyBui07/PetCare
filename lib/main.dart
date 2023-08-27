@@ -26,9 +26,6 @@ import 'package:petcare_search/widgets/appointmentCard.dart';
 
 import 'package:petcare_search/screens/welcome1.dart';
 
-
-
-  
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -48,9 +45,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Balls',
       theme: AppTheme,
-
       initialRoute: RouteGenerator.loading,
       onGenerateRoute: RouteGenerator.generateRoute,
+      //home: SearchThanks(),
     );
   }
 }

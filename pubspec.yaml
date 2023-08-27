@@ -45,12 +45,11 @@ dependencies:
   image_picker: ^1.0.2
   google_sign_in: ^6.1.4
   flutter_facebook_auth: ^6.0.1
- 
+  intl: ^0.18.1
 
   get_it: ^7.6.0
 
   flutter_rating_bar: ^4.0.1
-
 
 dev_dependencies:
   flutter_test:
@@ -89,8 +88,6 @@ flutter:
     - assets/imgs/petFootprint/
 
     - assets/imgs/searchResultsImgs/
-
-
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
