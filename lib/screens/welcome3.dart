@@ -58,15 +58,15 @@ class Welcome3 extends StatelessWidget {
               width: 270,
               child: TextButton(
                 style: TextButton.styleFrom(
-                  backgroundColor: Color(0xff4552CB),
+                  backgroundColor: const Color(0xff4552CB),
                 ),
                 onPressed: () {
                   Navigator.pushNamed(context, 'signin');
                 },
                 child: Text(
-                  'Next',
+                  'Get Started',
                   style: GoogleFonts.encodeSans(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                       color: Colors.white,

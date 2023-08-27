@@ -7,6 +7,8 @@ import 'package:petcare_search/utils/widget_utils.dart';
 import 'package:petcare_search/widgets/appointmentCard.dart';
 
 class PastScreen extends StatelessWidget {
+  const PastScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build

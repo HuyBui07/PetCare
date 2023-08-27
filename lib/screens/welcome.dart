@@ -7,6 +7,8 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class Welcome extends StatelessWidget {
   PageController _controller = PageController();
+
+  Welcome({super.key});
   @override
   Widget build(BuildContext context) {
     // TODO: implement build

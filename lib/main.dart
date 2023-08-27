@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:petcare_search/appStyle.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:petcare_search/routes/routes.dart';
 import 'package:petcare_search/screens/add_detail_pet.dart';
 
@@ -24,9 +25,14 @@ import 'package:petcare_search/widgets/appointmentCard.dart';
 
 import 'package:petcare_search/screens/welcome1.dart';
 
+import 'package:petcare_search/widgets/appointmentCard.dart';
 
-void main() {
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+import 'package:petcare_search/screens/welcome1.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
   ));
 
@@ -42,14 +48,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Balls',
       theme: AppTheme,
-
       home: AppointmentScreen(),
-
       initialRoute: RouteGenerator.loading,
       onGenerateRoute: RouteGenerator.generateRoute,
-     
-
     );
   }
-
 }
