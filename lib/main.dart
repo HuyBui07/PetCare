@@ -16,6 +16,7 @@ import 'package:petcare_search/screens/pastScreen.dart';
 import 'package:petcare_search/screens/petPro5_Screen.dart';
 
 import 'package:petcare_search/screens/profile_Screen.dart';
+import 'package:petcare_search/screens/search_tks.dart';
 import 'package:petcare_search/screens/sign_in.dart';
 import 'package:petcare_search/screens/upComingScreen.dart';
 import 'package:petcare_search/screens/welcome.dart';
@@ -23,7 +24,6 @@ import 'package:petcare_search/screens/welcome.dart';
 import 'package:petcare_search/widgets/appointmentCard.dart';
 
 import 'package:petcare_search/screens/welcome1.dart';
-
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -42,14 +42,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Balls',
       theme: AppTheme,
-
-      home: AppointmentScreen(),
-
+      // home: SearchThanks(),
       initialRoute: RouteGenerator.loading,
       onGenerateRoute: RouteGenerator.generateRoute,
-     
-
     );
   }
-
 }

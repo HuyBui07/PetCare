@@ -207,7 +207,9 @@ class _SignInState extends State<SignIn> {
                                       //               SearchMain()));
                                       // },
                                       onPressed: () {
-                                        Navigator.pushNamed(context, 'main');
+                                        Navigator.pushNamed(
+                                            context, RouteGenerator.main,
+                                            arguments: 0);
                                       },
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor:
