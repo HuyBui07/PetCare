@@ -3,8 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
 
 class BottomButtom extends StatelessWidget {
-  String label;
-  BottomButtom(this.label, {super.key});
+  final String label;
+  const BottomButtom(this.label, {super.key});
   @override
   Widget build(BuildContext context) {
     return Center(

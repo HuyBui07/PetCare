@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:petcare_search/constants/colors.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,9 +15,9 @@ class DentistItem extends StatelessWidget {
       padding: EdgeInsets.all(scaleH(8, context)),
       child: Container(
         padding: EdgeInsets.only(
-            left: scaleW(8, context),
-            right: scaleW(8, context),
-            ),
+          left: scaleW(8, context),
+          right: scaleW(8, context),
+        ),
         height: scaleH(140, context),
         width: scaleW(335, context),
         decoration: BoxDecoration(
@@ -136,7 +135,8 @@ class DentistItem extends StatelessWidget {
                     ),
                     child: IconButton(
                       onPressed: () {},
-                      icon: SvgPicture.asset('assets/icons/iconsvg/location.svg'),
+                      icon:
+                          SvgPicture.asset('assets/icons/iconsvg/location.svg'),
                     ),
                   ),
                   SizedBox(

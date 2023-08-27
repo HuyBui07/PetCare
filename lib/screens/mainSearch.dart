@@ -3,6 +3,7 @@ import 'package:petcare_search/routes/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../appStyle.dart';
+import '../users/user_data.dart';
 
 class SearchMain extends StatefulWidget {
   const SearchMain({super.key});
@@ -217,46 +218,6 @@ class _SearchMainState extends State<SearchMain> {
         ],
       ),
       //Bottom tab menu
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        showUnselectedLabels: true,
-        unselectedItemColor: NavigationBarStyle.unselectedItemColor,
-        selectedItemColor: NavigationBarStyle.selectedItemColor,
-        unselectedFontSize: NavigationBarStyle.unselectedFontSize,
-        selectedFontSize: NavigationBarStyle.selectedFontSize,
-        type: BottomNavigationBarType.fixed,
-        onTap: (index) {
-          setState(() {
-            currentIndex = index;
-          });
-        },
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.search,
-            ),
-            label: 'Search',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.schedule,
-            ),
-            label: 'Appointment',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.explore,
-            ),
-            label: 'Explore',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-            ),
-            label: 'Profile',
-          ),
-        ],
-      ),
 
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -287,7 +248,7 @@ class _SearchMainState extends State<SearchMain> {
                   children: <TextSpan>[
                     const TextSpan(text: 'What are you looking for, '),
                     TextSpan(
-                      text: '${user?.displayName.toString()} ?',
+                      text: '${GlobalData.displayName} ?',
                       style: Theme.of(context)
                           .textTheme
                           .displayLarge!

@@ -71,7 +71,7 @@ class RouteGenerator {
           builder: (_) => AddDetailPet(),
         );
       case registration:
-        return MaterialPageRoute(
+        return MaterialPageRoute<Registration>(
           builder: (_) => Registration(),
         );
       default:
@@ -91,7 +91,7 @@ class RouteGenerator {
   static const editpro5 = '/editpro5';
   static const petpro5 = '/petpro5';
   static const addpet = '/addpet';
-  static const registration = '/registration';
+  static const registration = 'registration';
 }
 
 class RouteException implements Exception {

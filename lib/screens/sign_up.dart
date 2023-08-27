@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:petcare_search/screens/mainSearch.dart';
 import 'package:petcare_search/screens/sign_in.dart';
+import 'package:petcare_search/users/user_data.dart';
 import 'registration.dart';
 import '../services/auth_service.dart';
 
@@ -14,11 +15,14 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final FocusNode _nameFocus = FocusNode();
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
+  late final UserCredential userCredential;
+  late final User? user;
   bool isNameCorrect = false;
   RegExp rexName =
       RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
@@ -116,6 +120,7 @@ class _SignUpState extends State<SignUp> {
                                 padding:
                                     const EdgeInsets.fromLTRB(15, 7, 15, 12),
                                 child: TextFormField(
+                                  controller: _nameController,
                                   onChanged: (val) {
                                     setState(() {
                                       isNameCorrect = rexName.hasMatch(val);
@@ -258,32 +263,28 @@ class _SignUpState extends State<SignUp> {
                                   height: scaleH(46),
                                   width: scaleW(295),
                                   child: ElevatedButton(
-                                      onPressed: () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return const Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  color: Color(0xFF4552CB),
-                                                ),
-                                              );
-                                            });
-                                        FirebaseAuth.instance
-                                            .createUserWithEmailAndPassword(
-                                                email: _emailController.text,
-                                                password:
-                                                    _passwordController.text)
-                                            .then((value) {
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const SearchMain()));
-                                        }).onError((error, stackTrace) {
-                                          print("Error");
-                                        });
+                                      onPressed: () async {
+                                        try {
+                                          userCredential = await FirebaseAuth
+                                              .instance
+                                              .createUserWithEmailAndPassword(
+                                                  email: _emailController.text,
+                                                  password:
+                                                      _passwordController.text);
 
-                                        Navigator.of(context).pop();
+                                          user = userCredential.user;
+                                          await addUser(_nameController.text,
+                                              user?.email, user?.photoURL);
+                                          await getUserData(
+                                              user?.email, user?.photoURL);
+
+                                          if (context.mounted) {
+                                            Navigator.pushNamed(
+                                                context, 'search');
+                                          }
+                                        } catch (e) {
+                                          print(e.toString());
+                                        }
                                       },
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor:

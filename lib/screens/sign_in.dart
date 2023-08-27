@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:petcare_search/routes/routes.dart';
+import 'package:petcare_search/users/user_data.dart';
 import 'mainSearch.dart';
 import 'registration.dart';
 import 'sign_up.dart';
@@ -218,39 +219,16 @@ class _SignInState extends State<SignIn> {
                                   height: scaleH(46),
                                   width: scaleW(295),
                                   child: ElevatedButton(
-                                      // onPressed: () {
-                                      //   Navigator.of(context).push(
-                                      //       MaterialPageRoute(
-                                      //           builder: (context) =>
-                                      //               SearchMain()));
-                                      // },
-                                      onPressed: () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return const Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  color: Color(0xFF4552CB),
-                                                ),
-                                              );
-                                            });
-
-                                        FirebaseAuth.instance
+                                      onPressed: () async {
+                                        final credential = await FirebaseAuth
+                                            .instance
                                             .signInWithEmailAndPassword(
                                                 email: _emailController.text,
                                                 password:
-                                                    _passwordController.text)
-                                            .then((value) {
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const SearchMain()));
-                                        }).onError((error, stackTrace) {
-                                          print('error');
-                                        });
-
-                                        Navigator.of(context).pop();
+                                                    _passwordController.text);
+                                        await getUserData(
+                                            credential.user?.email,
+                                            credential.user?.photoURL);
                                       },
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor:

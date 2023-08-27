@@ -4,6 +4,7 @@ import 'package:petcare_search/appStyle.dart';
 import 'package:petcare_search/screens/home_screen.dart';
 import 'package:petcare_search/screens/sign_in.dart';
 import 'package:petcare_search/screens/sign_up.dart';
+import 'package:petcare_search/users/user_data.dart';
 import '../services/auth_service.dart';
 import 'mainSearch.dart';
 
@@ -15,6 +16,8 @@ class Registration extends StatefulWidget {
 }
 
 class _RegistrationState extends State<Registration> {
+  late final UserCredential userCredential;
+  late final User? user;
   double scaleH(original) {
     return (original * MediaQuery.of(context).size.height / 812);
   }
@@ -61,8 +64,11 @@ class _RegistrationState extends State<Registration> {
               child: ElevatedButton(
                   onPressed: () async {
                     try {
-                      final UserCredential userCredential =
-                          await facebookLogin();
+                      userCredential = await facebookLogin();
+                      user = userCredential.user;
+                      await addUser(
+                          user?.displayName, user?.email, user?.photoURL);
+                      await getUserData(user?.email, user?.photoURL);
                       if (context.mounted) {
                         Navigator.push(
                             context,
@@ -111,22 +117,22 @@ class _RegistrationState extends State<Registration> {
               height: scaleH(46),
               width: double.infinity,
               child: ElevatedButton(
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return const Center(
-                            child: CircularProgressIndicator(
-                              color: Color(0xFF4552CB),
-                            ),
-                          );
-                        });
-
-                    googleLogIn().then((value) => Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => const SearchMain())));
-
-                    Navigator.of(context).pop();
+                  onPressed: () async {
+                    try {
+                      userCredential = await googleLogIn();
+                      user = userCredential.user;
+                      await addUser(
+                          user?.displayName, user?.email, user?.photoURL);
+                      await getUserData(user?.email, user?.photoURL);
+                      if (context.mounted) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MainScreen()));
+                      }
+                    } catch (e) {
+                      print(e.toString());
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
