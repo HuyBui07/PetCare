@@ -225,6 +225,11 @@ class _SignInState extends State<SignIn> {
                                       //               SearchMain()));
                                       // },
                                       onPressed: () {
+
+                                        Navigator.pushNamed(
+                                            context, RouteGenerator.main,
+                                            arguments: 0);
+
                                         showDialog(
                                             context: context,
                                             builder: (context) {
@@ -251,6 +256,7 @@ class _SignInState extends State<SignIn> {
                                         });
 
                                         Navigator.of(context).pop();
+
                                       },
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor:

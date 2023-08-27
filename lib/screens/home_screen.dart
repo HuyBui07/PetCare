@@ -10,22 +10,41 @@ import 'package:petcare_search/screens/profile_Screen.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  int index;
+  MainScreen({super.key, required this.index});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _currentIndex = 0;
-  final PageController _pageController = PageController();
+  late int _currentIndex;
+  late PageController _pageController;
+  final List<Widget> _pages = <Widget>[
+    SearchMain(),
+    AppointmentScreen(),
+    ExploreScreen(),
+    ProfileScreen(),
+  ];
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: widget.index);
+    _currentIndex = widget.index;
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
         controller: _pageController,
-        children: const [
+        children: [
           Navigator(
             initialRoute: RouteGenerator.search,
             onGenerateRoute: RouteGenerator.generateRoute,
@@ -34,6 +53,7 @@ class _MainScreenState extends State<MainScreen> {
             initialRoute: RouteGenerator.appoitment,
             onGenerateRoute: RouteGenerator.generateRoute,
           ),
+          //_pages[1],
           Navigator(
             initialRoute: RouteGenerator.explore,
             onGenerateRoute: RouteGenerator.generateRoute,
@@ -49,6 +69,7 @@ class _MainScreenState extends State<MainScreen> {
           });
         },
       ),
+
       //Bottom tab menu
       bottomNavigationBar: SizedBox(
         height: scaleH(83, context),
@@ -68,7 +89,7 @@ class _MainScreenState extends State<MainScreen> {
                   duration: Duration(milliseconds: 300));
             });
           },
-          items: <BottomNavigationBarItem>[
+          items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.search,
