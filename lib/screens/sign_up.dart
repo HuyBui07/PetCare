@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:petcare_search/screens/mainSearch.dart';
+import 'package:petcare_search/screens/sign_in.dart';
 import 'registration.dart';
+import '../services/auth_service.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -18,7 +20,8 @@ class _SignUpState extends State<SignUp> {
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
   bool isNameCorrect = false;
-  RegExp rex = RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
+  RegExp rexName =
+      RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
   bool isEmailCorrect = false;
   bool passwordObscure = true;
   @override
@@ -84,7 +87,7 @@ class _SignUpState extends State<SignUp> {
                   icon: const Icon(Icons.arrow_back),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const Registration()));
+                        builder: (context) => Registration()));
                   },
                 ),
               ),
@@ -115,7 +118,7 @@ class _SignUpState extends State<SignUp> {
                                 child: TextFormField(
                                   onChanged: (val) {
                                     setState(() {
-                                      isNameCorrect = rex.hasMatch(val);
+                                      isNameCorrect = rexName.hasMatch(val);
                                     });
                                   },
                                   focusNode: _nameFocus,
@@ -256,6 +259,16 @@ class _SignUpState extends State<SignUp> {
                                   width: scaleW(295),
                                   child: ElevatedButton(
                                       onPressed: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return const Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: Color(0xFF4552CB),
+                                                ),
+                                              );
+                                            });
                                         FirebaseAuth.instance
                                             .createUserWithEmailAndPassword(
                                                 email: _emailController.text,
@@ -269,6 +282,8 @@ class _SignUpState extends State<SignUp> {
                                         }).onError((error, stackTrace) {
                                           print("Error");
                                         });
+
+                                        Navigator.of(context).pop();
                                       },
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor:
@@ -338,7 +353,23 @@ class _SignUpState extends State<SignUp> {
                   right: scaleW(104),
                   child: IconButton(
                       iconSize: scaleH(56),
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const Center(
+                                child: CircularProgressIndicator(
+                                  color: Color(0xFF4552CB),
+                                ),
+                              );
+                            });
+
+                        googleLogIn().then((value) => Navigator.of(context)
+                            .push(MaterialPageRoute(
+                                builder: (context) => const SearchMain())));
+
+                        Navigator.of(context).pop();
+                      },
                       icon: Container(
                         height: scaleH(56),
                         decoration: const BoxDecoration(
@@ -355,19 +386,25 @@ class _SignUpState extends State<SignUp> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Don\'t have an account yet?',
+                            'Already have an account?',
                             style: TextStyle(
                                 fontSize: scaleH(16), letterSpacing: 0.16),
                           ),
                           const SizedBox(
                             width: 3,
                           ),
-                          Text(
-                            'Registration',
-                            style: TextStyle(
-                                color: const Color(0xFF4552CB),
-                                fontSize: scaleH(16),
-                                fontWeight: FontWeight.w700),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => const SignIn()));
+                            },
+                            child: Text(
+                              'Sign In',
+                              style: TextStyle(
+                                  color: const Color(0xFF4552CB),
+                                  fontSize: scaleH(16),
+                                  fontWeight: FontWeight.w700),
+                            ),
                           )
                         ]),
                   )),

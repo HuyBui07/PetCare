@@ -9,6 +9,8 @@ import 'package:petcare_search/widgets/bottomButton.dart';
 import 'package:petcare_search/widgets/genderWidget.dart';
 
 class EditProfileScreen extends StatefulWidget {
+  const EditProfileScreen({super.key});
+
   @override
   State<StatefulWidget> createState() => _EditProfileState();
 }

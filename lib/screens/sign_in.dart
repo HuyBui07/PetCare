@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:petcare_search/screens/mainSearch.dart';
 import 'package:petcare_search/screens/registration.dart';
+import 'package:petcare_search/screens/sign_up.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -80,7 +81,7 @@ class _SignInState extends State<SignIn> {
                   icon: const Icon(Icons.arrow_back),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const Registration()));
+                        builder: (context) => Registration()));
                   },
                 ),
               ),
@@ -217,6 +218,17 @@ class _SignInState extends State<SignIn> {
                                   width: scaleW(295),
                                   child: ElevatedButton(
                                       onPressed: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return const Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: Color(0xFF4552CB),
+                                                ),
+                                              );
+                                            });
+
                                         FirebaseAuth.instance
                                             .signInWithEmailAndPassword(
                                                 email: _emailController.text,
@@ -230,6 +242,8 @@ class _SignInState extends State<SignIn> {
                                         }).onError((error, stackTrace) {
                                           print('error');
                                         });
+
+                                        Navigator.of(context).pop();
                                       },
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor:
@@ -323,12 +337,18 @@ class _SignInState extends State<SignIn> {
                           const SizedBox(
                             width: 3,
                           ),
-                          Text(
-                            'Registration',
-                            style: TextStyle(
-                                color: const Color(0xFF4552CB),
-                                fontSize: scaleH(16),
-                                fontWeight: FontWeight.w700),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => const SignUp()));
+                            },
+                            child: Text(
+                              'Registration',
+                              style: TextStyle(
+                                  color: const Color(0xFF4552CB),
+                                  fontSize: scaleH(16),
+                                  fontWeight: FontWeight.w700),
+                            ),
                           )
                         ]),
                   )),

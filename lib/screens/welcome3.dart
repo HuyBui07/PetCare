@@ -58,8 +58,8 @@ class Welcome3 extends StatelessWidget {
                   backgroundColor: const Color(0xff4552CB),
                 ),
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const Registration()));
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => Registration()));
                 },
                 child: Text(
                   'Get Started',
