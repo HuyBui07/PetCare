@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:petcare_search/appStyle.dart';
 import 'package:petcare_search/screens/mainSearch.dart';
+import 'package:petcare_search/screens/rules.dart';
 import 'package:petcare_search/screens/sign_in.dart';
 import 'package:petcare_search/users/user_data.dart';
 import 'registration.dart';
@@ -23,6 +25,8 @@ class _SignUpState extends State<SignUp> {
   final FocusNode _passwordFocus = FocusNode();
   late final UserCredential userCredential;
   late final User? user;
+  bool? isCheckedRules = false;
+  bool? isCheckedNews = false;
   bool isNameCorrect = false;
   RegExp rexName =
       RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
@@ -108,7 +112,7 @@ class _SignUpState extends State<SignUp> {
                     child: Column(
                       children: [
                         Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            padding: const EdgeInsets.fromLTRB(10, 8, 10, 0),
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
@@ -144,7 +148,7 @@ class _SignUpState extends State<SignUp> {
                                           : null,
                                       labelText: 'Full name',
                                       labelStyle: TextStyle(
-                                          color: _emailFocus.hasFocus
+                                          color: _nameFocus.hasFocus
                                               ? const Color(0xFF4552CB)
                                               : Colors.grey.shade300,
                                           fontSize: 19,
@@ -255,6 +259,83 @@ class _SignUpState extends State<SignUp> {
                                 ),
                               ),
                             )),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(width: scaleW(13)),
+                              SizedBox(
+                                height: 18,
+                                width: 18,
+                                child: Checkbox(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(6)),
+                                    value: isCheckedRules,
+                                    activeColor: const Color(0xFF4552CB),
+                                    onChanged: (newbool) {
+                                      setState(() {
+                                        isCheckedRules = newbool;
+                                      });
+                                    }),
+                              ),
+                              SizedBox(width: scaleW(18)),
+                              Text(
+                                'I agree with ',
+                                style: AppTheme.textTheme.bodySmall!.copyWith(
+                                    fontWeight: FontWeight.normal,
+                                    letterSpacing: 0,
+                                    fontSize: 16),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => const Rules()));
+                                },
+                                child: Text(
+                                  'the rules',
+                                  style: AppTheme.textTheme.bodySmall!.copyWith(
+                                      fontWeight: FontWeight.normal,
+                                      color: const Color(0xFF4552CB),
+                                      decoration: TextDecoration.underline,
+                                      letterSpacing: 0,
+                                      fontSize: 16),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(12, scaleH(17), 12, 0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(width: scaleW(13)),
+                              SizedBox(
+                                height: 18,
+                                width: 18,
+                                child: Checkbox(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(6)),
+                                    value: isCheckedNews,
+                                    activeColor: const Color(0xFF4552CB),
+                                    onChanged: (newbool) {
+                                      setState(() {
+                                        isCheckedNews = newbool;
+                                      });
+                                    }),
+                              ),
+                              SizedBox(width: scaleW(18)),
+                              Text(
+                                'I do not want to receive newsletter',
+                                style: AppTheme.textTheme.headlineMedium!
+                                    .copyWith(
+                                        fontWeight: FontWeight.normal,
+                                        letterSpacing: 0),
+                              ),
+                            ],
+                          ),
+                        ),
                         Expanded(
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
