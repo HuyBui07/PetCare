@@ -8,6 +8,7 @@ import 'package:petcare_search/screens/sign_in.dart';
 import 'package:petcare_search/users/user_data.dart';
 import 'registration.dart';
 import '../services/auth_service.dart';
+import '../routes/routes.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -23,8 +24,8 @@ class _SignUpState extends State<SignUp> {
   final FocusNode _nameFocus = FocusNode();
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
-  late final UserCredential userCredential;
-  late final User? user;
+  late UserCredential userCredential;
+  late User? user;
   bool? isCheckedRules = false;
   bool? isCheckedNews = false;
   bool isNameCorrect = false;
@@ -352,17 +353,14 @@ class _SignUpState extends State<SignUp> {
                                                   email: _emailController.text,
                                                   password:
                                                       _passwordController.text);
-
                                           user = userCredential.user;
                                           await addUser(_nameController.text,
                                               user?.email, user?.photoURL);
                                           await getUserData(
                                               user?.email, user?.photoURL);
 
-                                          if (context.mounted) {
-                                            Navigator.pushNamed(
-                                                context, 'search');
-                                          }
+                                          Navigator.pushNamed(
+                                              context, RouteGenerator.home);
                                         } catch (e) {
                                           print(e.toString());
                                         }
