@@ -70,14 +70,8 @@ class _RegistrationState extends State<Registration> {
                       await addUser(
                           user?.displayName, user?.email, user?.photoURL);
                       await getUserData(user?.email, user?.photoURL);
-                      if (context.mounted) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MainScreen(
-                                      index: 0,
-                                    )));
-                      }
+
+                      Navigator.pushNamed(context, RouteGenerator.home);
                     } catch (e) {
                       print(e.toString());
                     }

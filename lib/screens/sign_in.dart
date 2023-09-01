@@ -6,6 +6,7 @@ import 'package:petcare_search/users/user_data.dart';
 import 'mainSearch.dart';
 import 'registration.dart';
 import 'sign_up.dart';
+import '../services/auth_service.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -21,6 +22,8 @@ class _SignInState extends State<SignIn> {
   final FocusNode _passwordFocus = FocusNode();
   bool isEmailCorrect = false;
   bool passwordObscure = true;
+  late final UserCredential? userCredential;
+  late final User? user;
   @override
   void initState() {
     super.initState();
@@ -112,6 +115,7 @@ class _SignInState extends State<SignIn> {
                                 padding:
                                     const EdgeInsets.fromLTRB(15, 7, 15, 12),
                                 child: TextFormField(
+                                  controller: _emailController,
                                   onChanged: (val) {
                                     setState(() {
                                       isEmailCorrect =
@@ -161,6 +165,7 @@ class _SignInState extends State<SignIn> {
                                 padding:
                                     const EdgeInsets.fromLTRB(15, 7, 15, 12),
                                 child: TextFormField(
+                                  controller: _passwordController,
                                   obscureText: passwordObscure,
                                   focusNode: _passwordFocus,
                                   onTap: () {
@@ -219,20 +224,62 @@ class _SignInState extends State<SignIn> {
                                   height: scaleH(46),
                                   width: scaleW(295),
                                   child: ElevatedButton(
-                                      onPressed: () async {
-                                        final credential = await FirebaseAuth
-                                            .instance
-                                            .signInWithEmailAndPassword(
-                                                email: _emailController.text,
-                                                password:
-                                                    _passwordController.text);
-                                        await getUserData(
-                                            credential.user?.email,
-                                            credential.user?.photoURL);
-                                      },
+                                      onPressed: isEmailCorrect
+                                          ? () async {
+                                              FocusScope.of(context).unfocus();
+
+                                              userCredential = await FirebaseAuth
+                                                  .instance
+                                                  .signInWithEmailAndPassword(
+                                                      email: _emailController
+                                                                  .text !=
+                                                              ""
+                                                          ? _emailController
+                                                              .text
+                                                          : "fakeemail@gmail.com",
+                                                      password: _passwordController
+                                                                  .text !=
+                                                              ""
+                                                          ? _passwordController
+                                                              .text
+                                                          : "fakepassword123")
+                                                  .then((value) async {
+                                                await getUserData(
+                                                    userCredential!.user!.email,
+                                                    userCredential!
+                                                        .user!.email);
+                                                Navigator.pushNamed(context,
+                                                    RouteGenerator.home);
+                                              }).catchError((err) {
+                                                print(err.toString());
+                                                showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return AlertDialog(
+                                                        title: Text("Error"),
+                                                        content:
+                                                            Text(err.message),
+                                                        actions: [
+                                                          TextButton(
+                                                            child: Text("Ok"),
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                          )
+                                                        ],
+                                                      );
+                                                    });
+                                              });
+                                            }
+                                          : () {},
                                       style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              const Color(0xFF4552CB),
+                                          backgroundColor: isEmailCorrect
+                                              ? const Color(0xFF4552CB)
+                                              : const Color(0xFF4552CB)
+                                                  .withOpacity(0.55),
                                           textStyle: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: scaleH(20)),
@@ -284,7 +331,19 @@ class _SignInState extends State<SignIn> {
                   left: scaleW(104),
                   child: IconButton(
                       iconSize: scaleH(56),
-                      onPressed: () {},
+                      onPressed: () async {
+                        try {
+                          userCredential = await facebookLogin();
+                          user = userCredential!.user;
+                          await addUser(
+                              user?.displayName, user?.email, user?.photoURL);
+                          await getUserData(user?.email, user?.photoURL);
+
+                          Navigator.pushNamed(context, RouteGenerator.home);
+                        } catch (e) {
+                          print(e.toString());
+                        }
+                      },
                       icon: Container(
                         height: scaleH(56),
                         decoration: const BoxDecoration(
@@ -298,7 +357,18 @@ class _SignInState extends State<SignIn> {
                   right: scaleW(104),
                   child: IconButton(
                       iconSize: scaleH(56),
-                      onPressed: () {},
+                      onPressed: () async {
+                        try {
+                          userCredential = await googleLogIn();
+                          user = userCredential!.user;
+                          await addUser(
+                              user?.displayName, user?.email, user?.photoURL);
+                          await getUserData(user?.email, user?.photoURL);
+                          Navigator.pushNamed(context, RouteGenerator.home);
+                        } catch (e) {
+                          print(e.toString());
+                        }
+                      },
                       icon: Container(
                         height: scaleH(56),
                         decoration: const BoxDecoration(
