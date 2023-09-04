@@ -362,7 +362,23 @@ class _SignUpState extends State<SignUp> {
                                           Navigator.pushNamed(
                                               context, RouteGenerator.home);
                                         } catch (e) {
-                                          print(e.toString());
+                                          showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  title: Text("Error"),
+                                                  content: Text(e.toString()),
+                                                  actions: [
+                                                    TextButton(
+                                                      child: Text("Ok"),
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                    )
+                                                  ],
+                                                );
+                                              });
                                         }
                                       },
                                       style: ElevatedButton.styleFrom(
@@ -419,7 +435,35 @@ class _SignUpState extends State<SignUp> {
                   left: scaleW(104),
                   child: IconButton(
                       iconSize: scaleH(56),
-                      onPressed: () {},
+                      onPressed: () async {
+                        try {
+                          userCredential = await facebookLogin();
+                          user = userCredential.user;
+                          await addUser(
+                              user?.displayName, user?.email, user?.photoURL);
+                          await getUserData(userCredential.user!.email,
+                              userCredential.user!.photoURL);
+
+                          Navigator.pushNamed(context, RouteGenerator.home);
+                        } catch (e) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Error"),
+                                  content: Text(e.toString()),
+                                  actions: [
+                                    TextButton(
+                                      child: Text("Ok"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                                  ],
+                                );
+                              });
+                        }
+                      },
                       icon: Container(
                         height: scaleH(56),
                         decoration: const BoxDecoration(
@@ -433,22 +477,34 @@ class _SignUpState extends State<SignUp> {
                   right: scaleW(104),
                   child: IconButton(
                       iconSize: scaleH(56),
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return const Center(
-                                child: CircularProgressIndicator(
-                                  color: Color(0xFF4552CB),
-                                ),
-                              );
-                            });
+                      onPressed: () async {
+                        try {
+                          userCredential = await googleLogIn();
+                          user = userCredential.user;
+                          await addUser(
+                              user?.displayName, user?.email, user?.photoURL);
+                          await getUserData(userCredential!.user!.email,
+                              userCredential.user!.photoURL);
 
-                        googleLogIn().then((value) => Navigator.of(context)
-                            .push(MaterialPageRoute(
-                                builder: (context) => const SearchMain())));
-
-                        Navigator.of(context).pop();
+                          Navigator.pushNamed(context, RouteGenerator.home);
+                        } catch (e) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Error"),
+                                  content: Text(e.toString()),
+                                  actions: [
+                                    TextButton(
+                                      child: Text("Ok"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                                  ],
+                                );
+                              });
+                        }
                       },
                       icon: Container(
                         height: scaleH(56),
