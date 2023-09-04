@@ -17,7 +17,7 @@ class Registration extends StatefulWidget {
 }
 
 class _RegistrationState extends State<Registration> {
-  late final UserCredential userCredential;
+  late final UserCredential? userCredential;
   late final User? user;
   double scaleH(original) {
     return (original * MediaQuery.of(context).size.height / 812);
@@ -64,16 +64,33 @@ class _RegistrationState extends State<Registration> {
               width: double.infinity,
               child: ElevatedButton(
                   onPressed: () async {
+                    FocusScope.of(context).unfocus();
                     try {
                       userCredential = await facebookLogin();
-                      user = userCredential.user;
+                      user = userCredential!.user;
                       await addUser(
                           user?.displayName, user?.email, user?.photoURL);
-                      await getUserData(user?.email, user?.photoURL);
+                      await getUserData(userCredential!.user!.email,
+                          userCredential!.user!.photoURL);
 
                       Navigator.pushNamed(context, RouteGenerator.home);
                     } catch (e) {
-                      print(e.toString());
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("Error"),
+                              content: Text(e.toString()),
+                              actions: [
+                                TextButton(
+                                  child: Text("Ok"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                )
+                              ],
+                            );
+                          });
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -115,22 +132,33 @@ class _RegistrationState extends State<Registration> {
               width: double.infinity,
               child: ElevatedButton(
                   onPressed: () async {
+                    FocusScope.of(context).unfocus();
                     try {
                       userCredential = await googleLogIn();
-                      user = userCredential.user;
+                      user = userCredential!.user;
                       await addUser(
                           user?.displayName, user?.email, user?.photoURL);
-                      await getUserData(user?.email, user?.photoURL);
-                      if (context.mounted) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MainScreen(
-                                      index: 0,
-                                    )));
-                      }
+                      await getUserData(userCredential!.user!.email,
+                          userCredential!.user!.photoURL);
+
+                      Navigator.pushNamed(context, RouteGenerator.home);
                     } catch (e) {
-                      print(e.toString());
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("Error"),
+                              content: Text(e.toString()),
+                              actions: [
+                                TextButton(
+                                  child: Text("Ok"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                )
+                              ],
+                            );
+                          });
                     }
                   },
                   style: ElevatedButton.styleFrom(
