@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:petcare_search/routes/routes.dart';
+import 'package:petcare_search/screens/sign_up.dart';
+import 'package:petcare_search/services/auth_service.dart';
+import 'package:petcare_search/users/user_data.dart';
 import '../utils/widget_utils.dart';
 import 'package:email_validator/email_validator.dart';
 
@@ -13,12 +17,40 @@ class ForgotPassword extends StatefulWidget {
 class _ForgotPasswordState extends State<ForgotPassword> {
   final TextEditingController _emailController = TextEditingController();
   final FocusNode _emailFocus = FocusNode();
+  late UserCredential userCredential;
+  late User? user;
   bool isEmailCorrect = false;
 
   void _requestFocus(FocusNode focusNode) {
     setState(() {
       FocusScope.of(context).requestFocus(focusNode);
     });
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
+
+  Future pwreset() async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(
+          email: _emailController.text == ""
+              ? "fake@email.com"
+              : _emailController.text.trim());
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(content: Text('Please check your email.'));
+          });
+    } on FirebaseAuthException catch (e) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(content: Text(e.message.toString()));
+          });
+    }
   }
 
   @override
@@ -61,10 +93,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 ),
               ),
               Positioned(
-                  top: scaleH(171, context),
+                  top: scaleH(220, context),
                   left: scaleW(20, context),
                   child: Container(
-                      height: scaleH(290, context),
+                      height: scaleH(200, context),
                       width: scaleW(335, context),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -83,7 +115,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                 ),
                                 child: Padding(
                                   padding:
-                                      const EdgeInsets.fromLTRB(15, 7, 15, 12),
+                                      const EdgeInsets.fromLTRB(15, 20, 15, 20),
                                   child: TextFormField(
                                     controller: _emailController,
                                     onChanged: (val) {
@@ -125,8 +157,179 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                   ),
                                 ),
                               )),
+                          Flexible(
+                            child: Center(
+                              child: SizedBox(
+                                height: scaleH(46, context),
+                                width: scaleW(295, context),
+                                child: ElevatedButton(
+                                    onPressed: () async {
+                                      FocusScope.of(context).unfocus();
+                                      pwreset();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            const Color(0xFF4552CB),
+                                        textStyle: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: scaleH(20, context)),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(25))),
+                                    child: const Text(
+                                      'Accept',
+                                      style: TextStyle(color: Colors.white),
+                                    )),
+                              ),
+                            ),
+                          ),
                         ],
-                      )))
+                      ))),
+              Positioned(
+                top: scaleH(502, context),
+                left: scaleW(20, context),
+                right: scaleH(20, context),
+                child: Row(
+                  children: [
+                    Container(
+                        height: 1,
+                        width: scaleW(92, context),
+                        color: Colors.grey.shade200),
+                    SizedBox(
+                      width: scaleW(16, context),
+                    ),
+                    Text(
+                      'or continue with',
+                      style: TextStyle(
+                          fontSize: scaleH(17, context),
+                          letterSpacing: 0.16,
+                          fontWeight: FontWeight.w400),
+                    ),
+                    SizedBox(
+                      width: scaleW(16, context),
+                    ),
+                    Container(
+                        height: 1,
+                        width: scaleW(92, context),
+                        color: Colors.grey.shade200)
+                  ],
+                ),
+              ),
+              Positioned(
+                  top: scaleH(537, context),
+                  left: scaleW(104, context),
+                  child: IconButton(
+                      iconSize: scaleH(56, context),
+                      onPressed: () async {
+                        try {
+                          userCredential = await facebookLogin();
+                          user = userCredential.user;
+                          await addUser(
+                              user?.displayName, user?.email, user?.photoURL);
+                          await getUserData(userCredential.user!.email,
+                              userCredential.user!.photoURL);
+
+                          Navigator.pushNamed(context, RouteGenerator.home);
+                        } catch (e) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Error"),
+                                  content: Text(e.toString()),
+                                  actions: [
+                                    TextButton(
+                                      child: Text("Ok"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                                  ],
+                                );
+                              });
+                        }
+                      },
+                      icon: Container(
+                        height: scaleH(56, context),
+                        decoration: const BoxDecoration(
+                            color: Color(0xFF3D5C98), shape: BoxShape.circle),
+                        child: const Image(
+                          image: AssetImage('assets/icons/fb.png'),
+                        ),
+                      ))),
+              Positioned(
+                  top: scaleH(537, context),
+                  right: scaleW(104, context),
+                  child: IconButton(
+                      iconSize: scaleH(56, context),
+                      onPressed: () async {
+                        try {
+                          userCredential = await googleLogIn();
+                          user = userCredential.user;
+                          await addUser(
+                              user?.displayName, user?.email, user?.photoURL);
+                          await getUserData(userCredential!.user!.email,
+                              userCredential.user!.photoURL);
+
+                          Navigator.pushNamed(context, RouteGenerator.home);
+                        } catch (e) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Error"),
+                                  content: Text(e.toString()),
+                                  actions: [
+                                    TextButton(
+                                      child: Text("Ok"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                                  ],
+                                );
+                              });
+                        }
+                      },
+                      icon: Container(
+                        height: scaleH(56, context),
+                        decoration: const BoxDecoration(
+                            color: Color(0xFFEF403B), shape: BoxShape.circle),
+                        child: const Image(
+                          image: AssetImage('assets/icons/google.png'),
+                        ),
+                      ))),
+              Positioned(
+                  bottom: scaleH(90, context),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Do not have an account yet?',
+                            style: TextStyle(
+                                fontSize: scaleH(16, context),
+                                letterSpacing: 0.16),
+                          ),
+                          const SizedBox(
+                            width: 3,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => const SignUp()));
+                            },
+                            child: Text(
+                              'Sign Up',
+                              style: TextStyle(
+                                  color: const Color(0xFF4552CB),
+                                  fontSize: scaleH(16, context),
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          )
+                        ]),
+                  )),
             ],
           ),
         ),
