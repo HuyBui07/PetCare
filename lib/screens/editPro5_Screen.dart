@@ -9,6 +9,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:petcare_search/constants/colors.dart';
 import 'package:petcare_search/users/user_data.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
+import 'package:petcare_search/widgets/change_email_dialog.dart';
 import 'package:petcare_search/widgets/errordialog.dart';
 import 'package:petcare_search/widgets/genderWidget.dart';
 
@@ -32,9 +33,8 @@ class _EditProfileState extends State<EditProfileScreen> {
   late FocusNode focusNode;
   late FocusNode aboutFocusNode;
   bool _changeGender = false;
-  File? imageFile;
 
-  late var _data;
+  //late var _data;
   void initState() {
     focusNode = FocusNode();
     aboutFocusNode = FocusNode();
@@ -51,7 +51,6 @@ class _EditProfileState extends State<EditProfileScreen> {
   }
 
   Color _namecheckColor = AppColors.green;
-  Color _emailcheckColor = AppColors.green;
   bool _phoneFocus = false;
   bool _aboutFocus = false;
   @override
@@ -60,7 +59,7 @@ class _EditProfileState extends State<EditProfileScreen> {
         stream: getUsrData,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
           var data = snapshot.data!;
           return Scaffold(
@@ -84,14 +83,17 @@ class _EditProfileState extends State<EditProfileScreen> {
                           print('avt: $_avt');
                           await updateUserData(_fullName, _nickName, _email,
                               _avt, _gender, _phone, _about);
+                          // ignore: use_build_context_synchronously
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return ErrorDialog('Your informaton is saved!');
+                                return const ErrorDialog(
+                                    'Your informaton is saved!');
                               });
                           await getUserData(_email, _avt);
                           Navigator.pop(context);
                         } catch (e) {
+                          // ignore: use_build_context_synchronously
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -126,7 +128,8 @@ class _EditProfileState extends State<EditProfileScreen> {
                               width: scaleW(112, context),
                               child: Stack(children: [
                                 _isUploading
-                                    ? Center(child: CircularProgressIndicator())
+                                    ? const Center(
+                                        child: CircularProgressIndicator())
                                     : CircleAvatar(
                                         radius: scaleH(56, context),
                                         foregroundImage: _avt == null
@@ -138,9 +141,22 @@ class _EditProfileState extends State<EditProfileScreen> {
                                 Positioned(
                                   right: 1,
                                   child: InkWell(
-                                    onTap: () async {
-                                      await _getFromGallery();
-                                    },
+                                    // onTap: () async {
+                                    //   await _getFromGallery();
+                                    // },
+                                    onTap: () => showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) {
+                                        return Wrap(
+                                          children: [
+                                            buildModal(Icons.camera,
+                                                'Take a photo', 'camera'),
+                                            buildModal(Icons.photo,
+                                                'Choose a photo', 'gallery')
+                                          ],
+                                        );
+                                      },
+                                    ),
                                     child: Container(
                                       height: scaleH(29, context),
                                       width: scaleW(29, context),
@@ -288,25 +304,32 @@ class _EditProfileState extends State<EditProfileScreen> {
                             ],
                           ),
                           TextFormField(
-                            initialValue: data['email'],
-                            onChanged: (value) {
-                              setState(() {
-                                _email = value;
-                              });
-                              value.isNotEmpty && value.contains('@')
-                                  ? setState(() {
-                                      _emailcheckColor = AppColors.green;
-                                    })
-                                  : setState(() {
-                                      _emailcheckColor = AppColors.gray;
-                                    });
+                            readOnly: true,
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return ChangeEmailDialog();
+                                  });
                             },
+                            initialValue: data['email'],
+                            // onChanged: (value) {
+                            //   setState(() {
+                            //     _email = value;
+                            //   });
+                            //   value.isNotEmpty && value.contains('@')
+                            //       ? setState(() {
+                            //           _emailcheckColor = AppColors.green;
+                            //         })
+                            //       : setState(() {
+                            //           _emailcheckColor = AppColors.gray;
+                            //         });
+                            // },
                             decoration: InputDecoration(
-                              suffixIcon: Icon(
-                                Icons.check_circle_rounded,
-                                color: _emailcheckColor,
-                              ),
-                              hintText: 'Enter your email',
+                              // suffixIcon: Icon(
+                              //   Icons.check_circle_rounded,
+                              //   color: _emailcheckColor,
+                              // ),
                               labelText: 'Email',
                               labelStyle: Theme.of(context)
                                   .textTheme
@@ -410,41 +433,53 @@ class _EditProfileState extends State<EditProfileScreen> {
         });
   }
 
-  _getFromGallery() async {
+  Widget buildModal(IconData ic, String text, String type) {
+    return Container(
+      color: Colors.white,
+      child: ListTile(
+        leading: Icon(
+          ic,
+          color: AppColors.violet,
+        ),
+        title: Text(text),
+        onTap: () async {
+          Navigator.of(context).pop();
+
+          await _pickImage(type);
+        },
+      ),
+    );
+  }
+
+  _pickImage(String src) async {
     try {
       setState(() {
         _isUploading = true;
       });
       final ImagePicker picker = ImagePicker();
-// Pick an image.
       final XFile? pickedFile = await picker.pickImage(
-        source: ImageSource.gallery,
+        source: src == 'gallery' ? ImageSource.gallery : ImageSource.camera,
         maxWidth: 1800,
         maxHeight: 1800,
       );
       if (pickedFile != null) {
-        setState(() {
-          imageFile = File(pickedFile.path);
-        });
-
         final storageRef = FirebaseStorage.instance
             .ref()
             .child('UserAvatar')
             .child(pickedFile.name);
 
         final UploadTask uploadTask = storageRef.putFile(File(pickedFile.path));
-        TaskSnapshot storageSnapshot =
-            await uploadTask.whenComplete(() => setState(() {
-                  _isUploading = false;
-                }));
+
+        await uploadTask.whenComplete(() => setState(() {
+              _isUploading = false;
+            }));
         final temp = await storageRef.getDownloadURL();
-        print(temp);
         setState(() {
           _avt = temp;
         });
-        print('avatar2: $_avt');
       }
     } catch (e) {
+      // ignore: use_build_context_synchronously
       showDialog(
           context: context,
           builder: (BuildContext context) {
