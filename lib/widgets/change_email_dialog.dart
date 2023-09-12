@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:petcare_search/constants/colors.dart';
 import 'package:petcare_search/users/user_data.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
-import 'package:petcare_search/widgets/errordialog.dart';
+import 'package:petcare_search/widgets/dialog_custom.dart';
+import 'package:petcare_search/widgets/textformfield_widget.dart';
 
 class ChangeEmailDialog extends StatefulWidget {
   const ChangeEmailDialog({super.key});
@@ -49,34 +50,45 @@ class _ChangeEmailDialogState extends State<ChangeEmailDialog> {
                 'Change email',
                 style: Theme.of(context).textTheme.headline2,
               ),
-              TextFormField(
-                onChanged: (value) {
-                  setState(() {
-                    _newEmail = value;
-                  });
-                  value.isNotEmpty && value.contains('@')
-                      ? setState(() {
-                          _emailcheckColor = AppColors.green;
-                        })
-                      : setState(() {
-                          _emailcheckColor = AppColors.gray;
-                        });
-                },
-                decoration: InputDecoration(
-                  suffixIcon: Icon(
-                    size: scaleW(18, context),
-                    Icons.check_circle_rounded,
-                    color: _emailcheckColor,
-                  ),
-                  labelText: 'New email',
-                  labelStyle: Theme.of(context).textTheme.headline6!.copyWith(
-                        color: AppColors.gray,
-                      ),
-                  floatingLabelStyle:
-                      Theme.of(context).textTheme.headline6!.copyWith(
-                            color: AppColors.violet,
-                          ),
-                ),
+              // TextFormField(
+              //   onChanged: (value) {
+              //     setState(() {
+              //       _newEmail = value;
+              //     });
+              //     value.isNotEmpty && value.contains('@')
+              //         ? setState(() {
+              //             _emailcheckColor = AppColors.green;
+              //           })
+              //         : setState(() {
+              //             _emailcheckColor = AppColors.gray;
+              //           });
+              //   },
+              //   decoration: InputDecoration(
+              //     suffixIcon: Icon(
+              //       size: scaleW(18, context),
+              //       Icons.check_circle_rounded,
+              //       color: _emailcheckColor,
+              //     ),
+              //     labelText: 'New email',
+              //     labelStyle: Theme.of(context).textTheme.headline6!.copyWith(
+              //           color: AppColors.gray,
+              //         ),
+              //     floatingLabelStyle:
+              //         Theme.of(context).textTheme.headline6!.copyWith(
+              //               color: AppColors.violet,
+              //             ),
+              //   ),
+              // ),
+              TextFormFieldCustom(
+                'New email',
+                '',
+                false,
+                false,
+                false,
+                onChanged: (String value) => setState(() {
+                  _newEmail = value;
+                }),
+                onTap: () {},
               ),
               TextFormField(
                 onChanged: (value) {

@@ -3,9 +3,11 @@ import 'package:petcare_search/constants/colors.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
 
 class ButtonLight extends StatelessWidget {
+  final VoidCallback onPressed;
   final String label;
   final IconData icon;
-  const ButtonLight(this.label, this.icon, {super.key});
+  const ButtonLight(this.label, this.icon,
+      {super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class ButtonLight extends StatelessWidget {
               borderRadius: BorderRadius.circular(scaleW(10, context)),
             ),
           ),
-          onPressed: () {},
+          onPressed: onPressed,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

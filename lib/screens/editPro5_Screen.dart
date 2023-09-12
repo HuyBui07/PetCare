@@ -7,11 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:petcare_search/constants/colors.dart';
+import 'package:petcare_search/screens/pickImageModal.dart';
+import 'package:petcare_search/users/gender.dart';
 import 'package:petcare_search/users/user_data.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
 import 'package:petcare_search/widgets/change_email_dialog.dart';
-import 'package:petcare_search/widgets/errordialog.dart';
-import 'package:petcare_search/widgets/genderWidget.dart';
+import 'package:petcare_search/widgets/dialog_custom.dart';
+import 'package:petcare_search/widgets/gender_widget.dart';
+import 'package:petcare_search/widgets/textformfield_widget.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -21,21 +24,23 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfileScreen> {
+  bool _isClosed = false;
   bool _isUploading = false;
   late Stream getUsrData;
   String? _email = GlobalData.email,
       _fullName = GlobalData.displayName,
       _nickName = GlobalData.nickName,
       _avt = GlobalData.avatar,
-      _gender = GlobalData.gender,
       _phone = GlobalData.phone,
       _about = GlobalData.about;
+  Gender? _gender = GlobalData.gender;
   late FocusNode focusNode;
   late FocusNode aboutFocusNode;
   bool _changeGender = false;
 
-  //late var _data;
+  @override
   void initState() {
+    super.initState();
     focusNode = FocusNode();
     aboutFocusNode = FocusNode();
     getUsrData = FirebaseFirestore.instance
@@ -50,7 +55,6 @@ class _EditProfileState extends State<EditProfileScreen> {
     aboutFocusNode.addListener(() => _aboutFocus = !_aboutFocus);
   }
 
-  Color _namecheckColor = AppColors.green;
   bool _phoneFocus = false;
   bool _aboutFocus = false;
   @override
@@ -72,35 +76,78 @@ class _EditProfileState extends State<EditProfileScreen> {
                   ),
                   centerTitle: true,
                   leading: IconButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () {
+                      showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text(
+                                    "Unsaved Changes",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineMedium,
+                                  ),
+                                  content: const Text(
+                                      "Are you sure to leave?\nChanges you made will be not save."),
+                                  actions: [
+                                    TextButton(
+                                      child: const Text("Cancel"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    TextButton(
+                                      child: const Text("Leave"),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        setState(() {
+                                          _isClosed = true;
+                                        });
+                                        //Navigator.of(context).pop();
+                                      },
+                                    )
+                                  ],
+                                );
+                              })
+                          .then((value) =>
+                              _isClosed ? Navigator.pop(context) : null);
+                    },
                     icon: Icon(Icons.arrow_back),
                     color: AppColors.violet,
                   ),
                   actions: [
                     TextButton(
                       onPressed: () async {
-                        try {
-                          print('avt: $_avt');
-                          await updateUserData(_fullName, _nickName, _email,
-                              _avt, _gender, _phone, _about);
-                          // ignore: use_build_context_synchronously
+                        if (_checkValue(_fullName!, _gender!)) {
+                          try {
+                            print('avt: $_avt');
+                            await updateUserData(_fullName, _nickName, _email,
+                                _avt, _gender, _phone, _about);
+                            // ignore: use_build_context_synchronously
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return const DialogCustom(
+                                      'Your informaton is saved!', '');
+                                });
+                            await getUserData(_email, _avt);
+                            Navigator.pop(context);
+                          } catch (e) {
+                            // ignore: use_build_context_synchronously
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return DialogCustom(e.toString(), 'Error');
+                                });
+                          }
+                        } else {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return const ErrorDialog(
-                                    'Your informaton is saved!');
-                              });
-                          await getUserData(_email, _avt);
-                          Navigator.pop(context);
-                        } catch (e) {
-                          // ignore: use_build_context_synchronously
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return ErrorDialog(e.toString());
+                                return const DialogCustom(
+                                    "Your information is empty", '');
                               });
                         }
-                        ;
                       },
                       child: Text('Save',
                           style:
@@ -194,69 +241,27 @@ class _EditProfileState extends State<EditProfileScreen> {
                               ]),
                             ),
                           ),
-                          TextFormField(
-                            initialValue: data['name'],
-                            onChanged: (value) {
-                              setState(() {
-                                _fullName = value;
-                              });
-                              value.isEmpty
-                                  ? setState(() {
-                                      _namecheckColor = AppColors.gray;
-                                    })
-                                  : setState(() {
-                                      _namecheckColor = AppColors.green;
-                                    });
-                            },
-                            validator: (String? value) {
-                              return (value != null)
-                                  ? 'Please enter your full name!'
-                                  : null;
-                            },
-                            decoration: InputDecoration(
-                              suffixIcon: Icon(
-                                Icons.check_circle_rounded,
-                                color: _namecheckColor,
-                              ),
-                              hintText: 'Enter your fullname',
-                              labelText: 'Full Name',
-                              labelStyle: Theme.of(context)
-                                  .textTheme
-                                  .headline6!
-                                  .copyWith(
-                                    color: AppColors.gray,
-                                  ),
-                              floatingLabelStyle: Theme.of(context)
-                                  .textTheme
-                                  .headline6!
-                                  .copyWith(
-                                    color: AppColors.violet,
-                                  ),
-                            ),
+                          TextFormFieldCustom(
+                            'Full Name',
+                            data['name'],
+                            true,
+                            false,
+                            true,
+                            onChanged: (String value) => setState(() {
+                              _fullName = value;
+                            }),
+                            onTap: () {},
                           ),
-                          TextFormField(
-                            initialValue: _nickName,
-                            onChanged: (value) {
-                              setState(() {
-                                _nickName = value;
-                              });
-                            },
-                            decoration: InputDecoration(
-                              hintText: 'Enter your nickname',
-                              labelText: 'Nick name',
-                              labelStyle: Theme.of(context)
-                                  .textTheme
-                                  .headline6!
-                                  .copyWith(
-                                    color: AppColors.gray,
-                                  ),
-                              floatingLabelStyle: Theme.of(context)
-                                  .textTheme
-                                  .headline6!
-                                  .copyWith(
-                                    color: AppColors.violet,
-                                  ),
-                            ),
+                          TextFormFieldCustom(
+                            'Nick Name',
+                            _nickName!,
+                            false,
+                            false,
+                            false,
+                            onChanged: (String value) => setState(() {
+                              _nickName = value;
+                            }),
+                            onTap: () {},
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -276,35 +281,40 @@ class _EditProfileState extends State<EditProfileScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   genderWidget(
-                                      gender: 'Male',
-                                      onPressed: () {
-                                        setState(() {
-                                          _gender = 'Male';
-                                          _changeGender = true;
-                                        });
-                                      },
-                                      selected: !_changeGender &&
-                                              data.data().containsKey('gender')
-                                          ? data['gender']
-                                          : _gender),
+                                    label: 'Male',
+                                    icon: Icons.male,
+                                    isSelected:
+                                        _gender == Gender.male ? true : false,
+                                    onPressed: () {
+                                      setState(() {
+                                        _gender = Gender.male;
+                                        //_changeGender = true;
+                                      });
+                                    },
+                                  ),
                                   genderWidget(
-                                      gender: 'Female',
-                                      onPressed: () {
-                                        setState(() {
-                                          _gender = 'Female';
-                                          _changeGender = true;
-                                        });
-                                      },
-                                      selected: !_changeGender &&
-                                              data.data().containsKey('gender')
-                                          ? data['gender']
-                                          : _gender),
+                                    label: 'Female',
+                                    icon: Icons.female,
+                                    isSelected:
+                                        _gender == Gender.female ? true : false,
+                                    onPressed: () {
+                                      setState(() {
+                                        _gender = Gender.female;
+                                        //_changeGender = true;
+                                      });
+                                    },
+                                  ),
                                 ],
                               ),
                             ],
                           ),
-                          TextFormField(
-                            readOnly: true,
+                          TextFormFieldCustom(
+                            'Email',
+                            data['email'],
+                            false,
+                            true,
+                            false,
+                            onChanged: () {},
                             onTap: () {
                               showDialog(
                                   context: context,
@@ -312,38 +322,6 @@ class _EditProfileState extends State<EditProfileScreen> {
                                     return ChangeEmailDialog();
                                   });
                             },
-                            initialValue: data['email'],
-                            // onChanged: (value) {
-                            //   setState(() {
-                            //     _email = value;
-                            //   });
-                            //   value.isNotEmpty && value.contains('@')
-                            //       ? setState(() {
-                            //           _emailcheckColor = AppColors.green;
-                            //         })
-                            //       : setState(() {
-                            //           _emailcheckColor = AppColors.gray;
-                            //         });
-                            // },
-                            decoration: InputDecoration(
-                              // suffixIcon: Icon(
-                              //   Icons.check_circle_rounded,
-                              //   color: _emailcheckColor,
-                              // ),
-                              labelText: 'Email',
-                              labelStyle: Theme.of(context)
-                                  .textTheme
-                                  .headline6!
-                                  .copyWith(
-                                    color: AppColors.gray,
-                                  ),
-                              floatingLabelStyle: Theme.of(context)
-                                  .textTheme
-                                  .headline6!
-                                  .copyWith(
-                                    color: AppColors.violet,
-                                  ),
-                            ),
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -358,6 +336,7 @@ class _EditProfileState extends State<EditProfileScreen> {
                                             : AppColors.gray,
                                       )),
                               IntlPhoneField(
+                                disableLengthCheck: true,
                                 initialValue: _phone,
                                 focusNode: focusNode,
                                 decoration: InputDecoration(
@@ -385,7 +364,7 @@ class _EditProfileState extends State<EditProfileScreen> {
                                   setState(() {
                                     _phone = phone.number;
                                   });
-                                  print(phone.completeNumber);
+                                  print(phone.number);
                                 },
                               ),
                             ],
@@ -483,8 +462,15 @@ class _EditProfileState extends State<EditProfileScreen> {
       showDialog(
           context: context,
           builder: (BuildContext context) {
-            return ErrorDialog(e.toString());
+            return DialogCustom(e.toString(), 'Error');
           });
     }
+  }
+
+  bool _checkValue(String name, Gender gd) {
+    if (name == '' || gd == Gender.other) {
+      return false;
+    }
+    return true;
   }
 }

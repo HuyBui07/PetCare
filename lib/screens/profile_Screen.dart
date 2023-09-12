@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:petcare_search/constants/colors.dart';
 import 'package:petcare_search/routes/routes.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
-import 'package:petcare_search/widgets/errordialog.dart';
+import 'package:petcare_search/widgets/dialog_custom.dart';
 import '../users/user_data.dart';
 //import 'package:petcare_search/constants/styles.dart';
 
@@ -64,15 +64,16 @@ class ProfileScreen extends StatelessWidget {
                 await getUserData(GlobalData.email, GlobalData.avatar);
                 Navigator.pushNamed(context, RouteGenerator.editpro5);
               } catch (e) {
+                // ignore: use_build_context_synchronously
                 showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return ErrorDialog(e.toString());
+                      return DialogCustom(e.toString(), 'Error');
                     });
               }
             },
             child: Row(children: [
-              Icon(
+              const Icon(
                 Icons.edit_outlined,
                 color: AppColors.violet,
               ),
