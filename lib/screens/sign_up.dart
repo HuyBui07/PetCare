@@ -403,7 +403,7 @@ class _SignUpState extends State<SignUp> {
               Positioned(
                 top: scaleH(606),
                 left: scaleW(20),
-                right: scaleH(20),
+                //right: scaleH(20),
                 child: Row(
                   children: [
                     Container(

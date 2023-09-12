@@ -288,7 +288,7 @@ class _SearchMainState extends State<SearchMain> {
                   children: <TextSpan>[
                     const TextSpan(text: 'What are you looking for, '),
                     TextSpan(
-                      text: '${GlobalData.displayName} ?',
+                      text: '${GlobalData.displayName}?',
                       style: Theme.of(context)
                           .textTheme
                           .displayLarge!

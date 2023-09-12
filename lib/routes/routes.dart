@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:petcare_search/pets/addpet_args.dart';
+import 'package:petcare_search/pets/pet.dart';
 import 'package:petcare_search/screens/add_detail_pet.dart';
 import 'package:petcare_search/screens/appointmentScreen.dart';
 import 'package:petcare_search/screens/editPro5_Screen.dart';
@@ -76,9 +78,12 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => PetProfileScreen(),
         );
-      case addpet:
+      case petdetail:
+        AddPetArgs addPetArgs = args as AddPetArgs;
         return MaterialPageRoute(
-          builder: (_) => AddDetailPet(),
+          builder: (_) => AddDetailPet(
+            args: addPetArgs,
+          ),
         );
 
       case thanks:
@@ -108,7 +113,7 @@ class RouteGenerator {
   static const pro5 = '/pro5';
   static const editpro5 = '/editpro5';
   static const petpro5 = '/petpro5';
-  static const addpet = '/addpet';
+  static const petdetail = '/addpet';
 
   static const thanks = '/thanks';
 
