@@ -2,12 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:petcare_search/appStyle.dart';
 import 'package:petcare_search/routes/routes.dart';
-import 'package:petcare_search/screens/home_screen.dart';
 import 'package:petcare_search/screens/sign_in.dart';
 import 'package:petcare_search/screens/sign_up.dart';
 import 'package:petcare_search/users/user_data.dart';
-import '../services/auth_service.dart';
-import 'mainSearch.dart';
+import '../services/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 class Registration extends StatefulWidget {
   const Registration({super.key});
@@ -66,31 +65,37 @@ class _RegistrationState extends State<Registration> {
                   onPressed: () async {
                     FocusScope.of(context).unfocus();
                     try {
-                      userCredential = await facebookLogin();
+                      final authProvider =
+                          Provider.of<LogProvider>(context, listen: false);
+                      userCredential =
+                          await authProvider.loggingInWithFaceBook();
                       user = userCredential!.user;
                       await addUser(
                           user?.displayName, user?.email, user?.photoURL);
                       await getUserData(userCredential!.user!.email,
                           userCredential!.user!.photoURL);
-
-                      Navigator.pushNamed(context, RouteGenerator.home);
+                      if (context.mounted) {
+                        Navigator.pushNamed(context, RouteGenerator.home);
+                      }
                     } catch (e) {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text("Error"),
-                              content: Text(e.toString()),
-                              actions: [
-                                TextButton(
-                                  child: Text("Ok"),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                )
-                              ],
-                            );
-                          });
+                      if (context.mounted) {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text("Error"),
+                                content: Text(e.toString()),
+                                actions: [
+                                  TextButton(
+                                    child: const Text("Ok"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  )
+                                ],
+                              );
+                            });
+                      }
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -134,31 +139,36 @@ class _RegistrationState extends State<Registration> {
                   onPressed: () async {
                     FocusScope.of(context).unfocus();
                     try {
-                      userCredential = await googleLogIn();
+                      final authProvider =
+                          Provider.of<LogProvider>(context, listen: false);
+                      userCredential = await authProvider.loggingInWithGoogle();
                       user = userCredential!.user;
                       await addUser(
                           user?.displayName, user?.email, user?.photoURL);
                       await getUserData(userCredential!.user!.email,
                           userCredential!.user!.photoURL);
-
-                      Navigator.pushNamed(context, RouteGenerator.home);
+                      if (context.mounted) {
+                        Navigator.pushNamed(context, RouteGenerator.home);
+                      }
                     } catch (e) {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text("Error"),
-                              content: Text(e.toString()),
-                              actions: [
-                                TextButton(
-                                  child: Text("Ok"),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                )
-                              ],
-                            );
-                          });
+                      if (context.mounted) {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text("Error"),
+                                content: Text(e.toString()),
+                                actions: [
+                                  TextButton(
+                                    child: const Text("Ok"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  )
+                                ],
+                              );
+                            });
+                      }
                     }
                   },
                   style: ElevatedButton.styleFrom(

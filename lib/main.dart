@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:petcare_search/appStyle.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:petcare_search/routes/routes.dart';
+import 'package:petcare_search/services/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,7 +13,10 @@ void main() async {
     statusBarColor: Colors.transparent,
   ));
 
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => LogProvider(),
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

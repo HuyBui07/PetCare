@@ -40,7 +40,7 @@ List<ListItem> items = [
   ListItem(
       label: 'Settings',
       icon: const Icon(Icons.settings_outlined, color: AppColors.violet),
-      route: 'RouteGenerator.editpro5'),
+      route: RouteGenerator.settingsscreen),
 ];
 
 class ProfileScreen extends StatelessWidget {
