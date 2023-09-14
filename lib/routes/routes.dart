@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:petcare_search/screens/add_detail_pet.dart';
@@ -14,6 +15,7 @@ import 'package:petcare_search/screens/reset_password.dart';
 import 'package:petcare_search/screens/search_tks.dart';
 
 import 'package:petcare_search/screens/registration.dart';
+import 'package:petcare_search/screens/settings.dart';
 
 import 'package:petcare_search/screens/sign_in.dart';
 import 'package:petcare_search/screens/welcome.dart';
@@ -92,6 +94,8 @@ class RouteGenerator {
       case forgotpassword:
         return MaterialPageRoute<ForgotPassword>(
             builder: (_) => ForgotPassword());
+      case settingsscreen:
+        return MaterialPageRoute<Settings>(builder: (_) => SettingsScreen());
       default:
         throw const RouteException("Route not found");
     }
@@ -109,7 +113,7 @@ class RouteGenerator {
   static const editpro5 = '/editpro5';
   static const petpro5 = '/petpro5';
   static const addpet = '/addpet';
-
+  static const settingsscreen = '/settings';
   static const thanks = '/thanks';
 
   static const registration = '/registration';

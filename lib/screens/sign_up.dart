@@ -2,13 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:petcare_search/appStyle.dart';
-import 'package:petcare_search/screens/mainSearch.dart';
 import 'package:petcare_search/screens/rules.dart';
 import 'package:petcare_search/screens/sign_in.dart';
 import 'package:petcare_search/users/user_data.dart';
 import 'registration.dart';
-import '../services/auth_service.dart';
 import '../routes/routes.dart';
+import 'package:provider/provider.dart';
+import '../services/auth_provider.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -347,9 +347,11 @@ class _SignUpState extends State<SignUp> {
                                   child: ElevatedButton(
                                       onPressed: () async {
                                         try {
-                                          userCredential = await FirebaseAuth
-                                              .instance
-                                              .createUserWithEmailAndPassword(
+                                          final authProvider =
+                                              Provider.of<LogProvider>(context,
+                                                  listen: false);
+                                          userCredential =
+                                              await authProvider.signUp(
                                                   email: _emailController.text,
                                                   password:
                                                       _passwordController.text);
@@ -358,27 +360,31 @@ class _SignUpState extends State<SignUp> {
                                               user?.email, user?.photoURL);
                                           await getUserData(
                                               user?.email, user?.photoURL);
-
-                                          Navigator.pushNamed(
-                                              context, RouteGenerator.home);
+                                          if (context.mounted) {
+                                            Navigator.pushNamed(
+                                                context, RouteGenerator.home);
+                                          }
                                         } catch (e) {
-                                          showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return AlertDialog(
-                                                  title: Text("Error"),
-                                                  content: Text(e.toString()),
-                                                  actions: [
-                                                    TextButton(
-                                                      child: Text("Ok"),
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                    )
-                                                  ],
-                                                );
-                                              });
+                                          if (context.mounted) {
+                                            showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return AlertDialog(
+                                                    title: const Text("Error"),
+                                                    content: Text(e.toString()),
+                                                    actions: [
+                                                      TextButton(
+                                                        child: const Text("Ok"),
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                      )
+                                                    ],
+                                                  );
+                                                });
+                                          }
                                         }
                                       },
                                       style: ElevatedButton.styleFrom(
@@ -436,32 +442,40 @@ class _SignUpState extends State<SignUp> {
                   child: IconButton(
                       iconSize: scaleH(56),
                       onPressed: () async {
+                        FocusScope.of(context).unfocus();
+
                         try {
-                          userCredential = await facebookLogin();
+                          final authProvider =
+                              Provider.of<LogProvider>(context, listen: false);
+                          userCredential =
+                              await authProvider.loggingInWithFaceBook();
                           user = userCredential.user;
                           await addUser(
                               user?.displayName, user?.email, user?.photoURL);
                           await getUserData(userCredential.user!.email,
                               userCredential.user!.photoURL);
-
-                          Navigator.pushNamed(context, RouteGenerator.home);
+                          if (context.mounted) {
+                            Navigator.pushNamed(context, RouteGenerator.home);
+                          }
                         } catch (e) {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text("Error"),
-                                  content: Text(e.toString()),
-                                  actions: [
-                                    TextButton(
-                                      child: Text("Ok"),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    )
-                                  ],
-                                );
-                              });
+                          if (context.mounted) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text("Error"),
+                                    content: Text(e.toString()),
+                                    actions: [
+                                      TextButton(
+                                        child: const Text("Ok"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      )
+                                    ],
+                                  );
+                                });
+                          }
                         }
                       },
                       icon: Container(
@@ -478,32 +492,39 @@ class _SignUpState extends State<SignUp> {
                   child: IconButton(
                       iconSize: scaleH(56),
                       onPressed: () async {
+                        FocusScope.of(context).unfocus();
                         try {
-                          userCredential = await googleLogIn();
+                          final authProvider =
+                              Provider.of<LogProvider>(context, listen: false);
+                          userCredential =
+                              await authProvider.loggingInWithGoogle();
                           user = userCredential.user;
                           await addUser(
                               user?.displayName, user?.email, user?.photoURL);
-                          await getUserData(userCredential!.user!.email,
+                          await getUserData(userCredential.user!.email,
                               userCredential.user!.photoURL);
-
-                          Navigator.pushNamed(context, RouteGenerator.home);
+                          if (context.mounted) {
+                            Navigator.pushNamed(context, RouteGenerator.home);
+                          }
                         } catch (e) {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text("Error"),
-                                  content: Text(e.toString()),
-                                  actions: [
-                                    TextButton(
-                                      child: Text("Ok"),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    )
-                                  ],
-                                );
-                              });
+                          if (context.mounted) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text("Error"),
+                                    content: Text(e.toString()),
+                                    actions: [
+                                      TextButton(
+                                        child: const Text("Ok"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      )
+                                    ],
+                                  );
+                                });
+                          }
                         }
                       },
                       icon: Container(
