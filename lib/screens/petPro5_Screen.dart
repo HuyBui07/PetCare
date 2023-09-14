@@ -1,23 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:petcare_search/constants/colors.dart';
+import 'package:petcare_search/pets/addpet_args.dart';
+import 'package:petcare_search/pets/pet.dart';
+import 'package:petcare_search/pets/pet_data.dart';
+import 'package:petcare_search/pets/size.dart';
 import 'package:petcare_search/routes/routes.dart';
+import 'package:petcare_search/users/gender.dart';
+import 'package:petcare_search/users/user_data.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
 import 'package:petcare_search/widgets/buttonLightStyle.dart';
 import 'package:petcare_search/widgets/petPro5Card.dart';
 
-class Pet {
-  String name;
-  String breed;
-  String imagePath;
-  Pet(this.name, this.breed, this.imagePath);
-}
-
-List<Pet> petList = [
-  Pet('Troy', 'Toy terrier', 'assets/imgs/petPro5Imgs/Troy_pet.jpg'),
-  Pet('Troy1', 'Husky', 'assets/imgs/petPro5Imgs/husky_dog.jpg'),
-  Pet('Troy2', 'Golden', 'assets/imgs/petPro5Imgs/golden_dog.jpg'),
-  Pet('Troy3', 'Alaska', 'assets/imgs/petPro5Imgs/alaska_dog.jpg'),
-];
+AddPetArgs args = AddPetArgs(null, 'add');
 
 class PetProfileScreen extends StatelessWidget {
   const PetProfileScreen({super.key});
@@ -43,29 +40,68 @@ class PetProfileScreen extends StatelessWidget {
             SizedBox(
                 width: scaleW(60, context),
                 child: IconButton(
-                  onPressed: () =>
-                      Navigator.pushNamed(context, RouteGenerator.addpet),
+                  onPressed: () => {
+                    Navigator.pushNamed(context, RouteGenerator.petdetail,
+                        arguments: args),
+                  },
                   icon: const Icon(Icons.add),
                   color: AppColors.violet,
                 )),
           ]),
-
-      body: Container(
-        color: AppColors.lightgray,
-        child: ListView.builder(
-            padding: const EdgeInsets.only(bottom: 20),
-            itemCount: petList.length + 1,
-            itemBuilder: (BuildContext context, int index) {
-              return index == petList.length
-                  ? const ButtonLight('Add another pet', Icons.add)
-                  : PetProfileCard(pet: petList[index]);
-            }),
-      ),
-      // bottomNavigationBar: BottomAppBar(
-      //   height: scaleH(83, context),
-      //   color: Colors.amber,
-      //   // child: Icon(Icons.home),
-      // ),
+      body: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('Pets')
+              .doc(GlobalData.email)
+              .collection('Pets')
+              .snapshots(),
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            }
+            final petSnapshot = snapshot.data?.docs;
+            if (petSnapshot!.isEmpty) {
+              return ButtonLight(
+                'Add another pet',
+                Icons.add,
+                onPressed: () => Navigator.pushNamed(
+                    context, RouteGenerator.petdetail,
+                    arguments: args),
+              );
+            }
+            return Container(
+              color: AppColors.lightgray,
+              // child: ListView.builder(
+              //     padding: const EdgeInsets.only(bottom: 20),
+              //     itemCount: petList.length + 1,
+              //     itemBuilder: (BuildContext context, int index) {
+              //       return index == petList.length
+              //           ? ButtonLight(
+              //               'Add another pet',
+              //               Icons.add,
+              //               onPressed: () => Navigator.pushNamed(
+              //                   context, RouteGenerator.addpet,
+              //                   arguments: args),
+              //             )
+              //           : PetProfileCard(pet: petList[index]);
+              //     }),
+              child: ListView.builder(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  itemCount: petSnapshot.length + 1,
+                  itemBuilder: (context, index) {
+                    return index == petSnapshot.length
+                        ? ButtonLight(
+                            'Add another pet',
+                            Icons.add,
+                            onPressed: () => Navigator.pushNamed(
+                                context, RouteGenerator.petdetail,
+                                arguments: args),
+                          )
+                        : PetProfileCard(
+                            petSnapshot: petSnapshot[index],
+                          );
+                  }),
+            );
+          }),
     );
   }
 }
