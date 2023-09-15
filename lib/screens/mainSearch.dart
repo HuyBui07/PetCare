@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_search/routes/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:petcare_search/widgets/search_speciality.dart';
 
 import '../appStyle.dart';
 import '../users/user_data.dart';
@@ -23,7 +24,7 @@ class _SearchMainState extends State<SearchMain> {
     MainSearchGridItem(
       label: 'Veterinary',
       iconPath: 'assets/imgs/mainSearchIcon/vet.png',
-      route: '/',
+      route: '/veterinary',
     ),
     MainSearchGridItem(
       label: 'Grooming',
@@ -83,7 +84,25 @@ class _SearchMainState extends State<SearchMain> {
 
       onTap: () {
         if (route != '/') {
-          Navigator.pushNamed(context, route);
+          if (route == '/veterinary') {
+            showModalBottomSheet(
+              useRootNavigator: true,
+              isScrollControlled: true,
+              useSafeArea: true,
+              context: context,
+              backgroundColor: Colors.white,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(30),
+                ),
+              ),
+              builder: (ctx) => SearchSpeciality(
+                subContext: context,
+              ),
+            );
+          } else {
+            Navigator.pushNamed(context, route);
+          }
         } else {
           //Alert dialog
           showDialog(
@@ -288,7 +307,7 @@ class _SearchMainState extends State<SearchMain> {
                   children: <TextSpan>[
                     const TextSpan(text: 'What are you looking for, '),
                     TextSpan(
-                      text: '${GlobalData.displayName}?',
+                      text: '${GlobalData.displayName} ?',
                       style: Theme.of(context)
                           .textTheme
                           .displayLarge!

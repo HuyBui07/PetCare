@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:petcare_search/constants/colors.dart';
 import 'package:petcare_search/utils/dentist_list.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
 import 'package:petcare_search/widgets/customTabBart.dart';
 
+final formatter = DateFormat('d MMM', 'en_US');
+
 class SearchResults extends StatefulWidget {
+  const SearchResults(
+      {super.key, required this.date, required this.speciality});
+
+  final DateTime date;
+  final String speciality;
+
   @override
   State<SearchResults> createState() => _SearchResultsState();
 }
@@ -14,6 +23,18 @@ class SearchResults extends StatefulWidget {
 class _SearchResultsState extends State<SearchResults>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
+
+  static List<String> mainDentistList = [
+    'Vasilenko Okasana',
+    'Lauren Sell',
+    'Aleseenko Valsy',
+    'Lalisa Manoban',
+    'Kim Jenie',
+    'Kim Jisoo',
+    'Park Chaeyoung'
+  ];
+
+  List<String> displayList = List.from(mainDentistList);
 
   @override
   void initState() {
@@ -25,6 +46,18 @@ class _SearchResultsState extends State<SearchResults>
   void dispose() {
     tabController.dispose();
     super.dispose();
+  }
+
+  void updateList(String value) {
+    setState(() {
+      displayList = mainDentistList
+          .where(
+            (element) => element.toLowerCase().contains(
+                  value.toLowerCase(),
+                ),
+          )
+          .toList();
+    });
   }
 
   @override
@@ -66,7 +99,9 @@ class _SearchResultsState extends State<SearchResults>
                               padding:
                                   EdgeInsets.only(left: scaleH(20, context)),
                               child: IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
                                 icon: Icon(
                                   Icons.arrow_back,
                                   color: AppColors.violet,
@@ -111,6 +146,7 @@ class _SearchResultsState extends State<SearchResults>
                               top: scaleH(10, context),
                               right: scaleW(20, context)),
                           child: TextField(
+                            onChanged: (value) => updateList(value),
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: AppColors.lightgray,
@@ -156,7 +192,7 @@ class _SearchResultsState extends State<SearchResults>
                                     size: 19,
                                   ),
                                   label: Text(
-                                    '9 Sep',
+                                    formatter.format(widget.date),
                                     style: Theme.of(context)
                                         .textTheme
                                         .headline5
@@ -182,7 +218,7 @@ class _SearchResultsState extends State<SearchResults>
                                     ),
                                   ),
                                   child: Text(
-                                    'Dentist',
+                                    widget.speciality,
                                     style: Theme.of(context)
                                         .textTheme
                                         .headline5
@@ -232,15 +268,7 @@ class _SearchResultsState extends State<SearchResults>
               children: [
                 Expanded(
                   child: DentisList(
-                    dentists: [
-                      'Vasilenko Okasana',
-                      'Lauren Sell',
-                      'Aleseenko Valsy',
-                      'Lalisa Manoban',
-                      'Kim Jenie',
-                      'Kim Jisoo',
-                      'Park Chaeyoung'
-                    ],
+                    dentists: displayList,
                   ),
                 ),
                 Center(
