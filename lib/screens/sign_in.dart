@@ -1,7 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:petcare_search/routes/routes.dart';
-import 'mainSearch.dart';
+import 'package:petcare_search/services/auth_provider.dart';
+import 'package:petcare_search/users/user_data.dart';
+import 'registration.dart';
+import 'sign_up.dart';
+import 'package:provider/provider.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -11,10 +16,14 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
   bool isEmailCorrect = false;
   bool passwordObscure = true;
+  late final UserCredential? userCredential;
+  late final User? user;
   @override
   void initState() {
     super.initState();
@@ -69,6 +78,19 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
               Positioned(
+                top: scaleH(49),
+                left: scaleW(14),
+                child: IconButton(
+                  color: Colors.white,
+                  iconSize: 32,
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => Registration()));
+                  },
+                ),
+              ),
+              Positioned(
                   top: scaleH(171),
                   left: scaleW(20),
                   child: Container(
@@ -93,6 +115,7 @@ class _SignInState extends State<SignIn> {
                                 padding:
                                     const EdgeInsets.fromLTRB(15, 7, 15, 12),
                                 child: TextFormField(
+                                  controller: _emailController,
                                   onChanged: (val) {
                                     setState(() {
                                       isEmailCorrect =
@@ -142,6 +165,7 @@ class _SignInState extends State<SignIn> {
                                 padding:
                                     const EdgeInsets.fromLTRB(15, 7, 15, 12),
                                 child: TextFormField(
+                                  controller: _passwordController,
                                   obscureText: passwordObscure,
                                   focusNode: _passwordFocus,
                                   onTap: () {
@@ -183,6 +207,10 @@ class _SignInState extends State<SignIn> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, RouteGenerator.forgotpassword);
+                                },
                                 child: const Text(
                                   'Do not remember password?',
                                   style: TextStyle(
@@ -200,14 +228,49 @@ class _SignInState extends State<SignIn> {
                                   height: scaleH(46),
                                   width: scaleW(295),
                                   child: ElevatedButton(
-                                      // onPressed: () {
-                                      //   Navigator.of(context).push(
-                                      //       MaterialPageRoute(
-                                      //           builder: (context) =>
-                                      //               SearchMain()));
-                                      // },
-                                      onPressed: () {
-                                        Navigator.pushNamed(context, 'main');
+                                      onPressed: () async {
+                                        FocusScope.of(context).unfocus();
+
+                                        try {
+                                          final authProvider =
+                                              Provider.of<LogProvider>(context,
+                                                  listen: false);
+                                          userCredential = await authProvider
+                                              .loggingInWithEmailAndPassword(
+                                                  email: _emailController.text,
+                                                  password:
+                                                      _passwordController.text);
+
+                                          user = userCredential!.user;
+
+                                          await getUserData(
+                                              user?.email, user?.photoURL);
+                                          if (context.mounted) {
+                                            Navigator.pushNamed(
+                                                context, RouteGenerator.home);
+                                          }
+                                        } catch (e) {
+                                          if (context.mounted) {
+                                            showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return AlertDialog(
+                                                    title: const Text("Error"),
+                                                    content: Text(e.toString()),
+                                                    actions: [
+                                                      TextButton(
+                                                        child: const Text("Ok"),
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                      )
+                                                    ],
+                                                  );
+                                                });
+                                          }
+                                        }
                                       },
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor:
@@ -263,7 +326,43 @@ class _SignInState extends State<SignIn> {
                   left: scaleW(104),
                   child: IconButton(
                       iconSize: scaleH(56),
-                      onPressed: () {},
+                      onPressed: () async {
+                        FocusScope.of(context).unfocus();
+
+                        try {
+                          final authProvider =
+                              Provider.of<LogProvider>(context, listen: false);
+                          userCredential =
+                              await authProvider.loggingInWithFaceBook();
+                          user = userCredential!.user;
+                          await addUser(
+                              user?.displayName, user?.email, user?.photoURL);
+                          await getUserData(userCredential!.user!.email,
+                              userCredential!.user!.photoURL);
+                          if (context.mounted) {
+                            Navigator.pushNamed(context, RouteGenerator.home);
+                          }
+                        } catch (e) {
+                          if (context.mounted) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text("Error"),
+                                    content: Text(e.toString()),
+                                    actions: [
+                                      TextButton(
+                                        child: const Text("Ok"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      )
+                                    ],
+                                  );
+                                });
+                          }
+                        }
+                      },
                       icon: Container(
                         height: scaleH(56),
                         decoration: const BoxDecoration(
@@ -277,7 +376,42 @@ class _SignInState extends State<SignIn> {
                   right: scaleW(104),
                   child: IconButton(
                       iconSize: scaleH(56),
-                      onPressed: () {},
+                      onPressed: () async {
+                        FocusScope.of(context).unfocus();
+                        try {
+                          final authProvider =
+                              Provider.of<LogProvider>(context, listen: false);
+                          userCredential =
+                              await authProvider.loggingInWithGoogle();
+                          user = userCredential!.user;
+                          await addUser(
+                              user?.displayName, user?.email, user?.photoURL);
+                          await getUserData(userCredential!.user!.email,
+                              userCredential!.user!.photoURL);
+                          if (context.mounted) {
+                            Navigator.pushNamed(context, RouteGenerator.home);
+                          }
+                        } catch (e) {
+                          if (context.mounted) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text("Error"),
+                                    content: Text(e.toString()),
+                                    actions: [
+                                      TextButton(
+                                        child: const Text("Ok"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      )
+                                    ],
+                                  );
+                                });
+                          }
+                        }
+                      },
                       icon: Container(
                         height: scaleH(56),
                         decoration: const BoxDecoration(
@@ -301,12 +435,18 @@ class _SignInState extends State<SignIn> {
                           const SizedBox(
                             width: 3,
                           ),
-                          Text(
-                            'Registration',
-                            style: TextStyle(
-                                color: const Color(0xFF4552CB),
-                                fontSize: scaleH(16),
-                                fontWeight: FontWeight.w700),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => const SignUp()));
+                            },
+                            child: Text(
+                              'Registration',
+                              style: TextStyle(
+                                  color: const Color(0xFF4552CB),
+                                  fontSize: scaleH(16),
+                                  fontWeight: FontWeight.w700),
+                            ),
                           )
                         ]),
                   )),

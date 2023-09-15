@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:petcare_search/constants/colors.dart';
 import 'package:petcare_search/routes/routes.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
+import 'package:petcare_search/widgets/dialog_custom.dart';
+import '../users/user_data.dart';
 //import 'package:petcare_search/constants/styles.dart';
 
 List<ListItem> items = [
@@ -37,13 +40,14 @@ List<ListItem> items = [
   ListItem(
       label: 'Settings',
       icon: const Icon(Icons.settings_outlined, color: AppColors.violet),
-      route: 'RouteGenerator.editpro5'),
+      route: RouteGenerator.settingsscreen),
 ];
 
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -55,11 +59,21 @@ class ProfileScreen extends StatelessWidget {
         centerTitle: true,
         actions: [
           GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, RouteGenerator.editpro5);
+            onTap: () async {
+              try {
+                await getUserData(GlobalData.email, GlobalData.avatar);
+                Navigator.pushNamed(context, RouteGenerator.editpro5);
+              } catch (e) {
+                // ignore: use_build_context_synchronously
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return DialogCustom(e.toString(), 'Error');
+                    });
+              }
             },
             child: Row(children: [
-              Icon(
+              const Icon(
                 Icons.edit_outlined,
                 color: AppColors.violet,
               ),
@@ -101,26 +115,48 @@ class ProfileScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    CircleAvatar(
-                      backgroundImage:
-                          const AssetImage('assets/imgs/profileImgs/photo.png'),
-                      radius: scaleW(56, context),
-                    ),
-                    Column(
-                      children: [
-                        Text(
-                          'Maria Martinez',
-                          style: Theme.of(context).textTheme.headline2,
-                        ),
-                        Text(
-                          'Kive',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1
-                              ?.apply(color: AppColors.gray),
-                        )
-                      ],
-                    )
+                    StreamBuilder(
+                        stream: getUserData2,
+                        builder: (ctx, futureSnapshot) {
+                          if (futureSnapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(child: CircularProgressIndicator());
+                          }
+                          var data = futureSnapshot.data!;
+                          // if (userId == FirebaseAuth.instance.currentUser!.uid) {
+                          //   isMe = true;
+                          // }
+                          // print(data);(
+                          return Column(children: [
+                            CircleAvatar(
+                              radius: scaleW(56, context),
+                              backgroundImage: const AssetImage(
+                                  'assets/imgs/profileImgs/photo.png'),
+                              foregroundImage: data['avatar'] != null
+                                  ? NetworkImage(data['avatar'])
+                                  : const AssetImage(
+                                          'assets/imgs/profileImgs/photo.png')
+                                      as ImageProvider,
+                            ),
+                            SizedBox(
+                              height: scaleH(15, context),
+                            ),
+                            Text(
+                              //GlobalData.displayName.toString(),
+                              data['name'],
+                              style: Theme.of(context).textTheme.headline2,
+                            ),
+                            Text(
+                              data.data().containsKey('nickname')
+                                  ? data['nickname']
+                                  : '',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  ?.apply(color: AppColors.gray),
+                            )
+                          ]);
+                        })
                   ],
                 ),
               ),

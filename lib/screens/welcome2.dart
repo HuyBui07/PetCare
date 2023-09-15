@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class Welcome2 extends StatelessWidget {
   final VoidCallback onPressed;
@@ -9,7 +7,6 @@ class Welcome2 extends StatelessWidget {
   const Welcome2({super.key, required this.onPressed});
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -29,7 +26,7 @@ class Welcome2 extends StatelessWidget {
             Text(
               'Proven experts',
               style: GoogleFonts.encodeSans(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
                   color: Color(0XFF070821),
@@ -43,7 +40,7 @@ class Welcome2 extends StatelessWidget {
               'We interview every specialist before\nthey get to work.',
               textAlign: TextAlign.center,
               style: GoogleFonts.encodeSans(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w400,
                   color: Color(0XFF070821),
@@ -53,18 +50,18 @@ class Welcome2 extends StatelessWidget {
             const SizedBox(
               height: 58,
             ),
-            Container(
+            SizedBox(
               height: 50,
               width: 270,
               child: TextButton(
                 style: TextButton.styleFrom(
-                  backgroundColor: Color(0xff4552CB),
+                  backgroundColor: const Color(0xff4552CB),
                 ),
                 onPressed: onPressed,
                 child: Text(
                   'Next',
                   style: GoogleFonts.encodeSans(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                       color: Colors.white,

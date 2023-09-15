@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:petcare_search/pets/addpet_args.dart';
+import 'package:petcare_search/pets/pet.dart';
 import 'package:petcare_search/screens/add_detail_pet.dart';
 import 'package:petcare_search/screens/appointmentScreen.dart';
 import 'package:petcare_search/screens/editPro5_Screen.dart';
@@ -9,6 +12,13 @@ import 'package:petcare_search/screens/loader_screen.dart';
 import 'package:petcare_search/screens/mainSearch.dart';
 import 'package:petcare_search/screens/petPro5_Screen.dart';
 import 'package:petcare_search/screens/profile_Screen.dart';
+import 'package:petcare_search/screens/reset_password.dart';
+
+import 'package:petcare_search/screens/search_tks.dart';
+
+import 'package:petcare_search/screens/registration.dart';
+import 'package:petcare_search/screens/settings.dart';
+
 import 'package:petcare_search/screens/sign_in.dart';
 import 'package:petcare_search/screens/welcome.dart';
 import 'package:petcare_search/screens/welcome1.dart';
@@ -23,7 +33,9 @@ class RouteGenerator {
     switch (settings.name) {
       case home:
         return MaterialPageRoute<MainScreen>(
-          builder: (_) => const MainScreen(),
+          builder: (_) => MainScreen(
+            index: 0,
+          ),
         );
       case loading:
         return MaterialPageRoute<LoaderScreen>(
@@ -38,8 +50,11 @@ class RouteGenerator {
           builder: (_) => const SignIn(),
         );
       case main:
+        int index = args as int;
         return MaterialPageRoute(
-          builder: (_) => const MainScreen(),
+          builder: (_) => MainScreen(
+            index: index,
+          ),
         );
       case search:
         return MaterialPageRoute<SearchMain>(
@@ -65,10 +80,27 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (_) => PetProfileScreen(),
         );
-      case addpet:
+      case petdetail:
+        AddPetArgs addPetArgs = args as AddPetArgs;
         return MaterialPageRoute(
-          builder: (_) => AddDetailPet(),
+          builder: (_) => AddDetailPet(
+            args: addPetArgs,
+          ),
         );
+
+      case thanks:
+        return MaterialPageRoute(
+          builder: (_) => SearchThanks(),
+        );
+      case registration:
+        return MaterialPageRoute<Registration>(
+          builder: (_) => Registration(),
+        );
+      case forgotpassword:
+        return MaterialPageRoute<ForgotPassword>(
+            builder: (_) => ForgotPassword());
+      case settingsscreen:
+        return MaterialPageRoute<Settings>(builder: (_) => SettingsScreen());
       default:
         throw const RouteException("Route not found");
     }
@@ -85,7 +117,12 @@ class RouteGenerator {
   static const pro5 = '/pro5';
   static const editpro5 = '/editpro5';
   static const petpro5 = '/petpro5';
-  static const addpet = '/addpet';
+  static const petdetail = '/addpet';
+  static const settingsscreen = '/settings';
+  static const thanks = '/thanks';
+
+  static const registration = '/registration';
+  static const forgotpassword = '/forgotpassword';
 }
 
 class RouteException implements Exception {

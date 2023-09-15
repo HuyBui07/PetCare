@@ -1,15 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:petcare_search/routes/routes.dart';
 
 class Welcome3 extends StatelessWidget {
+  const Welcome3({super.key});
+
   // final VoidCallback onPressed;
 
   // const Welcome3({super.key, required this.onPressed});
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -29,7 +29,7 @@ class Welcome3 extends StatelessWidget {
             Text(
               'Reliable reviews',
               style: GoogleFonts.encodeSans(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
                   color: Color(0XFF070821),
@@ -43,7 +43,7 @@ class Welcome3 extends StatelessWidget {
               'A review can be left only by a user\nwho used the service.',
               textAlign: TextAlign.center,
               style: GoogleFonts.encodeSans(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w400,
                   color: Color(0XFF070821),
@@ -53,20 +53,20 @@ class Welcome3 extends StatelessWidget {
             const SizedBox(
               height: 58,
             ),
-            Container(
+            SizedBox(
               height: 50,
               width: 270,
               child: TextButton(
                 style: TextButton.styleFrom(
-                  backgroundColor: Color(0xff4552CB),
+                  backgroundColor: const Color(0xff4552CB),
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, 'signin');
+                  Navigator.pushNamed(context, RouteGenerator.registration);
                 },
                 child: Text(
-                  'Next',
+                  'Get Started',
                   style: GoogleFonts.encodeSans(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                       color: Colors.white,

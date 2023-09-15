@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:petcare_search/constants/colors.dart';
+import 'package:petcare_search/routes/routes.dart';
+import 'package:petcare_search/screens/home_screen.dart';
+import 'package:petcare_search/screens/search_tks.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
 import 'package:petcare_search/widgets/bottomButton.dart';
 
@@ -26,7 +29,11 @@ class UpcomingScreen extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 200),
-            child: BottomButtom('Find a specialist'),
+            child: BottomButtom(
+                'Find a specialist',
+                () => Navigator.of(context, rootNavigator: true).push(
+                      MaterialPageRoute(builder: (_) => SearchThanks()),
+                    )),
           ),
         ],
       ),
