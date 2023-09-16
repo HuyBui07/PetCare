@@ -84,7 +84,19 @@ class _DateBottomSheetState extends State<DateBottomSheet> {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pop(widget.subContext);
+                  Navigator.push(
+                    widget.parentContext,
+                    MaterialPageRoute(
+                      builder: (ctx) => SearchResults(
+                        date: date,
+                        speciality: widget.speciality,
+                      ),
+                    ),
+                  );
+                },
                 child: const Text(
                   'Show results',
                 ),
@@ -111,7 +123,7 @@ class _DateBottomSheetState extends State<DateBottomSheet> {
                     widget.parentContext,
                     MaterialPageRoute(
                       builder: (ctx) => SearchResults(
-                        date: date,
+                        date: DateTime.now(),
                         speciality: widget.speciality,
                       ),
                     ),

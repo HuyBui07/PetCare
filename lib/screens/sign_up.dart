@@ -356,10 +356,12 @@ class _SignUpState extends State<SignUp> {
                                                   password:
                                                       _passwordController.text);
                                           user = userCredential.user;
-                                          await addUser(_nameController.text,
-                                              user?.email, user?.photoURL);
-                                          await getUserData(
-                                              user?.email, user?.photoURL);
+                                          await addUser(
+                                              user?.uid,
+                                              _nameController.text,
+                                              user?.email,
+                                              user?.photoURL);
+                                          await getUserData();
                                           if (context.mounted) {
                                             Navigator.pushNamed(
                                                 context, RouteGenerator.home);
@@ -450,10 +452,9 @@ class _SignUpState extends State<SignUp> {
                           userCredential =
                               await authProvider.loggingInWithFaceBook();
                           user = userCredential.user;
-                          await addUser(
-                              user?.displayName, user?.email, user?.photoURL);
-                          await getUserData(userCredential.user!.email,
-                              userCredential.user!.photoURL);
+                          await addUser(user?.uid, user?.displayName,
+                              user?.email, user?.photoURL);
+                          await getUserData();
                           if (context.mounted) {
                             Navigator.pushNamed(context, RouteGenerator.home);
                           }
@@ -499,10 +500,9 @@ class _SignUpState extends State<SignUp> {
                           userCredential =
                               await authProvider.loggingInWithGoogle();
                           user = userCredential.user;
-                          await addUser(
-                              user?.displayName, user?.email, user?.photoURL);
-                          await getUserData(userCredential.user!.email,
-                              userCredential.user!.photoURL);
+                          await addUser(user?.uid, user?.displayName,
+                              user?.email, user?.photoURL);
+                          await getUserData();
                           if (context.mounted) {
                             Navigator.pushNamed(context, RouteGenerator.home);
                           }

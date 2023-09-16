@@ -70,10 +70,9 @@ class _RegistrationState extends State<Registration> {
                       userCredential =
                           await authProvider.loggingInWithFaceBook();
                       user = userCredential!.user;
-                      await addUser(
-                          user?.displayName, user?.email, user?.photoURL);
-                      await getUserData(userCredential!.user!.email,
-                          userCredential!.user!.photoURL);
+                      await addUser(user?.uid, user?.displayName, user?.email,
+                          user?.photoURL);
+                      await getUserData();
                       if (context.mounted) {
                         Navigator.pushNamed(context, RouteGenerator.home);
                       }
@@ -143,10 +142,9 @@ class _RegistrationState extends State<Registration> {
                           Provider.of<LogProvider>(context, listen: false);
                       userCredential = await authProvider.loggingInWithGoogle();
                       user = userCredential!.user;
-                      await addUser(
-                          user?.displayName, user?.email, user?.photoURL);
-                      await getUserData(userCredential!.user!.email,
-                          userCredential!.user!.photoURL);
+                      await addUser(user?.uid, user?.displayName, user?.email,
+                          user?.photoURL);
+                      await getUserData();
                       if (context.mounted) {
                         Navigator.pushNamed(context, RouteGenerator.home);
                       }

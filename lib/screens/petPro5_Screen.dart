@@ -70,20 +70,6 @@ class PetProfileScreen extends StatelessWidget {
             }
             return Container(
               color: AppColors.lightgray,
-              // child: ListView.builder(
-              //     padding: const EdgeInsets.only(bottom: 20),
-              //     itemCount: petList.length + 1,
-              //     itemBuilder: (BuildContext context, int index) {
-              //       return index == petList.length
-              //           ? ButtonLight(
-              //               'Add another pet',
-              //               Icons.add,
-              //               onPressed: () => Navigator.pushNamed(
-              //                   context, RouteGenerator.addpet,
-              //                   arguments: args),
-              //             )
-              //           : PetProfileCard(pet: petList[index]);
-              //     }),
               child: ListView.builder(
                   padding: const EdgeInsets.only(bottom: 20),
                   itemCount: petSnapshot.length + 1,
