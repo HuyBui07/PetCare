@@ -18,7 +18,7 @@ class DentistItem extends StatelessWidget {
           left: scaleW(8, context),
           right: scaleW(8, context),
         ),
-        height: scaleH(140, context),
+        //height: scaleH(160, context),
         width: scaleW(335, context),
         decoration: BoxDecoration(
           boxShadow: [

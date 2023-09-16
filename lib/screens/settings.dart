@@ -45,14 +45,9 @@ class SettingsScreen extends StatelessWidget {
               onTap: () async {
                 await Provider.of<LogProvider>(context, listen: false)
                     .loggingOut();
-                if (context.mounted) {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) => const SignIn(),
-                    ),
-                  );
-                }
+
+                Navigator.of(context, rootNavigator: true)
+                    .push(MaterialPageRoute(builder: (_) => SignIn()));
               },
               leading: Container(
                 decoration: BoxDecoration(

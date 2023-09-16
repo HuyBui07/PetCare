@@ -14,6 +14,7 @@ import 'package:petcare_search/utils/widget_utils.dart';
 import 'package:petcare_search/widgets/change_email_dialog.dart';
 import 'package:petcare_search/widgets/dialog_custom.dart';
 import 'package:petcare_search/widgets/gender_widget.dart';
+import 'package:petcare_search/widgets/textform_dialog.dart';
 import 'package:petcare_search/widgets/textformfield_widget.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -45,7 +46,7 @@ class _EditProfileState extends State<EditProfileScreen> {
     aboutFocusNode = FocusNode();
     getUsrData = FirebaseFirestore.instance
         .collection('Users')
-        .doc(GlobalData.email)
+        .doc(GlobalData.id)
         .snapshots();
 
     ;
@@ -124,14 +125,15 @@ class _EditProfileState extends State<EditProfileScreen> {
                             await updateUserData(_fullName, _nickName, _email,
                                 _avt, _gender, _phone, _about);
                             // ignore: use_build_context_synchronously
+
+                            await getUserData();
+                            Navigator.pop(context);
                             showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
                                   return const DialogCustom(
                                       'Your informaton is saved!', '');
                                 });
-                            await getUserData(_email, _avt);
-                            Navigator.pop(context);
                           } catch (e) {
                             // ignore: use_build_context_synchronously
                             showDialog(
@@ -308,21 +310,27 @@ class _EditProfileState extends State<EditProfileScreen> {
                               ),
                             ],
                           ),
-                          TextFormFieldCustom(
-                            'Email',
-                            data['email'],
-                            false,
-                            true,
-                            false,
-                            onChanged: () {},
-                            onTap: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return ChangeEmailDialog();
-                                  });
-                            },
-                          ),
+                          StreamBuilder<Object>(
+                              stream: null,
+                              builder: (context, snapshot) {
+                                return TextFormDialog(
+                                  'Email',
+                                  _email!,
+                                  false,
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return ChangeEmailDialog(
+                                              onChanged: (String value) {
+                                            setState(() {
+                                              _email = value;
+                                            });
+                                          });
+                                        });
+                                  },
+                                );
+                              }),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -456,6 +464,7 @@ class _EditProfileState extends State<EditProfileScreen> {
         setState(() {
           _avt = temp;
         });
+        print('avt check: $_avt');
       }
     } catch (e) {
       // ignore: use_build_context_synchronously

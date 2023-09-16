@@ -8,7 +8,8 @@ import 'package:petcare_search/widgets/dialog_custom.dart';
 import 'package:petcare_search/widgets/textformfield_widget.dart';
 
 class ChangeEmailDialog extends StatefulWidget {
-  const ChangeEmailDialog({super.key});
+  Function onChanged;
+  ChangeEmailDialog({super.key, required this.onChanged});
 
   @override
   State<ChangeEmailDialog> createState() => _ChangeEmailDialogState();
@@ -50,35 +51,6 @@ class _ChangeEmailDialogState extends State<ChangeEmailDialog> {
                 'Change email',
                 style: Theme.of(context).textTheme.headline2,
               ),
-              // TextFormField(
-              //   onChanged: (value) {
-              //     setState(() {
-              //       _newEmail = value;
-              //     });
-              //     value.isNotEmpty && value.contains('@')
-              //         ? setState(() {
-              //             _emailcheckColor = AppColors.green;
-              //           })
-              //         : setState(() {
-              //             _emailcheckColor = AppColors.gray;
-              //           });
-              //   },
-              //   decoration: InputDecoration(
-              //     suffixIcon: Icon(
-              //       size: scaleW(18, context),
-              //       Icons.check_circle_rounded,
-              //       color: _emailcheckColor,
-              //     ),
-              //     labelText: 'New email',
-              //     labelStyle: Theme.of(context).textTheme.headline6!.copyWith(
-              //           color: AppColors.gray,
-              //         ),
-              //     floatingLabelStyle:
-              //         Theme.of(context).textTheme.headline6!.copyWith(
-              //               color: AppColors.violet,
-              //             ),
-              //   ),
-              // ),
               TextFormFieldCustom(
                 'New email',
                 '',
@@ -155,48 +127,47 @@ class _ChangeEmailDialogState extends State<ChangeEmailDialog> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(
                                     scaleW(15, context)))),
-                        onPressed: () => Navigator.of(context).pop(),
-//                         onPressed: () async {
-//                           try {
-//                             final currentUsr =
-//                                 await FirebaseAuth.instance.currentUser;
-//                             AuthCredential credential =
-//                                 EmailAuthProvider.credential(
-//                                     email: GlobalData.email!,
-//                                     password: _password);
-//                             print(currentUsr!.uid);
-// // Reauthenticate
-//                             await FirebaseAuth.instance.currentUser!
-//                                 .reauthenticateWithCredential(credential)
-//                                 .then((value) async {
-//                               await currentUsr.updateEmail(_newEmail);
-//                               await FirebaseFirestore.instance
-//                                   .collection('Users')
-//                                   .doc(_newEmail)
-//                                   .set({
-//                                 'email': _newEmail,
-//                                 'avatar': GlobalData.avatar,
-//                                 'name': GlobalData.displayName,
-//                               });
-//                               await getUserData(_newEmail, GlobalData.avatar);
-
-//                               // await FirebaseFirestore.instance
-//                               //     .collection('Users')
-//                               //     .doc(GlobalData.email)
-//                               //     .delete();
-//                               print('done');
-
-//                               Navigator.of(context).pop();
-//                             });
-//                           } catch (e) {
-//                             // ignore: use_build_context_synchronously
-//                             showDialog(
-//                                 context: context,
-//                                 builder: (BuildContext context) {
-//                                   return ErrorDialog(e.toString());
-//                                 });
-//                           }
-//                         },
+                        //onPressed: () => Navigator.of(context).pop(),
+                        onPressed: () async {
+                          try {
+                            final currentUsr =
+                                FirebaseAuth.instance.currentUser;
+                            AuthCredential credential =
+                                EmailAuthProvider.credential(
+                                    email: GlobalData.email!,
+                                    password: _password);
+// Reauthenticate
+                            await FirebaseAuth.instance.currentUser!
+                                .reauthenticateWithCredential(credential)
+                                .then((value) async {
+                              await currentUsr?.updateEmail(_newEmail);
+                              await FirebaseFirestore.instance
+                                  .collection('Users')
+                                  .doc(GlobalData.id)
+                                  .update({
+                                'email': _newEmail,
+                                'avatar': GlobalData.avatar,
+                                'name': GlobalData.displayName,
+                              });
+                              widget.onChanged(_newEmail);
+                              await getUserData();
+                              Navigator.of(context).pop();
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return DialogCustom(
+                                        'Email is updated!', '');
+                                  });
+                            });
+                          } catch (e) {
+                            // ignore: use_build_context_synchronously
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return DialogCustom(e.toString(), 'Error');
+                                });
+                          }
+                        },
                         child: Text(
                           'Change',
                           style: TextStyle(color: Colors.white, fontSize: 18.0),

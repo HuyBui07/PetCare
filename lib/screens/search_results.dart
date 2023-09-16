@@ -113,9 +113,9 @@ class _SearchResultsState extends State<SearchResults>
                             ),
                             Expanded(
                               child: CustomTabBar(
-                                  height: 32,
-                                  width: 200,
-                                  tab1: 'Spacialists',
+                                  height: scaleH(32, context),
+                                  width: scaleH(200, context),
+                                  tab1: 'Specialists',
                                   tab2: 'Clinics'),
                             ),
                             const SizedBox(
@@ -219,6 +219,7 @@ class _SearchResultsState extends State<SearchResults>
                                   ),
                                   child: Text(
                                     widget.speciality,
+                                    overflow: TextOverflow.ellipsis,
                                     style: Theme.of(context)
                                         .textTheme
                                         .headline5
@@ -266,10 +267,8 @@ class _SearchResultsState extends State<SearchResults>
             child: TabBarView(
               controller: tabController,
               children: [
-                Expanded(
-                  child: DentisList(
-                    dentists: displayList,
-                  ),
+                DentisList(
+                  dentists: displayList,
                 ),
                 Center(
                   child: Text(

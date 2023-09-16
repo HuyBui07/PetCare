@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
@@ -243,8 +244,7 @@ class _SignInState extends State<SignIn> {
 
                                           user = userCredential!.user;
 
-                                          await getUserData(
-                                              user?.email, user?.photoURL);
+                                          await getUserData();
                                           if (context.mounted) {
                                             Navigator.pushNamed(
                                                 context, RouteGenerator.home);
@@ -335,10 +335,9 @@ class _SignInState extends State<SignIn> {
                           userCredential =
                               await authProvider.loggingInWithFaceBook();
                           user = userCredential!.user;
-                          await addUser(
-                              user?.displayName, user?.email, user?.photoURL);
-                          await getUserData(userCredential!.user!.email,
-                              userCredential!.user!.photoURL);
+                          await addUser(user?.uid, user?.displayName,
+                              user?.email, user?.photoURL);
+                          await getUserData();
                           if (context.mounted) {
                             Navigator.pushNamed(context, RouteGenerator.home);
                           }
@@ -384,10 +383,11 @@ class _SignInState extends State<SignIn> {
                           userCredential =
                               await authProvider.loggingInWithGoogle();
                           user = userCredential!.user;
-                          await addUser(
-                              user?.displayName, user?.email, user?.photoURL);
-                          await getUserData(userCredential!.user!.email,
-                              userCredential!.user!.photoURL);
+
+                          await addUser(user?.uid, user?.displayName,
+                                  user?.email, user?.photoURL)
+                              .then((value) => getUserData());
+
                           if (context.mounted) {
                             Navigator.pushNamed(context, RouteGenerator.home);
                           }

@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Balls',
       theme: AppTheme,
-      initialRoute: RouteGenerator.home,
+      initialRoute: RouteGenerator.loading,
       onGenerateRoute: RouteGenerator.generateRoute,
       //home: SearchThanks(),
     );

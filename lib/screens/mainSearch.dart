@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:petcare_search/routes/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,7 +18,6 @@ class SearchMain extends StatefulWidget {
 
 class _SearchMainState extends State<SearchMain> {
   int currentIndex = 0;
-  final User? user = FirebaseAuth.instance.currentUser;
 
   //List of grid items
   List<MainSearchGridItem> gridItems = [
@@ -301,21 +301,30 @@ class _SearchMainState extends State<SearchMain> {
             //Where the first part use h1headline and username use h2headline
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.11,
-              child: RichText(
-                text: TextSpan(
-                  style: Theme.of(context).textTheme.displayLarge,
-                  children: <TextSpan>[
-                    const TextSpan(text: 'What are you looking for, '),
-                    TextSpan(
-                      text: '${GlobalData.displayName} ?',
-                      style: Theme.of(context)
-                          .textTheme
-                          .displayLarge!
-                          .copyWith(color: Colors.orange),
-                    ),
-                  ],
-                ),
-              ),
+              child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('Users')
+                      .doc(GlobalData.id)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    var data = snapshot.data;
+                    return RichText(
+                      overflow: TextOverflow.visible,
+                      text: TextSpan(
+                        style: Theme.of(context).textTheme.displayLarge,
+                        children: <TextSpan>[
+                          const TextSpan(text: 'What are you looking for, '),
+                          TextSpan(
+                            text: '${data?['name']}?',
+                            style: Theme.of(context)
+                                .textTheme
+                                .displayLarge!
+                                .copyWith(color: Colors.orange),
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
             ),
             //Grid view currrently contains 9 items, each with its own icon and label that will be used to navigate to a new page. Where icon takes from assets\mainSearchIcon
             SizedBox(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'gender.dart';
 
 class GlobalData {
+  static String? id;
   static String? displayName;
   static String? nickName;
   static String? avatar;
@@ -13,12 +14,16 @@ class GlobalData {
   static String? about;
 }
 
-FirebaseAuth auth = FirebaseAuth.instance;
-String? email = auth.currentUser?.email.toString();
+// FirebaseAuth auth = FirebaseAuth.instance;
+// String? id = auth.currentUser?.uid.toString();
 
-Future<void> getUserData(String? email, String? avatar) async {
-  DocumentSnapshot snapshot =
-      await FirebaseFirestore.instance.collection('Users').doc(email).get();
+Future<void> getUserData() async {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  GlobalData.id = auth.currentUser?.uid.toString();
+  DocumentSnapshot snapshot = await FirebaseFirestore.instance
+      .collection('Users')
+      .doc(GlobalData.id)
+      .get();
   GlobalData.displayName = snapshot['name'];
   GlobalData.nickName = snapshot.data().toString().contains('nickName')
       ? snapshot['nickName']
@@ -37,20 +42,28 @@ Future<void> getUserData(String? email, String? avatar) async {
       snapshot.data().toString().contains('aboutMe') ? snapshot['aboutMe'] : '';
 }
 
-Future<void> addUser(String? displayName, String? email, String? avatar) async {
-  CollectionReference users = FirebaseFirestore.instance.collection('Users');
-  FirebaseAuth auth = FirebaseAuth.instance;
-  String? email = auth.currentUser?.email.toString();
-  users.doc(email).set({'name': displayName, 'email': email, 'avatar': avatar});
+Future<void> addUser(
+    String? id, String? displayName, String? email, String? avatar) async {
+  bool isExisted = false;
+  final dataUsrs = await FirebaseFirestore.instance.collection('Users').get();
+  dataUsrs.docs.forEach((docs) => {
+        if (docs.id == id) {isExisted = true}
+      });
+  if (!isExisted) {
+    CollectionReference users = FirebaseFirestore.instance.collection('Users');
+    FirebaseAuth auth = FirebaseAuth.instance;
+    String? email = auth.currentUser?.email.toString();
+    users.doc(id).set({'name': displayName, 'email': email, 'avatar': avatar});
+  }
   return;
 }
 
-Stream getUserData2 =
-    FirebaseFirestore.instance.collection('Users').doc(email).snapshots();
-
 Future updateUserData(String? userName, String? nickName, String? email,
     String? avt, Gender? gender, String? phone, String? about) async {
-  return await FirebaseFirestore.instance.collection('Users').doc(email).set({
+  return await FirebaseFirestore.instance
+      .collection('Users')
+      .doc(GlobalData.id)
+      .set({
     'name': userName,
     'nickName': nickName,
     'email': email,

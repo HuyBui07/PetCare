@@ -61,7 +61,7 @@ class ProfileScreen extends StatelessWidget {
           GestureDetector(
             onTap: () async {
               try {
-                await getUserData(GlobalData.email, GlobalData.avatar);
+                await getUserData();
                 Navigator.pushNamed(context, RouteGenerator.editpro5);
               } catch (e) {
                 // ignore: use_build_context_synchronously
@@ -116,7 +116,10 @@ class ProfileScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     StreamBuilder(
-                        stream: getUserData2,
+                        stream: FirebaseFirestore.instance
+                            .collection('Users')
+                            .doc(GlobalData.id)
+                            .snapshots(),
                         builder: (ctx, futureSnapshot) {
                           if (futureSnapshot.connectionState ==
                               ConnectionState.waiting) {
@@ -147,7 +150,7 @@ class ProfileScreen extends StatelessWidget {
                               style: Theme.of(context).textTheme.headline2,
                             ),
                             Text(
-                              data.data().containsKey('nickname')
+                              data.data()!.containsKey('nickname')
                                   ? data['nickname']
                                   : '',
                               style: Theme.of(context)
