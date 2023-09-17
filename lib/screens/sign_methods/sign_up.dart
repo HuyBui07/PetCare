@@ -1,30 +1,38 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:petcare_search/routes/routes.dart';
-import 'package:petcare_search/services/auth_provider.dart';
+import 'package:petcare_search/appStyle.dart';
+import 'package:petcare_search/screens/sign_methods/rules.dart';
+import 'package:petcare_search/screens/sign_methods/sign_in.dart';
 import 'package:petcare_search/users/user_data.dart';
 import 'registration.dart';
-import 'sign_up.dart';
+import '../../routes/routes.dart';
 import 'package:provider/provider.dart';
+import '../../providers/auth_provider.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _SignInState extends State<SignIn> {
+class _SignUpState extends State<SignUp> {
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final FocusNode _nameFocus = FocusNode();
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
+  late UserCredential userCredential;
+  late User? user;
+  bool? isCheckedRules = false;
+  bool? isCheckedNews = false;
+  bool isNameCorrect = false;
+  RegExp rexName =
+      RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
   bool isEmailCorrect = false;
   bool passwordObscure = true;
-  late final UserCredential? userCredential;
-  late final User? user;
   @override
   void initState() {
     super.initState();
@@ -32,6 +40,7 @@ class _SignInState extends State<SignIn> {
 
   @override
   void dispose() {
+    _nameFocus.dispose();
     _emailFocus.dispose();
     _passwordFocus.dispose();
     super.dispose();
@@ -70,7 +79,7 @@ class _SignInState extends State<SignIn> {
                 child: Align(
                   alignment: const Alignment(-0.7, -0.3),
                   child: Text(
-                    'Sign In',
+                    'Sign Up',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -95,7 +104,7 @@ class _SignInState extends State<SignIn> {
                   top: scaleH(171),
                   left: scaleW(20),
                   child: Container(
-                    height: scaleH(290),
+                    height: scaleH(406),
                     width: scaleW(335),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -104,7 +113,56 @@ class _SignInState extends State<SignIn> {
                     child: Column(
                       children: [
                         Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            padding: const EdgeInsets.fromLTRB(10, 8, 10, 0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: _nameFocus.hasFocus
+                                    ? Colors.grey.shade100
+                                    : Colors.white,
+                              ),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(15, 7, 15, 12),
+                                child: TextFormField(
+                                  controller: _nameController,
+                                  onChanged: (val) {
+                                    setState(() {
+                                      isNameCorrect = rexName.hasMatch(val);
+                                    });
+                                  },
+                                  focusNode: _nameFocus,
+                                  onTap: () {
+                                    _requestFocus(_nameFocus);
+                                  },
+                                  decoration: InputDecoration(
+                                      suffix: isNameCorrect
+                                          ? const Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  0, 0, 10, 0),
+                                              child: Image(
+                                                image: AssetImage(
+                                                    'assets/icons/success.png'),
+                                                fit: BoxFit.fill,
+                                              ),
+                                            )
+                                          : null,
+                                      labelText: 'Full name',
+                                      labelStyle: TextStyle(
+                                          color: _nameFocus.hasFocus
+                                              ? const Color(0xFF4552CB)
+                                              : Colors.grey.shade300,
+                                          fontSize: 19,
+                                          fontWeight: FontWeight.bold),
+                                      focusedBorder: const UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 2,
+                                              color: Color(0xFF4552CB)))),
+                                ),
+                              ),
+                            )),
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
@@ -203,21 +261,79 @@ class _SignInState extends State<SignIn> {
                               ),
                             )),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 4, 25, 0),
+                          padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
+                              SizedBox(width: scaleW(13)),
+                              SizedBox(
+                                height: 18,
+                                width: 18,
+                                child: Checkbox(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(6)),
+                                    value: isCheckedRules,
+                                    activeColor: const Color(0xFF4552CB),
+                                    onChanged: (newbool) {
+                                      setState(() {
+                                        isCheckedRules = newbool;
+                                      });
+                                    }),
+                              ),
+                              SizedBox(width: scaleW(18)),
+                              Text(
+                                'I agree with ',
+                                style: AppTheme.textTheme.bodySmall!.copyWith(
+                                    fontWeight: FontWeight.normal,
+                                    letterSpacing: 0,
+                                    fontSize: 16),
+                              ),
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                      context, RouteGenerator.forgotpassword);
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => const Rules()));
                                 },
-                                child: const Text(
-                                  'Do not remember password?',
-                                  style: TextStyle(
-                                      color: Color(0xFF4552CB), fontSize: 15),
+                                child: Text(
+                                  'the rules',
+                                  style: AppTheme.textTheme.bodySmall!.copyWith(
+                                      fontWeight: FontWeight.normal,
+                                      color: const Color(0xFF4552CB),
+                                      decoration: TextDecoration.underline,
+                                      letterSpacing: 0,
+                                      fontSize: 16),
                                 ),
                               )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(12, scaleH(17), 12, 0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(width: scaleW(13)),
+                              SizedBox(
+                                height: 18,
+                                width: 18,
+                                child: Checkbox(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(6)),
+                                    value: isCheckedNews,
+                                    activeColor: const Color(0xFF4552CB),
+                                    onChanged: (newbool) {
+                                      setState(() {
+                                        isCheckedNews = newbool;
+                                      });
+                                    }),
+                              ),
+                              SizedBox(width: scaleW(18)),
+                              Text(
+                                'I do not want to receive newsletter',
+                                style: AppTheme.textTheme.headlineMedium!
+                                    .copyWith(
+                                        fontWeight: FontWeight.normal,
+                                        letterSpacing: 0),
+                              ),
                             ],
                           ),
                         ),
@@ -230,20 +346,21 @@ class _SignInState extends State<SignIn> {
                                   width: scaleW(295),
                                   child: ElevatedButton(
                                       onPressed: () async {
-                                        FocusScope.of(context).unfocus();
-
                                         try {
                                           final authProvider =
                                               Provider.of<LogProvider>(context,
                                                   listen: false);
-                                          userCredential = await authProvider
-                                              .loggingInWithEmailAndPassword(
+                                          userCredential =
+                                              await authProvider.signUp(
                                                   email: _emailController.text,
                                                   password:
                                                       _passwordController.text);
-
-                                          user = userCredential!.user;
-
+                                          user = userCredential.user;
+                                          await addUser(
+                                              user?.uid,
+                                              _nameController.text,
+                                              user?.email,
+                                              user?.photoURL);
                                           await getUserData();
                                           if (context.mounted) {
                                             Navigator.pushNamed(
@@ -282,7 +399,7 @@ class _SignInState extends State<SignIn> {
                                               borderRadius:
                                                   BorderRadius.circular(25))),
                                       child: const Text(
-                                        'Sign In ',
+                                        'Sign Up',
                                         style: TextStyle(color: Colors.white),
                                       )),
                                 ),
@@ -292,7 +409,7 @@ class _SignInState extends State<SignIn> {
                     ),
                   )),
               Positioned(
-                top: scaleH(502),
+                top: scaleH(606),
                 left: scaleW(20),
                 //right: scaleH(20),
                 child: Row(
@@ -322,7 +439,7 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
               Positioned(
-                  top: scaleH(537),
+                  top: scaleH(642),
                   left: scaleW(104),
                   child: IconButton(
                       iconSize: scaleH(56),
@@ -334,7 +451,7 @@ class _SignInState extends State<SignIn> {
                               Provider.of<LogProvider>(context, listen: false);
                           userCredential =
                               await authProvider.loggingInWithFaceBook();
-                          user = userCredential!.user;
+                          user = userCredential.user;
                           await addUser(user?.uid, user?.displayName,
                               user?.email, user?.photoURL);
                           await getUserData();
@@ -371,7 +488,7 @@ class _SignInState extends State<SignIn> {
                         ),
                       ))),
               Positioned(
-                  top: scaleH(537),
+                  top: scaleH(642),
                   right: scaleW(104),
                   child: IconButton(
                       iconSize: scaleH(56),
@@ -382,12 +499,10 @@ class _SignInState extends State<SignIn> {
                               Provider.of<LogProvider>(context, listen: false);
                           userCredential =
                               await authProvider.loggingInWithGoogle();
-                          user = userCredential!.user;
-
+                          user = userCredential.user;
                           await addUser(user?.uid, user?.displayName,
-                                  user?.email, user?.photoURL)
-                              .then((value) => getUserData());
-
+                              user?.email, user?.photoURL);
+                          await getUserData();
                           if (context.mounted) {
                             Navigator.pushNamed(context, RouteGenerator.home);
                           }
@@ -421,14 +536,14 @@ class _SignInState extends State<SignIn> {
                         ),
                       ))),
               Positioned(
-                  bottom: scaleH(90),
+                  bottom: scaleH(50),
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Don\'t have an account yet?',
+                            'Already have an account?',
                             style: TextStyle(
                                 fontSize: scaleH(16), letterSpacing: 0.16),
                           ),
@@ -438,10 +553,10 @@ class _SignInState extends State<SignIn> {
                           GestureDetector(
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => const SignUp()));
+                                  builder: (context) => const SignIn()));
                             },
                             child: Text(
-                              'Registration',
+                              'Sign In',
                               style: TextStyle(
                                   color: const Color(0xFF4552CB),
                                   fontSize: scaleH(16),

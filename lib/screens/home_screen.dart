@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_search/appStyle.dart';
 import 'package:petcare_search/routes/routes.dart';
-import 'package:petcare_search/screens/appointmentScreen.dart';
+import 'package:petcare_search/screens/appoinment_tab/appointmentScreen.dart';
 import 'package:petcare_search/screens/explore_screen.dart';
-import 'package:petcare_search/screens/mainSearch.dart';
-import 'package:petcare_search/screens/profile_Screen.dart';
-import 'package:petcare_search/services/auth_provider.dart';
+import 'package:petcare_search/screens/search_tab/mainSearch.dart';
+import 'package:petcare_search/screens/profile_tab/profile_Screen.dart';
+import 'package:petcare_search/providers/auth_provider.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
 import 'package:provider/provider.dart';
 

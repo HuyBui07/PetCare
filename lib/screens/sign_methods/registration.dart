@@ -2,10 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:petcare_search/appStyle.dart';
 import 'package:petcare_search/routes/routes.dart';
-import 'package:petcare_search/screens/sign_in.dart';
-import 'package:petcare_search/screens/sign_up.dart';
+import 'package:petcare_search/screens/sign_methods/sign_in.dart';
+import 'package:petcare_search/screens/sign_methods/sign_up.dart';
 import 'package:petcare_search/users/user_data.dart';
-import '../services/auth_provider.dart';
+import '../../providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 
 class Registration extends StatefulWidget {

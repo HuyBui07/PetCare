@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:petcare_search/routes/routes.dart';
-import 'package:petcare_search/screens/search_results.dart';
+import 'package:petcare_search/screens/search_tab/search_results.dart';
 
 class DateBottomSheet extends StatefulWidget {
   const DateBottomSheet(

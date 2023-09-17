@@ -6,7 +6,7 @@ import 'package:petcare_search/pets/pet.dart';
 import 'package:petcare_search/pets/pet_data.dart';
 import 'package:petcare_search/pets/size.dart';
 import 'package:petcare_search/routes/routes.dart';
-import 'package:petcare_search/screens/petPro5_Screen.dart';
+import 'package:petcare_search/screens/profile_tab/petPro5_Screen.dart';
 import 'package:petcare_search/users/gender.dart';
 import 'package:petcare_search/users/user_data.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
