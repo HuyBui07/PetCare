@@ -4,8 +4,8 @@ import 'package:petcare_search/routes/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:petcare_search/widgets/search_speciality.dart';
 
-import '../appStyle.dart';
-import '../users/user_data.dart';
+import '../../appStyle.dart';
+import '../../users/user_data.dart';
 
 class SearchMain extends StatefulWidget {
   const SearchMain({super.key});

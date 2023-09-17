@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_search/appStyle.dart';
-import 'package:petcare_search/screens/sign_up.dart';
+import 'package:petcare_search/screens/sign_methods/sign_up.dart';
 
 class Rules extends StatelessWidget {
   const Rules({super.key});

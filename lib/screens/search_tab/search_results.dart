@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -5,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:petcare_search/constants/colors.dart';
 import 'package:petcare_search/utils/dentist_list.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
+import 'package:petcare_search/vetenaries/veterinary_uid_list.dart';
 import 'package:petcare_search/widgets/customTabBart.dart';
 
 final formatter = DateFormat('d MMM', 'en_US');
@@ -24,15 +26,8 @@ class _SearchResultsState extends State<SearchResults>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
 
-  static List<String> mainDentistList = [
-    'Vasilenko Okasana',
-    'Lauren Sell',
-    'Aleseenko Valsy',
-    'Lalisa Manoban',
-    'Kim Jenie',
-    'Kim Jisoo',
-    'Park Chaeyoung'
-  ];
+  static List<String> mainDentistList = List.generate(
+      VeterinaryList.uids.length, (index) => VeterinaryList.names[index]);
 
   List<String> displayList = List.from(mainDentistList);
 

@@ -14,7 +14,7 @@ import 'package:petcare_search/pets/addpet_args.dart';
 import 'package:petcare_search/pets/pet.dart';
 import 'package:petcare_search/pets/pet_data.dart';
 import 'package:petcare_search/pets/size.dart';
-import 'package:petcare_search/screens/petPro5_Screen.dart';
+import 'package:petcare_search/screens/profile_tab/petPro5_Screen.dart';
 import 'package:petcare_search/screens/pickImageModal.dart';
 import 'package:petcare_search/users/gender.dart';
 import 'package:petcare_search/utils/addPetDetail/cupertino_switch.dart';
@@ -26,10 +26,10 @@ import 'package:petcare_search/widgets/gender_widget.dart';
 import 'package:petcare_search/widgets/pet_species_dialog.dart';
 import 'package:petcare_search/widgets/textform_dialog.dart';
 import 'package:petcare_search/widgets/textformfield_widget.dart';
-import '../constants/colors.dart';
-import '../utils/widget_utils.dart';
+import '../../constants/colors.dart';
+import '../../utils/widget_utils.dart';
 
-import '../utils/pet_events_list.dart';
+import '../../utils/pet_events_list.dart';
 
 class AddDetailPet extends StatefulWidget {
   final AddPetArgs args;

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:petcare_search/screens/pastScreen.dart';
-import 'package:petcare_search/screens/upComingScreen.dart';
+import 'package:petcare_search/screens/appoinment_tab/pastScreen.dart';
+import 'package:petcare_search/screens/appoinment_tab/upComingScreen.dart';
 import 'package:petcare_search/widgets/customTabBart.dart';
 
-import '../constants/colors.dart';
-import '../utils/widget_utils.dart';
+import '../../constants/colors.dart';
+import '../../utils/widget_utils.dart';
 
 class AppointmentScreen extends StatefulWidget {
   const AppointmentScreen({super.key});

@@ -5,7 +5,7 @@ import 'package:petcare_search/constants/colors.dart';
 import 'package:petcare_search/routes/routes.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
 import 'package:petcare_search/widgets/dialog_custom.dart';
-import '../users/user_data.dart';
+import '../../users/user_data.dart';
 //import 'package:petcare_search/constants/styles.dart';
 
 List<ListItem> items = [

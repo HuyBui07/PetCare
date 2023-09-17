@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:petcare_search/screens/welcome1.dart';
-import 'package:petcare_search/screens/welcome2.dart';
-import 'package:petcare_search/screens/welcome3.dart';
+import 'package:petcare_search/screens/splash_screens/welcome1.dart';
+import 'package:petcare_search/screens/splash_screens/welcome2.dart';
+import 'package:petcare_search/screens/splash_screens/welcome3.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class Welcome extends StatelessWidget {

@@ -3,12 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:petcare_search/appStyle.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:petcare_search/routes/routes.dart';
-import 'package:petcare_search/services/auth_provider.dart';
+import 'package:petcare_search/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
+import 'vetenaries/veterinary_uid_list.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await VeterinaryList.getVeterinaries();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
   ));
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Balls',
       theme: AppTheme,
-      initialRoute: RouteGenerator.loading,
+      initialRoute: RouteGenerator.welcome,
       onGenerateRoute: RouteGenerator.generateRoute,
       //home: SearchThanks(),
     );

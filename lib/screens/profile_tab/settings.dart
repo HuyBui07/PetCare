@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:petcare_search/appStyle.dart';
 import 'package:petcare_search/constants/colors.dart';
 import 'package:petcare_search/routes/routes.dart';
-import 'package:petcare_search/screens/sign_in.dart';
+import 'package:petcare_search/screens/sign_methods/sign_in.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
-import '../services/auth_provider.dart';
+import '../../providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatelessWidget {

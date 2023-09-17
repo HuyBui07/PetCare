@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:petcare_search/constants/colors.dart';
 import 'package:petcare_search/routes/routes.dart';
 import 'package:petcare_search/screens/home_screen.dart';
-import 'package:petcare_search/screens/search_tks.dart';
+import 'package:petcare_search/screens/search_tab/search_tks.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
 import 'package:petcare_search/widgets/bottomButton.dart';
 
