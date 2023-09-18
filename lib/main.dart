@@ -5,12 +5,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:petcare_search/routes/routes.dart';
 import 'package:petcare_search/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
-import 'vetenaries/veterinary_uid_list.dart';
+import 'repository/vetRepository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await VeterinaryList.getVeterinaries();
+  await VeterinaryRepository.GetVetsNames();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
   ));
