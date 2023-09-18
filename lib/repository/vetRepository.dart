@@ -1,22 +1,40 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:petcare_search/models/veterinary_model.dart';
 
-class VeterinaryRepository
-{
-  static final VeterinaryRepository _instance = VeterinaryRepository._internal();
+class VeterinaryRepository {
+  static List<String> vetsNames = [];
+
+  static final VeterinaryRepository _instance =
+      VeterinaryRepository._internal();
   factory VeterinaryRepository() => _instance;
   static final db = FirebaseFirestore.instance;
-  
+
   //Todo: Implement security
   VeterinaryRepository._internal() {
     // init things inside this
-    
   }
+  //Get vets names
+  static GetVetsNames() async {
+    try {
+      var collectionRef = db.collection('Veterinaries');
+
+      collectionRef.get().then((QuerySnapshot querySnapshot) => {
+            querySnapshot.docs.forEach((doc) async {
+              var uid = doc.id;
+              DocumentSnapshot snapshot = await FirebaseFirestore.instance
+                  .collection('Veterinaries')
+                  .doc(uid)
+                  .get();
+              vetsNames.add(snapshot["name"]);
+            })
+          });
+    } catch (e) {
+      print(e);
+    }
+  }
+
   //Get all vets
-  static Future<List<Veterinary>> GetAllVets() async
-  {
+  static Future<List<Veterinary>> GetAllVets() async {
     List<Veterinary> vets = [];
     try {
       final vetCollection = await db.collection("Veterinaries").get();
@@ -28,15 +46,13 @@ class VeterinaryRepository
     }
     return vets;
   }
+
   //Add vet. Check if exist, if not, add. If yes, return error
-  static Future<void> AddVet(Veterinary vet) async
-  {
+  static Future<void> AddVet(Veterinary vet) async {
     //Check if vet exist
     if (await GetVeterinaryWithEmail(vet.vetMail) != null) {
       return Future.error("Vet already exist");
-    }
-    else
-    {
+    } else {
       //Add vet
       try {
         await db.collection("Veterinaries").doc(vet.vetMail).set(vet.toJson());
@@ -45,45 +61,48 @@ class VeterinaryRepository
       }
     }
   }
-  static Future<void> UpdateVet (Veterinary vet) async
-  {
+
+  static Future<void> UpdateVet(Veterinary vet) async {
     //Check if vet exist
     if (await GetVeterinaryWithEmail(vet.vetMail) == null) {
       return Future.error("Vet not found");
-    }
-    else
-    {
+    } else {
       //Update vet
       try {
-        await db.collection("Veterinaries").doc(vet.vetMail).update(vet.toJson());
+        await db
+            .collection("Veterinaries")
+            .doc(vet.vetMail)
+            .update(vet.toJson());
       } catch (e) {
         print(e);
       }
     }
   }
+
   //Get ref with email
-  static Future<DocumentReference> GetVetReferenceWithEmail(String email) async
-  {
-    DocumentSnapshot docSnap = await db.collection("Veterinaries").doc(email).get();
+  static Future<DocumentReference> GetVetReferenceWithEmail(
+      String email) async {
+    DocumentSnapshot docSnap =
+        await db.collection("Veterinaries").doc(email).get();
     if (!docSnap.exists) {
       return Future.error("Vet not found");
     }
     return docSnap.reference;
   }
+
   //Get vet
-   static Future<DocumentReference> GetVetReference(Veterinary vet) async
-  {
-    DocumentSnapshot docSnap = await db.collection("Veterinaries").doc(vet.vetMail).get();
+  static Future<DocumentReference> GetVetReference(Veterinary vet) async {
+    DocumentSnapshot docSnap =
+        await db.collection("Veterinaries").doc(vet.vetMail).get();
     return docSnap.reference;
   }
-  
-  //Get vets within X km of location
-  
 
+  //Get vets within X km of location
 
   //Get vet by mail.
   static Future<Veterinary?> GetVeterinaryWithEmail(String email) async {
-    DocumentSnapshot docSnap = await db.collection("Veterinaries").doc(email).get();
+    DocumentSnapshot docSnap =
+        await db.collection("Veterinaries").doc(email).get();
     if (docSnap.exists) {
       // Convert Firestore data to Map
       Map<String, dynamic> vetData = docSnap.data() as Map<String, dynamic>;
@@ -94,8 +113,9 @@ class VeterinaryRepository
       return null;
     }
   }
+
   //Get vet by ref
-   static Future<Veterinary?> GetVeterinaryWithReference(
+  static Future<Veterinary?> GetVeterinaryWithReference(
       DocumentReference vetRef) async {
     //Check if user exist
     DocumentSnapshot docSnap = await vetRef.get();
@@ -110,9 +130,9 @@ class VeterinaryRepository
     }
   }
 
-  static Future<bool> DoesVetExist(String email) async
-  {
-    DocumentSnapshot docSnap = await db.collection("Veterinaries").doc(email).get();
+  static Future<bool> DoesVetExist(String email) async {
+    DocumentSnapshot docSnap =
+        await db.collection("Veterinaries").doc(email).get();
     return docSnap.exists;
   }
 }

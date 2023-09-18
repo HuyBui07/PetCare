@@ -8,6 +8,7 @@ import 'package:petcare_search/utils/dentist_list.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
 import 'package:petcare_search/vetenaries/veterinary_uid_list.dart';
 import 'package:petcare_search/widgets/customTabBart.dart';
+import '../../repository/vetRepository.dart';
 
 final formatter = DateFormat('d MMM', 'en_US');
 
@@ -26,8 +27,7 @@ class _SearchResultsState extends State<SearchResults>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
 
-  static List<String> mainDentistList = List.generate(
-      VeterinaryList.uids.length, (index) => VeterinaryList.names[index]);
+  static List<String> mainDentistList = VeterinaryRepository.vetsNames;
 
   List<String> displayList = List.from(mainDentistList);
 
