@@ -60,7 +60,9 @@ Future<void> getUserData() async {
     print("[USER DATA] User not found in db");
     return;
   }
-  //Assign user
+  try 
+  {
+    //Assign user
   UserRepository.AssignCurrentUser(user);
 
   //Assign to global data
@@ -71,8 +73,12 @@ Future<void> getUserData() async {
   GlobalData.about = user.aboutMe;
   GlobalData.gender = user.gender;
   GlobalData.phone = user.phoneNumber;
-  GlobalData.avatar = await user.GetAvatarURL();
-  
+  GlobalData.avatar = user.avatarPath;
+  print ("[USER DATA] User data assigned");
+  }
+  catch (e) {
+    print("[USER DATA] Error: ${e.toString()}");
+  }
 
 
   
@@ -111,16 +117,31 @@ Future<void> addUser(
 
 Future updateUserData(String? userName, String? nickName, String? email,
     String? avt, Gender? gender, String? phone, String? about) async {
-  return await FirebaseFirestore.instance
-      .collection('Users')
-      .doc(GlobalData.id)
-      .set({
-    'name': userName,
-    'nickName': nickName,
-    'email': email,
-    'avatar': avt,
-    'gender': gender.toString(),
-    'phoneNumber': phone,
-    'aboutMe': about,
-  });
+       // return await FirebaseFirestore.instance
+  //     .collection('Users')
+  //     .doc(GlobalData.id)
+  //     .set({
+  //   'name': userName,
+  //   'nickName': nickName,
+  //   'email': email,
+  //   'avatar': avt,
+  //   'gender': gender.toString(),
+  //   'phoneNumber': phone,
+  //   'aboutMe': about,
+  // });
+
+  UserModel newUser = UserModel 
+  (
+    name: userName!,
+    nickName: nickName!,
+    email: email!,
+    gender: gender!,
+    phoneNumber: phone!,
+    aboutMe: about!,
+    uid: GlobalData.id!,
+    
+  );
+  newUser.avatarPath = avt!;
+  await UserRepository.UpdateUser(newUser);
+  
 }
