@@ -13,6 +13,7 @@ import 'package:petcare_search/repository/userRepository.dart';
 
 
 class UserModel {
+  String uid;
   String name;
   String email;
   late String imagePath = "UserAvatar/$email.png";
@@ -22,6 +23,7 @@ class UserModel {
   List<Review> reviews = [];
   
   UserModel({
+    required this.uid,
     required this.name,
     required this.email,
     required this.gender,
@@ -29,7 +31,7 @@ class UserModel {
     this.phoneNumber = "",
   })
   {
-    imagePath = "UserAvatar/$email.png";
+    imagePath = "UserAvatar/AmongUs.jpg";
   }
   
   Future<List<Pet>?> GetUserPets() async 
@@ -72,7 +74,7 @@ class UserModel {
   Future<void> ChangeAvatar(Image newAvatar) async
   {
      //Todo:: Implement avatar change
-
+     
   }
 
   //Update information
@@ -108,6 +110,7 @@ class UserModel {
   
   Map<String, dynamic> toJson() {
     return {
+      'uid': uid,
       'name': name,
       'email': email,
       'imagePath': imagePath,
@@ -124,6 +127,7 @@ class UserModel {
   //Convert from json map to UserModel
   factory UserModel.fromJson(Map<String, dynamic> json) {
   return UserModel(
+    uid: json.containsKey('uid') ? json['uid'] as String : "",
     name: json.containsKey('name') ? json['name'] as String : "",
     email: json.containsKey('email') ? json['email'] as String : "",
     gender: json.containsKey('gender')

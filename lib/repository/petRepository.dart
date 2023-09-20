@@ -2,9 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:petcare_search/models/user_model.dart';
 import 'package:petcare_search/repository/userRepository.dart';
-
+import  'package:cloud_firestore/cloud_firestore.dart';
 import '../models/model_enums.dart';
 import '../models/pet_model.dart';
+
+//Generally used on current user.
+//Call get all pet or a specific pet name on a UserModel.
 
 class PetRepository {
   static final PetRepository _instance = PetRepository._internal();
@@ -23,26 +26,30 @@ class PetRepository {
       try {
         final petCollection = await db
             .collection("Pets")
-            .where("ownerMail", isEqualTo: currentUser.email)
+            .doc(currentUser.uid)
+            .collection("Pets")
             .get();
         petCollection.docs.forEach((element) {
           pets.add(Pet.fromJsonToPet(element.data()));
         });
+
+
       } catch (e) {
         print(e);
       }
     return pets;
   }
 
-  static Future<List<Pet>?> GetAllPetsByOwner(String ownerMail) async {
+  static Future<List<Pet>?> GetAllPetsByOwner(String uid) async {
     List<Pet> pets = [];
-    if (ownerMail == "") {
-      return Future.error("Owner mail is empty");
+    if (uid == "") {
+      return Future.error("UID mail is empty");
     }
     try {
       final petCollection = await db
           .collection("Pets")
-          .where("ownerMail", isEqualTo: ownerMail)
+          .doc(uid)
+          .collection("Pets")
           .get();
       petCollection.docs.forEach((element) {
         pets.add(Pet.fromJsonToPet(element.data()));
@@ -52,14 +59,14 @@ class PetRepository {
     }
     return pets;
   }
-
+  //We don't even have pet here 
   static Future<Pet?> GetPetFromOwner(
-      String petName, String ownerMail) async {
-    //if context is null, dont show snackbar
+      String petName, String ownerUID) async {
+    
     try {
       DocumentReference petRef = await db
           .collection("Pets")
-          .doc(ownerMail)
+          .doc(ownerUID)
           .collection("Pets")
           .doc(petName);
       DocumentSnapshot petSnapshot = await petRef.get();
@@ -75,7 +82,7 @@ class PetRepository {
         return pet;
       }
     } catch (error) {
-      // Show a snackbar on error
+      
       print("[PET REPOS] Failed to get pet: $error");
       return null;
     }
@@ -84,7 +91,7 @@ class PetRepository {
   static Future<void> AddPetToOwner(
       Pet pet, UserModel owner) async {
     //Check if owner exist on db, if they dont, show snack bar error user not exist. Else, add to them
-    DocumentReference docRef = await db.collection("Users").doc(owner.email);
+    DocumentReference docRef = await db.collection("Users").doc(owner.uid);
     DocumentSnapshot docSnap = await docRef.get();
 
     if (!docSnap.exists) {
@@ -94,24 +101,24 @@ class PetRepository {
       try {
         //Add pet to owner
         pet.ownerMail = owner.email;
-        String ownerMail = owner.email;
+       
 
         //Check if path exist first, if not create it. Then add it
         DocumentReference petRef = await db
             .collection("Pets")
-            .doc(ownerMail)
+            .doc(owner.uid)
             .collection("Pets")
             .doc(pet.name);
         DocumentSnapshot petSnapshot = await petRef.get();
         if (await !petSnapshot.exists) {
           await db
               .collection("Pets")
-              .doc(ownerMail)
+              .doc(owner.uid)
               .collection("Pets")
               .doc(pet.name)
               .set(pet.toJson());
           
-            content: Text("Pet Added");
+          print("[PET REPOS] Pet added");
         } else {
           await docRef.update(pet.toJson());
           print ("[PET REPOS] Pet already exist, updated");
