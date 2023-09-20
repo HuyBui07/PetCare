@@ -19,7 +19,8 @@ class UserModel {
   String name;
   String nickName; //Optional
   String email;
-  late String imagePath;
+  
+  late String avatarPath; //In URL
   Gender? gender;
   String? phoneNumber;
   String aboutMe;
@@ -34,8 +35,13 @@ class UserModel {
     this.gender,
     required this.aboutMe,
     this.phoneNumber = "",
+    
+    this.avatarPath = "https://firebasestorage.googleapis.com/v0/b/petcarevz.appspot.com/o/UserAvatar%2FAmongUs.jpg?alt=media&token=b65158df-9acc-4626-8b28-345404eebfff", //default value
   }) {
+
     //imagePath = "UserAvatar/AmongUs.jpg";
+    
+
     if (gender == null) {
       gender = Gender.other;
     }
@@ -79,19 +85,7 @@ class UserModel {
   Future<void> ChangeAvatar(Image newAvatar) async {
     //Todo:: Implement avatar change
   }
-  //Download avatar from firebase then store it as "TempAva". Replace whenver download
-  Future<String?> GetAvatarURL() async {
-    try {
-      final imageRef = FirebaseStorage.instance.ref().child(imagePath);
-      final url = await imageRef.getDownloadURL();
-      return url;
-    } catch (e) {
-      // Handle any potential errors here
-      print('Error fetching image: $e');
-      return null; // Return null or handle the error as needed
-    }
-  }
-
+  
   //Update information
   Future<void> UpdateUserInformation({
     String newName = "",
@@ -126,7 +120,7 @@ class UserModel {
       'name': name,
       'nickName': nickName,
       'email': email,
-      'imagePath': imagePath,
+      'avatarPath': avatarPath,
       'gender': gender.toString(), // Assuming Gender is an enum
       'phoneNumber': phoneNumber,
       'aboutMe': aboutMe,
@@ -136,7 +130,7 @@ class UserModel {
 
   // Convert from json map to UserModel
   factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(
+    UserModel newUser = UserModel(
       uid: json.containsKey('uid') ? json['uid'] as String : "",
       imagePath:
           json.containsKey('imagePath') ? json['imagePath'] as String : "",
@@ -150,7 +144,13 @@ class UserModel {
           ? json['phoneNumber'] as String?
           : null,
       aboutMe: json.containsKey('aboutMe') ? json['aboutMe'] as String : "",
+      
+      
     );
+    if (json.containsKey('avatarPath')) {
+      newUser.avatarPath = json['avatarPath'] as String;
+    }
+    return newUser;
   }
 
 // Helper function to parse gender from string

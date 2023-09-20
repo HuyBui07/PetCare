@@ -26,18 +26,20 @@ class UserRepository {
   //Used to assign upon signup/login
   static Future<void> AssignCurrentUser(UserModel user) async {
     //Check if user exist in db
+    if (user.uid.isEmpty) 
+      return Future.error ("User UID is empty");
     if (await DoesUserWithUIDExist(user.uid)== false) {
-      print("[USER REPOS] User with ${user.email}} not found for assignment");
+      print("[USER REPOS] User with ${user.uid}} not found for assignment");
       return;
     }
     currentUser = user;
-    print("[USER REPOS] Current user assigned. Email: ${user.email}");
+    print("[USER REPOS] Current user assigned. Email: ${user.email } and  UID: ${user.uid}");
   }
 
   //Does user with UID exist?
   static Future<bool> DoesUserWithUIDExist(String uid) async {
     DocumentSnapshot querySnapshot =
-        await db.collection("Users").doc (uid).get();
+        await db.collection("Users").doc(uid).get();
 
     return querySnapshot.exists;
   }
@@ -150,6 +152,7 @@ class UserRepository {
     if (await DoesUserWithUIDExist(user.uid)) {
       //Update user
       await db.collection("Users").doc(user.uid).update(user.toJson());
+      
       print("[USER REPOS] User with ${user.uid} and ${user.email} updated");
       return Future.value("Success");
     } else {
