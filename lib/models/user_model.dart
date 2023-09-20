@@ -1,12 +1,16 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:petcare_search/models/model_enums.dart';
 import 'package:petcare_search/models/pet_model.dart';
 import 'package:petcare_search/models/review_model.dart';
 import 'package:petcare_search/repository/petRepository.dart';
 import 'package:petcare_search/repository/reviewRepository.dart';
 import 'package:petcare_search/repository/userRepository.dart';
+import 'package:petcare_search/users/gender.dart';
 
 //Avatar is storage in firebase storage. With path: UserAvatar/{email}.png
 
@@ -15,9 +19,10 @@ import 'package:petcare_search/repository/userRepository.dart';
 class UserModel {
   String uid;
   String name;
+  String nickName; //Optional
   String email;
-  late String imagePath = "UserAvatar/$email.png";
-  Gender gender;
+  late String imagePath;
+  Gender? gender;
   String? phoneNumber;
   String aboutMe;
   List<Review> reviews = [];
@@ -26,12 +31,17 @@ class UserModel {
     required this.uid,
     required this.name,
     required this.email,
-    required this.gender,
+    this.nickName = "",
+    this.gender,
     required this.aboutMe,
     this.phoneNumber = "",
   })
   {
     imagePath = "UserAvatar/AmongUs.jpg";
+    if (gender == null)
+    {
+      gender = Gender.other;
+    }
   }
   
   Future<List<Pet>?> GetUserPets() async 
@@ -76,12 +86,24 @@ class UserModel {
      //Todo:: Implement avatar change
      
   }
+  //Download avatar from firebase then store it as "TempAva". Replace whenver download
+  Future<String?> GetAvatarURL() async {
+  try {
+    final imageRef = FirebaseStorage.instance.ref().child(imagePath);
+    final url = await imageRef.getDownloadURL();
+    return url;
 
+  } catch (e) {
+    // Handle any potential errors here
+    print('Error fetching image: $e');
+    return null; // Return null or handle the error as needed
+  }
+}
   //Update information
   Future<void> UpdateUserInformation(
     {
       String newName = "",
-      Gender gender = Gender.none,
+      Gender gender = Gender.other,
       String newPhoneNumber = "",
       String newAboutMe = "",
     }
@@ -91,7 +113,7 @@ class UserModel {
     if (newName != "") {
       this.name = newName;
     }
-    if (gender != Gender.none)
+    if (gender != Gender.other)
     {
       this.gender = gender;
     }

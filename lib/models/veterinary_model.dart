@@ -90,7 +90,7 @@ class Veterinary {
       clinic: json.containsKey('clinic')
           ? Clinic.fromJson(json['clinic'] as Map<String, dynamic>)
           : const Clinic("Nowhere"),
-      price: json.containsKey('price') ? json['price'] as double : 0,
+      price: json.containsKey('price') ? json['price'] as double : 0.0,
       yearOfExperience: json.containsKey('yearOfExperience')
           ? json['yearOfExperience'] as int
           : 0,
