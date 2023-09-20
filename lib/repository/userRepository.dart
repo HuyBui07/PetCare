@@ -128,7 +128,7 @@ class UserRepository {
       return null;
     }
   }
-
+  
   
   //Add user to db. If they already exist, return error.
   static Future<void> AddUser(UserModel user) async {
