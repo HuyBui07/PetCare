@@ -59,38 +59,25 @@ Future<void> getUserData() async {
     print("[USER DATA] User not found in db");
     return;
   }
-  try 
-  {
+  try {
     //Assign user
-  UserRepository.AssignCurrentUser(user);
+    UserRepository.AssignCurrentUser(user);
 
-  //Assign to global data
-  GlobalData.displayName = user.name;
-  GlobalData.nickName = user.nickName;
+    //Assign to global data
+    GlobalData.displayName = user.name;
+    GlobalData.nickName = user.nickName;
 
-  GlobalData.email = user.email;
-  GlobalData.about = user.aboutMe;
-  GlobalData.gender = user.gender;
+    GlobalData.email = user.email;
+    GlobalData.about = user.aboutMe;
+    GlobalData.gender = user.gender;
 
-  print ("[USER DATA] User data assigned");
-  }
-  catch (e) {
+    print("[USER DATA] User data assigned");
+  } catch (e) {
     print("[USER DATA] Error: ${e.toString()}");
   }
-
-
-  
-
 
   GlobalData.phone = user.phoneNumber;
-  GlobalData.avatar = await user.imagePath;
-  //print('GlobalAvatar: ${GlobalData.avatar}');
-    print ("[USER DATA] User data assigned");
-  }
-  catch (e) {
-    print("[USER DATA] Error: ${e.toString()}");
-  }
-
+  GlobalData.avatar = user.avatarPath;
 }
 
 Future<void> addUser(
@@ -110,8 +97,6 @@ Future<void> addUser(
 
   //Make an UserModel -> Add to database
   UserModel user = UserModel(
-    imagePath: avatar ??
-        "https://firebasestorage.googleapis.com/v0/b/petcarevz.appspot.com/o/UserAvatar%2FAmongUs.jpg?alt=media&token=3e913a87-f139-47fd-855f-735503a95510",
     aboutMe: "Nothing yet~",
     uid: id!,
     name: displayName!,
@@ -124,21 +109,20 @@ Future<void> addUser(
 
 Future updateUserData(String? userName, String? nickName, String? email,
     String? avt, Gender? gender, String? phone, String? about) async {
-
   //return await FirebaseFirestore.instance
-    //  .collection('Users')
-      //.doc(GlobalData.id)
-     // .set({
-    //'name': userName,
-    //'nickName': nickName,
-   // 'email': email,
+  //  .collection('Users')
+  //.doc(GlobalData.id)
+  // .set({
+  //'name': userName,
+  //'nickName': nickName,
+  // 'email': email,
   //  'imagePath': avt,
-   // 'gender': gender.toString(),
+  // 'gender': gender.toString(),
   //  'phoneNumber': phone,
 //'aboutMe': about,
 //});
 
-       // return await FirebaseFirestore.instance
+  // return await FirebaseFirestore.instance
   //     .collection('Users')
   //     .doc(GlobalData.id)
   //     .set({
@@ -151,8 +135,7 @@ Future updateUserData(String? userName, String? nickName, String? email,
   //   'aboutMe': about,
   // });
 
-  UserModel newUser = UserModel 
-  (
+  UserModel newUser = UserModel(
     name: userName!,
     nickName: nickName!,
     email: email!,
@@ -160,10 +143,7 @@ Future updateUserData(String? userName, String? nickName, String? email,
     phoneNumber: phone!,
     aboutMe: about!,
     uid: GlobalData.id!,
-    
   );
   newUser.avatarPath = avt!;
   await UserRepository.UpdateUser(newUser);
-  
-
 }

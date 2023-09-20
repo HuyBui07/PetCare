@@ -19,7 +19,7 @@ class UserModel {
   String name;
   String nickName; //Optional
   String email;
-  
+
   late String avatarPath; //In URL
   Gender? gender;
   String? phoneNumber;
@@ -28,19 +28,16 @@ class UserModel {
 
   UserModel({
     required this.uid,
-    required this.imagePath,
     required this.name,
     required this.email,
     this.nickName = "",
     this.gender,
     required this.aboutMe,
     this.phoneNumber = "",
-    
-    this.avatarPath = "https://firebasestorage.googleapis.com/v0/b/petcarevz.appspot.com/o/UserAvatar%2FAmongUs.jpg?alt=media&token=b65158df-9acc-4626-8b28-345404eebfff", //default value
+    this.avatarPath =
+        "https://firebasestorage.googleapis.com/v0/b/petcarevz.appspot.com/o/UserAvatar%2FAmongUs.jpg?alt=media&token=b65158df-9acc-4626-8b28-345404eebfff", //default value
   }) {
-
     //imagePath = "UserAvatar/AmongUs.jpg";
-    
 
     if (gender == null) {
       gender = Gender.other;
@@ -85,7 +82,7 @@ class UserModel {
   Future<void> ChangeAvatar(Image newAvatar) async {
     //Todo:: Implement avatar change
   }
-  
+
   //Update information
   Future<void> UpdateUserInformation({
     String newName = "",
@@ -132,7 +129,7 @@ class UserModel {
   factory UserModel.fromJson(Map<String, dynamic> json) {
     UserModel newUser = UserModel(
       uid: json.containsKey('uid') ? json['uid'] as String : "",
-      imagePath:
+      avatarPath:
           json.containsKey('imagePath') ? json['imagePath'] as String : "",
       name: json.containsKey('name') ? json['name'] as String : "",
       nickName: json.containsKey('nickName') ? json['nickName'] as String : "",
@@ -144,8 +141,6 @@ class UserModel {
           ? json['phoneNumber'] as String?
           : null,
       aboutMe: json.containsKey('aboutMe') ? json['aboutMe'] as String : "",
-      
-      
     );
     if (json.containsKey('avatarPath')) {
       newUser.avatarPath = json['avatarPath'] as String;
