@@ -33,6 +33,37 @@ class AppointmentRepos
     });
     return appointments;
   }
+  //Get all unfinished appointment for a user
+  static Future<List<Appointment>> GetAllUnfinishedAppointmentForUser(String uid) async
+  {
+    //Get user ref
+    DocumentReference userRef = await UserRepository.GetUserRefWithUID(uid);
+    //Get all appointment for user
+    QuerySnapshot querySnap = await db.collection("Appointments").where ("bookerUID", isEqualTo: userRef)
+    .where ("finished", isEqualTo: false).get();
+    //Convert to list of appointment
+    List<Appointment> appointments = [];
+    querySnap.docs.forEach((doc) {
+      appointments.add(Appointment.fromJson(doc.data() as Map<String, dynamic>));
+    });
+    return appointments;
+  }
+  //Get all finished appointment for a user
+  static Future<List<Appointment>> GetAllFinishedAppointmentForUser(String uid) async
+  {
+    //Get user ref
+    DocumentReference userRef = await UserRepository.GetUserRefWithUID(uid);
+    //Get all appointment for user
+    QuerySnapshot querySnap = await db.collection("Appointments").where ("bookerUID", isEqualTo: userRef)
+    .where ("finished", isEqualTo: true).get();
+    //Convert to list of appointment
+    List<Appointment> appointments = [];
+    querySnap.docs.forEach((doc) {
+      appointments.add(Appointment.fromJson(doc.data() as Map<String, dynamic>));
+    });
+    return appointments;
+  }
+  
   //Finish appointment/ Simply change status to finished 
   static Future<void> FinishAppointment(Appointment appointment) async
   {
@@ -79,7 +110,8 @@ class AppointmentRepos
     //Remove appointment
     await db.collection("Appointments").where ("bookerUID", isEqualTo: appointment.bookerUID)
     .where ("bookedVetMail", isEqualTo: appointment.bookedVetMail)
-    .where ("bookedDate", isEqualTo: appointment.bookedDate).get()
+    .where ("bookedDate", isEqualTo: appointment.bookedDate)
+    .where ("finished", isEqualTo: appointment.finished).get()
     .then((value) {
       value.docs.forEach((element) {
         element.reference.delete();
@@ -87,5 +119,24 @@ class AppointmentRepos
     });
     print("[APPOINTMENT REPOS] Appointment with date ${appointment.bookedDate} removed");
     return Future.value(null);
+  }
+  //Get appointment of a vet and a user. Only return one appointment
+  //For debugging mostly
+  static Future<Appointment?> GetUnfinishedAppointmentForVetAndUser(String uid, String vetMail) async
+  {
+    
+    //Get appointment
+    QuerySnapshot querySnap = await db.collection("Appointments").where ("bookerUID", isEqualTo: uid)
+    .where ("bookedVetMail", isEqualTo: vetMail).where ("finished", isEqualTo: false).get();
+    
+    
+    //Convert to list of appointment
+    List<Appointment> appointments = [];
+    querySnap.docs.forEach((doc) {
+      appointments.add(Appointment.fromJson(doc.data() as Map<String, dynamic>));
+    });
+    if (appointments.length == 0)
+      return null;
+    return appointments[0];
   }
 }

@@ -212,7 +212,59 @@ class _BookApointmentTestState extends State<BookApointmentTest> {
                     );
                }
               },
-              child: Text("Book Appointment"))
+              child: Text("Book Appointment")),
+              //Finish appointment
+              ElevatedButton(
+              onPressed: () async {
+                //Get the appointment between user and vet. Call finish
+                Appointment? appointment = await AppointmentRepos.GetUnfinishedAppointmentForVetAndUser(userTest!.uid, vetMail);
+                if (appointment == null)
+                {
+                  //Show dialog to tell user that vet information is not pushed to database
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text("Error"),
+                          content:  Text("Appointment not found"),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text("OK"),
+                            )
+                          ],
+                        );
+                      }
+                    );
+                    return;
+                }
+                //Show appointment time with a button to finish
+                showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text("Appointment"),
+                          content:  Text("Appointment on ${appointment.bookedDate}"),
+                          actions: [
+                            TextButton(
+                              onPressed: () async {
+                                //Finish appointment
+                                await appointment.Finish();
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text("Finish"),
+                            )
+                          ],
+                        );
+                      }
+                    );
+              },
+              child: Text("Finish Appointment")
+              )
+
+
         ]));
   }
 }
