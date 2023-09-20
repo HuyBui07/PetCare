@@ -53,9 +53,8 @@ Future<void> getUserData() async {
   }
   //Logged in already, can't be null. Get user data from db.
   UserModel? user = await UserRepository.GetUserWithUID(GlobalData.id!);
-  
-  
-  //Adding to remove error. Shouldn't happen  
+
+  //Adding to remove error. Shouldn't happen
   if (user == null) {
     print("[USER DATA] User not found in db");
     return;
@@ -65,19 +64,15 @@ Future<void> getUserData() async {
 
   //Assign to global data
   GlobalData.displayName = user.name;
-  GlobalData.nickName = "";
-  
+  GlobalData.nickName = user.nickName;
+
   GlobalData.email = user.email;
   GlobalData.about = user.aboutMe;
   GlobalData.gender = user.gender;
+
   GlobalData.phone = user.phoneNumber;
-  GlobalData.avatar = await user.GetAvatarURL();
-  
-
-
-  
-
-
+  GlobalData.avatar = await user.imagePath;
+  //print('GlobalAvatar: ${GlobalData.avatar}');
 }
 
 Future<void> addUser(
@@ -94,9 +89,11 @@ Future<void> addUser(
   //   users.doc(id).set({'name': displayName, 'email': email, 'avatar': avatar});
   // }
   // return;
-  
-  //Make an UserModel -> Add to database 
-  UserModel user = UserModel (
+
+  //Make an UserModel -> Add to database
+  UserModel user = UserModel(
+    imagePath: avatar ??
+        "https://firebasestorage.googleapis.com/v0/b/petcarevz.appspot.com/o/UserAvatar%2FAmongUs.jpg?alt=media&token=3e913a87-f139-47fd-855f-735503a95510",
     aboutMe: "Nothing yet~",
     uid: id!,
     name: displayName!,
@@ -105,8 +102,6 @@ Future<void> addUser(
 
   //Add user to db
   await UserRepository.AddUser(user);
-
-  
 }
 
 Future updateUserData(String? userName, String? nickName, String? email,
@@ -118,7 +113,7 @@ Future updateUserData(String? userName, String? nickName, String? email,
     'name': userName,
     'nickName': nickName,
     'email': email,
-    'avatar': avt,
+    'imagePath': avt,
     'gender': gender.toString(),
     'phoneNumber': phone,
     'aboutMe': about,

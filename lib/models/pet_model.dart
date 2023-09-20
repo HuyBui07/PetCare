@@ -40,7 +40,7 @@ class Pet {
   });
   //Change avatar
   Future<void> ChangeAvatar(String newPath) async {
-     //Todo:: implement change avatar
+    //Todo:: implement change avatar
   }
   //Tojson
   Map<String, dynamic> toJson() {
@@ -61,10 +61,12 @@ class Pet {
       'nurseryName': nurseryName,
     };
   }
+
   //Update pet on db
   Future<void> Update() async {
     await PetRepository.UpdatePet(this);
   }
+
   //From json to pet
   static Pet fromJsonToPet(Map<String, dynamic> petJson) {
     return Pet(
