@@ -1,9 +1,3 @@
-enum Gender
-{
-  male,
-  female,
-  none,
-}
 
 enum PetSize { small, medium, large }
 
@@ -107,25 +101,7 @@ class EnumConverter
   {
     return spl.toString().split('.').last;
   }
-  static Gender StringToGender(String gender)
-  {
-    gender = gender.toLowerCase();
-    switch(gender)
-    {
-      case "male":
-        return Gender.male;
-      case "female":
-        return Gender.female;
-      default:
-        return Gender.none;
-    }
-  }
-  static String GenderToString (Gender gender)
-  {
-    //Upcase first character
-    String genderString = gender.toString().split('.').last;
-    genderString[0].toUpperCase();
-      return genderString;
-  }
+  
+  
   
 }

@@ -6,8 +6,9 @@ import 'package:petcare_search/repository/userRepository.dart';
 import 'package:petcare_search/repository/vetRepository.dart';
 
 class Review {
-  String reviewedVetMail;
-  String reviewerMail;
+  String? reviewUID;
+  String reviewedVetMail; //Ideally its vet UID, but we have one day.
+  String reviewerUID;
   int rating; //1-5
   String reviewDescription;
   DateTime reviewDate;
@@ -20,7 +21,7 @@ class Review {
     this.reviewerName,
     this.vetName,
     required this.reviewedVetMail,
-    required this.reviewerMail,
+    required this.reviewerUID,
     required this.rating,
     required this.reviewDescription,
     required this.reviewDate,
@@ -47,12 +48,16 @@ class Review {
     }
     else
     {
-      reviewer = await UserRepository.GetUserWithEmail(email:reviewerMail);
+      reviewer = await UserRepository.GetUserWithUID(reviewerUID);
         return reviewer!;
     }
     
   }
-
+  //Assign review UID
+  Future<void> AssignReviewUID(String uid) async
+  {
+    reviewUID = await ReviewRepository.GetReviewUID(reviewerUID, reviewedVetMail);
+  }
   //Get reviewed vet name from reviewedVetRef
   Future<Veterinary> GetReviewedVet() async {
     //Todo:  implement security
@@ -70,10 +75,16 @@ class Review {
      await ReviewRepository.UpdateReview(this);
 
   }
+  //Remove review
+  Future<void> RemoveReview() async
+  {
+    await ReviewRepository.RemoveReview(this);
+  }
   Map<String, dynamic> toJson() {
     return {
+      'reviewUID' : reviewUID,
       'reviewedVetMail': reviewedVetMail,
-      'reviewerMail': reviewerMail,
+      'reviewerMail': reviewerUID,
       'rating': rating,
       'reviewDescription': reviewDescription,
       'reviewDate': reviewDate,
@@ -88,10 +99,11 @@ class Review {
       : null;
 
   return Review(
+
     reviewedVetMail: json.containsKey('reviewedVetMail')
         ? json['reviewedVetMail'] as String
         : "",
-    reviewerMail: json.containsKey('reviewerMail')
+    reviewerUID: json.containsKey('reviewerMail')
         ? json['reviewerMail'] as String
         : "",
     reviewerName: json.containsKey('reviewerName')

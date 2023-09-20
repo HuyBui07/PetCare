@@ -12,3 +12,18 @@ parseGender(String value, Gender pz) {
   }
   return pz;
 }
+
+//String to gender 
+Gender StringToGender(String gd)
+{
+  switch (gd)
+  {
+    case "male":
+      return Gender.male;
+    case "female":
+      return Gender.female;
+    default:
+      return Gender.other;
+    
+  }
+}

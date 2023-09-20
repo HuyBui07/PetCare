@@ -3,7 +3,9 @@ import 'package:petcare_search/models/review_model.dart';
 import 'package:petcare_search/repository/reviewRepository.dart';
 import 'package:petcare_search/repository/vetRepository.dart';
 
+ //Ideally vet also has UID as well. But we have one day.
 class Veterinary {
+ 
   String name;
   String vetMail;
   String imagePath;
@@ -88,7 +90,7 @@ class Veterinary {
       clinic: json.containsKey('clinic')
           ? Clinic.fromJson(json['clinic'] as Map<String, dynamic>)
           : const Clinic("Nowhere"),
-      price: json.containsKey('price') ? json['price'] as double : 0,
+      price: json.containsKey('price') ? json['price'] as double : 0.0,
       yearOfExperience: json.containsKey('yearOfExperience')
           ? json['yearOfExperience'] as int
           : 0,
