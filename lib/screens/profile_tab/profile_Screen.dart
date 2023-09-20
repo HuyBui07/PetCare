@@ -135,8 +135,10 @@ class ProfileScreen extends StatelessWidget {
                               radius: scaleW(56, context),
                               backgroundImage: const AssetImage(
                                   'assets/imgs/profileImgs/photo.png'),
-                              foregroundImage: data['avatar'] != null
-                                  ? NetworkImage(data['avatar'])
+                              foregroundImage: GlobalData.avatar != null
+                                  ? 
+                                  NetworkImage(GlobalData.avatar!)
+                                      
                                   : const AssetImage(
                                           'assets/imgs/profileImgs/photo.png')
                                       as ImageProvider,
