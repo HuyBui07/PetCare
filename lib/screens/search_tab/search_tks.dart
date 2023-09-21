@@ -1,14 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:petcare_search/constants/colors.dart';
 import 'package:petcare_search/routes/routes.dart';
 import 'package:petcare_search/screens/home_screen.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
 import 'package:petcare_search/widgets/bottomsheet_booking.dart';
 
+final formatter = DateFormat('EEE d MMM');
+
 class SearchThanks extends StatelessWidget {
-  const SearchThanks({super.key});
+  const SearchThanks(
+      {super.key, required this.datePicked, required this.timePicked});
+
+  final DateTime datePicked;
+  final String timePicked;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +73,7 @@ class SearchThanks extends StatelessWidget {
                               AppColors.lightgrey2, BlendMode.srcIn),
                         ),
                         Text(
-                          'Wed 9 Sep at 10:30 am',
+                          '${formatter.format(datePicked)} at $timePicked',
                           style: Theme.of(context)
                               .textTheme
                               .headline5!
