@@ -92,6 +92,7 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -127,9 +128,6 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                       )
                     ]),
                   ],
-                ),
-                SizedBox(
-                  width: scaleW(44, context),
                 ),
                 GestureDetector(
                   onTap: () {},
@@ -173,7 +171,9 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                     top: scaleH(49, context),
                     left: scaleW(14, context),
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                       icon: const Icon(Icons.arrow_back),
                       color: Colors.white,
                     )),
@@ -499,74 +499,71 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                 borderRadius: BorderRadius.circular(10),
                                 color: Colors.white,
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8),
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            height: 36,
-                                            width: 36,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(100),
-                                              color: AppColors.lightgray,
-                                            ),
-                                            child: IconButton(
-                                              onPressed: () {},
-                                              icon: SvgPicture.asset(
-                                                  'assets/icons/iconsvg/work.svg'),
-                                            ),
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          height: 36,
+                                          width: 36,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            color: AppColors.lightgray,
                                           ),
-                                          SizedBox(
-                                            width: scaleW(16, context),
+                                          child: IconButton(
+                                            onPressed: () {},
+                                            icon: SvgPicture.asset(
+                                                'assets/icons/iconsvg/work.svg'),
                                           ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'Veterinary clinic "Alden-Vet"',
-                                                style: AppTheme
-                                                    .textTheme.headlineSmall!
-                                                    .copyWith(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 15),
-                                              ),
-                                              Text(
-                                                '141N Union Ave, Los Angeles, CA',
-                                                style: AppTheme
-                                                    .textTheme.bodySmall!
-                                                    .copyWith(
-                                                        height: 1.2,
-                                                        fontSize: 13,
-                                                        fontWeight:
-                                                            FontWeight.normal),
-                                              )
-                                            ],
-                                          )
-                                        ],
-                                      ),
+                                        ),
+                                        SizedBox(
+                                          width: scaleW(16, context),
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Veterinary clinic "Alden-Vet"',
+                                              style: AppTheme
+                                                  .textTheme.headlineSmall!
+                                                  .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 15),
+                                            ),
+                                            Text(
+                                              '141N Union Ave, Los Angeles, CA',
+                                              style: AppTheme
+                                                  .textTheme.bodySmall!
+                                                  .copyWith(
+                                                      height: 1.2,
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.normal),
+                                            )
+                                          ],
+                                        )
+                                      ],
                                     ),
-                                    Container(
-                                      height: scaleH(135, context),
-                                      width: scaleH(342, context),
-                                      decoration: const BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(10),
-                                              bottomRight: Radius.circular(10)),
-                                          image: DecorationImage(
-                                            image: AssetImage(
-                                                'assets/imgs/map.png'),
-                                            fit: BoxFit.fitWidth,
-                                          )),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                  Container(
+                                    height: scaleH(135, context),
+                                    width: scaleH(342, context),
+                                    decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(10),
+                                            bottomRight: Radius.circular(10)),
+                                        image: DecorationImage(
+                                          image:
+                                              AssetImage('assets/imgs/map.png'),
+                                          fit: BoxFit.fitWidth,
+                                        )),
+                                  ),
+                                ],
                               ),
                             ),
                             SizedBox(

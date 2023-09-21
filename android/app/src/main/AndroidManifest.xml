@@ -2,7 +2,7 @@
     package="com.example.petcare_search">
     <application
     android:requestLegacyExternalStorage="true"
-        android:label="petcare_search"
+        android:label="Pet Care"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -40,4 +40,3 @@
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>
-

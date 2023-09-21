@@ -27,12 +27,16 @@ class _SearchResultsState extends State<SearchResults>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
 
-  static List<String> mainDentistList = VeterinaryRepository.vetsNames;
+  static late List<String> mainDentistList;
 
-  List<String> displayList = List.from(mainDentistList);
-
+  // late List<String> displayList = List.from(mainDentistList);
+  late List<String> displayList;
   @override
   void initState() {
+    VeterinaryList.getVeterinaries();
+    mainDentistList = VeterinaryList.names;
+    displayList = List.from(mainDentistList);
+    print(displayList.length);
     tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
