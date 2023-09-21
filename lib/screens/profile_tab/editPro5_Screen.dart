@@ -126,8 +126,9 @@ class _EditProfileState extends State<EditProfileScreen> {
                                 _avt, _gender, _phone, _about);
                             // ignore: use_build_context_synchronously
 
-                            await getUserData();
-                            Navigator.pop(context);
+                            await getUserData()
+                                .then((value) => Navigator.pop(context));
+
                             showDialog(
                                 context: context,
                                 builder: (BuildContext context) {

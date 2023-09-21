@@ -19,7 +19,7 @@ class UserModel {
   String name;
   String nickName; //Optional
   String email;
-  
+
   late String avatarPath; //In URL
   Gender? gender;
   String? phoneNumber;
@@ -34,10 +34,11 @@ class UserModel {
     this.gender,
     required this.aboutMe,
     this.phoneNumber = "",
-    
-    this.avatarPath = "https://firebasestorage.googleapis.com/v0/b/petcarevz.appspot.com/o/UserAvatar%2FAmongUs.jpg?alt=media&token=b65158df-9acc-4626-8b28-345404eebfff", //default value
+    this.avatarPath =
+        "https://firebasestorage.googleapis.com/v0/b/petcarevz.appspot.com/o/UserAvatar%2FAmongUs.jpg?alt=media&token=b65158df-9acc-4626-8b28-345404eebfff", //default value
   }) {
-    
+    //imagePath = "UserAvatar/AmongUs.jpg";
+
     if (gender == null) {
       gender = Gender.other;
     }
@@ -81,10 +82,11 @@ class UserModel {
   Future<void> ChangeAvatar(Image newAvatar) async {
     //Todo:: Implement avatar change
   }
-  
+
   //Update information
   Future<void> UpdateUserInformation({
     String newName = "",
+    String nickName = "",
     Gender gender = Gender.other,
     String newPhoneNumber = "",
     String newAboutMe = "",
@@ -92,6 +94,9 @@ class UserModel {
     //If its empty or none, dont update. Otherwise change current value. Then send it to the db
     if (newName != "") {
       this.name = newName;
+    }
+    if (nickName != "") {
+      this.name = nickName;
     }
     if (gender != Gender.other) {
       this.gender = gender;
@@ -110,6 +115,7 @@ class UserModel {
     return {
       'uid': uid,
       'name': name,
+      'nickName': nickName,
       'email': email,
       'avatarPath': avatarPath,
       'gender': gender.toString(), // Assuming Gender is an enum
@@ -123,7 +129,10 @@ class UserModel {
   factory UserModel.fromJson(Map<String, dynamic> json) {
     UserModel newUser = UserModel(
       uid: json.containsKey('uid') ? json['uid'] as String : "",
+      avatarPath:
+          json.containsKey('imagePath') ? json['imagePath'] as String : "",
       name: json.containsKey('name') ? json['name'] as String : "",
+      nickName: json.containsKey('nickName') ? json['nickName'] as String : "",
       email: json.containsKey('email') ? json['email'] as String : "",
       gender: json.containsKey('gender')
           ? _parseGender(json['gender'] as String)
@@ -132,8 +141,6 @@ class UserModel {
           ? json['phoneNumber'] as String?
           : null,
       aboutMe: json.containsKey('aboutMe') ? json['aboutMe'] as String : "",
-      
-      
     );
     if (json.containsKey('avatarPath')) {
       newUser.avatarPath = json['avatarPath'] as String;
@@ -144,11 +151,11 @@ class UserModel {
 // Helper function to parse gender from string
   static Gender _parseGender(String genderString) {
     switch (genderString.toLowerCase()) {
-      case 'male':
+      case 'gender.male':
         return Gender.male;
-      case 'female':
+      case 'gender.female':
         return Gender.female;
-      case 'other':
+      case 'gender.other':
         return Gender.other;
       default:
         return Gender.other; // Default to 'other' if invalid value

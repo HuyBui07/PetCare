@@ -88,7 +88,7 @@ flutter:
     - assets/imgs/profileImgs/
     - assets/imgs/welcomeImgs/
     - assets/imgs/appointmentImgs/
-
+    - assets/imgs/map.png
     - assets/imgs/petFootprint/
 
     - assets/imgs/searchResultsImgs/
@@ -104,7 +104,11 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat-Bold.ttf
+          weight: 700
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

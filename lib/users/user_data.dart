@@ -53,37 +53,31 @@ Future<void> getUserData() async {
   }
   //Logged in already, can't be null. Get user data from db.
   UserModel? user = await UserRepository.GetUserWithUID(GlobalData.id!);
-  
-  
-  //Adding to remove error. Shouldn't happen  
+
+  //Adding to remove error. Shouldn't happen
   if (user == null) {
     print("[USER DATA] User not found in db");
     return;
   }
-  try 
-  {
+  try {
     //Assign user
-  UserRepository.AssignCurrentUser(user);
+    UserRepository.AssignCurrentUser(user);
 
-  //Assign to global data
-  GlobalData.displayName = user.name;
-  GlobalData.nickName = "";
-  
-  GlobalData.email = user.email;
-  GlobalData.about = user.aboutMe;
-  GlobalData.gender = user.gender;
-  GlobalData.phone = user.phoneNumber;
-  GlobalData.avatar = user.avatarPath;
-  print ("[USER DATA] User data assigned");
-  }
-  catch (e) {
+    //Assign to global data
+    GlobalData.displayName = user.name;
+    GlobalData.nickName = user.nickName;
+
+    GlobalData.email = user.email;
+    GlobalData.about = user.aboutMe;
+    GlobalData.gender = user.gender;
+
+    print("[USER DATA] User data assigned");
+  } catch (e) {
     print("[USER DATA] Error: ${e.toString()}");
   }
 
-
-  
-
-
+  GlobalData.phone = user.phoneNumber;
+  GlobalData.avatar = user.avatarPath;
 }
 
 Future<void> addUser(
@@ -120,13 +114,24 @@ Future<void> addUser(
   user.avatarPath = avatar!;
   //Add user to db
   await UserRepository.AddUser(user);
-
-  
 }
 
 Future updateUserData(String? userName, String? nickName, String? email,
     String? avt, Gender? gender, String? phone, String? about) async {
-       // return await FirebaseFirestore.instance
+  //return await FirebaseFirestore.instance
+  //  .collection('Users')
+  //.doc(GlobalData.id)
+  // .set({
+  //'name': userName,
+  //'nickName': nickName,
+  // 'email': email,
+  //  'imagePath': avt,
+  // 'gender': gender.toString(),
+  //  'phoneNumber': phone,
+//'aboutMe': about,
+//});
+
+  // return await FirebaseFirestore.instance
   //     .collection('Users')
   //     .doc(GlobalData.id)
   //     .set({
@@ -139,8 +144,7 @@ Future updateUserData(String? userName, String? nickName, String? email,
   //   'aboutMe': about,
   // });
 
-  UserModel newUser = UserModel 
-  (
+  UserModel newUser = UserModel(
     name: userName!,
     nickName: nickName!,
     email: email!,
@@ -148,9 +152,7 @@ Future updateUserData(String? userName, String? nickName, String? email,
     phoneNumber: phone!,
     aboutMe: about!,
     uid: GlobalData.id!,
-    
   );
   newUser.avatarPath = avt!;
   await UserRepository.UpdateUser(newUser);
-  
 }

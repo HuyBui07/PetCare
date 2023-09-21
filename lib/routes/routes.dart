@@ -12,6 +12,7 @@ import 'package:petcare_search/screens/profile_tab/loader_screen.dart';
 import 'package:petcare_search/screens/search_tab/mainSearch.dart';
 import 'package:petcare_search/screens/profile_tab/petPro5_Screen.dart';
 import 'package:petcare_search/screens/profile_tab/profile_Screen.dart';
+import 'package:petcare_search/screens/search_tab/vetenary_info.dart';
 import 'package:petcare_search/screens/sign_methods/reset_password.dart';
 
 import 'package:petcare_search/screens/search_tab/search_tks.dart';
@@ -101,6 +102,9 @@ class RouteGenerator {
             builder: (_) => ForgotPassword());
       case settingsscreen:
         return MaterialPageRoute<Settings>(builder: (_) => SettingsScreen());
+      case vetecard:
+        return MaterialPageRoute<VeterinaryInfo>(
+            builder: (_) => VeterinaryInfo());
       default:
         throw const RouteException("Route not found");
     }
@@ -120,7 +124,7 @@ class RouteGenerator {
   static const petdetail = '/addpet';
   static const settingsscreen = '/settings';
   static const thanks = '/thanks';
-
+  static const vetecard = '/vetenarycard';
   static const registration = '/registration';
   static const forgotpassword = '/forgotpassword';
 }
