@@ -3,27 +3,28 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:petcare_search/pets/addpet_args.dart';
 import 'package:petcare_search/pets/pet.dart';
-import 'package:petcare_search/screens/add_detail_pet.dart';
-import 'package:petcare_search/screens/appointmentScreen.dart';
-import 'package:petcare_search/screens/editPro5_Screen.dart';
+import 'package:petcare_search/screens/profile_tab/add_detail_pet.dart';
+import 'package:petcare_search/screens/appoinment_tab/appointmentScreen.dart';
+import 'package:petcare_search/screens/profile_tab/editPro5_Screen.dart';
 import 'package:petcare_search/screens/explore_screen.dart';
 import 'package:petcare_search/screens/home_screen.dart';
-import 'package:petcare_search/screens/loader_screen.dart';
-import 'package:petcare_search/screens/mainSearch.dart';
-import 'package:petcare_search/screens/petPro5_Screen.dart';
-import 'package:petcare_search/screens/profile_Screen.dart';
-import 'package:petcare_search/screens/reset_password.dart';
+import 'package:petcare_search/screens/profile_tab/loader_screen.dart';
+import 'package:petcare_search/screens/search_tab/mainSearch.dart';
+import 'package:petcare_search/screens/profile_tab/petPro5_Screen.dart';
+import 'package:petcare_search/screens/profile_tab/profile_Screen.dart';
+import 'package:petcare_search/screens/search_tab/vetenary_info.dart';
+import 'package:petcare_search/screens/sign_methods/reset_password.dart';
 
-import 'package:petcare_search/screens/search_tks.dart';
+import 'package:petcare_search/screens/search_tab/search_tks.dart';
 
-import 'package:petcare_search/screens/registration.dart';
-import 'package:petcare_search/screens/settings.dart';
+import 'package:petcare_search/screens/sign_methods/registration.dart';
+import 'package:petcare_search/screens/profile_tab/settings.dart';
 
-import 'package:petcare_search/screens/sign_in.dart';
-import 'package:petcare_search/screens/welcome.dart';
-import 'package:petcare_search/screens/welcome1.dart';
-import 'package:petcare_search/screens/welcome2.dart';
-import 'package:petcare_search/screens/welcome3.dart';
+import 'package:petcare_search/screens/sign_methods/sign_in.dart';
+import 'package:petcare_search/screens/splash_screens/welcome.dart';
+import 'package:petcare_search/screens/splash_screens/welcome1.dart';
+import 'package:petcare_search/screens/splash_screens/welcome2.dart';
+import 'package:petcare_search/screens/splash_screens/welcome3.dart';
 
 class RouteGenerator {
   const RouteGenerator._();
@@ -101,6 +102,9 @@ class RouteGenerator {
             builder: (_) => ForgotPassword());
       case settingsscreen:
         return MaterialPageRoute<Settings>(builder: (_) => SettingsScreen());
+      case vetecard:
+        return MaterialPageRoute<VeterinaryInfo>(
+            builder: (_) => VeterinaryInfo());
       default:
         throw const RouteException("Route not found");
     }
@@ -120,7 +124,7 @@ class RouteGenerator {
   static const petdetail = '/addpet';
   static const settingsscreen = '/settings';
   static const thanks = '/thanks';
-
+  static const vetecard = '/vetenarycard';
   static const registration = '/registration';
   static const forgotpassword = '/forgotpassword';
 }

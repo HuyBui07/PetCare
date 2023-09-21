@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:petcare_search/routes/routes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:petcare_search/widgets/search_speciality.dart';
 
 import '../appStyle.dart';
-import '../users/user_data.dart';
 
 class SearchMain extends StatefulWidget {
-  const SearchMain({super.key});
-  final Color bakcgroundColor = const Color(0xFFF9F8FD);
-  final Color iconColor = const Color(0xFF4552CB);
+  SearchMain({super.key});
+  final Color bakcgroundColor = Color(0xFFF9F8FD);
+  final Color iconColor = Color(0xFF4552CB);
 
   @override
   State<SearchMain> createState() => _SearchMainState();
@@ -17,60 +13,60 @@ class SearchMain extends StatefulWidget {
 
 class _SearchMainState extends State<SearchMain> {
   int currentIndex = 0;
-  final User? user = FirebaseAuth.instance.currentUser;
+  String? userName = "Maria";
 
   //List of grid items
   List<MainSearchGridItem> gridItems = [
     MainSearchGridItem(
       label: 'Veterinary',
-      iconPath: 'assets/imgs/mainSearchIcon/vet.png',
-      route: '/veterinary',
+      iconPath: 'assets/mainSearchIcon/vet.png',
+      route: '/',
     ),
     MainSearchGridItem(
       label: 'Grooming',
-      iconPath: 'assets/imgs/mainSearchIcon/grooming.png',
+      iconPath: 'assets/mainSearchIcon/grooming.png',
       route: '/',
     ),
     MainSearchGridItem(
       label: 'Pet Boarding',
-      iconPath: 'assets/imgs/mainSearchIcon/boarding.png',
+      iconPath: 'assets/mainSearchIcon/boarding.png',
       route: '/',
     ),
     MainSearchGridItem(
       label: 'Adoption',
-      iconPath: 'assets/imgs/mainSearchIcon/adoption.png',
+      iconPath: 'assets/mainSearchIcon/adoption.png',
       route: '/',
     ),
     MainSearchGridItem(
       label: 'Dog Walking',
-      iconPath: 'assets/imgs/mainSearchIcon/dog walking.png',
+      iconPath: 'assets/mainSearchIcon/dog walking.png',
       route: '/',
     ),
     MainSearchGridItem(
       label: 'Training',
-      iconPath: 'assets/imgs/mainSearchIcon/training.png',
+      iconPath: 'assets/mainSearchIcon/training.png',
       route: '/',
     ),
     MainSearchGridItem(
       label: 'Pet Taxi',
-      iconPath: 'assets/imgs/mainSearchIcon/taxi.png',
+      iconPath: 'assets/mainSearchIcon/taxi.png',
       route: '/',
     ),
     MainSearchGridItem(
       label: 'Pet Date',
-      iconPath: 'assets/imgs/mainSearchIcon/date.png',
+      iconPath: 'assets/mainSearchIcon/date.png',
       route: '/',
     ),
     MainSearchGridItem(
       label: 'Other',
-      iconPath: 'assets/imgs/mainSearchIcon/other.png',
+      iconPath: 'assets/mainSearchIcon/other.png',
       route: '/',
     ),
   ];
 
   //Grid item widget. Icon takes image path. Height and width are optional. Should be used along with grid view builder to scale the grid item size.
   Widget _buildGridItem(String label, TextStyle textStyle,
-      [String iconPath = 'assets/imgs/mainSearchIcon/other.png',
+      [String iconPath = 'assets/mainSearchIcon/other.png',
       String route = '/',
       double height = 0.1,
       double width = 0.1,
@@ -84,39 +80,21 @@ class _SearchMainState extends State<SearchMain> {
 
       onTap: () {
         if (route != '/') {
-          if (route == '/veterinary') {
-            showModalBottomSheet(
-              useRootNavigator: true,
-              isScrollControlled: true,
-              useSafeArea: true,
-              context: context,
-              backgroundColor: Colors.white,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(30),
-                ),
-              ),
-              builder: (ctx) => SearchSpeciality(
-                subContext: context,
-              ),
-            );
-          } else {
-            Navigator.pushNamed(context, route);
-          }
+          Navigator.pushNamed(context, route);
         } else {
           //Alert dialog
           showDialog(
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: const Text("Alert"),
-                content: const Text("This feature is not available yet."),
+                title: Text("Alert"),
+                content: Text("This feature is not available yet."),
                 actions: [
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: const Text("OK"),
+                    child: Text("OK"),
                   ),
                 ],
               );
@@ -126,7 +104,7 @@ class _SearchMainState extends State<SearchMain> {
       },
       child: Ink(
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
+          gradient: LinearGradient(
             //White
             colors: [Colors.white, Colors.white],
             begin: Alignment.topLeft,
@@ -151,7 +129,7 @@ class _SearchMainState extends State<SearchMain> {
                   width: width * 0.5,
                 ),
               ),
-              const SizedBox(
+              SizedBox(
                 height: 8,
               ),
               Text(
@@ -174,13 +152,14 @@ class _SearchMainState extends State<SearchMain> {
     int maxColumns = 3; // Maximum number of columns
     int defaultItemCount = 9; // Default number of items
 
-    int columns = (itemsCount > defaultItemCount) ? maxColumns + 1 : maxColumns;
-
-    double gridViewHeight = MediaQuery.of(context).size.height * 0.375;
+    // int columns = (itemsCount > defaultItemCount) ? maxColumns + 1 : maxColumns;
+    int columns = maxColumns;
+    int rows = (itemsCount / columns).ceil();
+    // double gridViewHeight = MediaQuery.of(context).size.height * 0.375;
     double gridViewWidth = MediaQuery.of(context).size.width * 0.8;
-
-    double singleItemHeight = (gridViewHeight / columns).roundToDouble();
-    double singleItemWidth = (gridViewWidth / columns).roundToDouble();
+    double gridViewHeight = gridViewWidth;
+    double singleItemHeight = (gridViewHeight / rows);
+    double singleItemWidth = (gridViewWidth / columns);
 
     double fontSizeFactor = 1.0;
 
@@ -188,16 +167,17 @@ class _SearchMainState extends State<SearchMain> {
       fontSizeFactor = 0.7; // Adjust this factor as needed
     }
 
-    TextStyle textStyle = Theme.of(context).textTheme.bodyLarge!.copyWith(
+    TextStyle textStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
           fontSize:
-              Theme.of(context).textTheme.bodyLarge!.fontSize! * fontSizeFactor,
+              Theme.of(context).textTheme.bodyText1!.fontSize! * fontSizeFactor,
         );
 
-    return SizedBox(
+    return Container(
       height: gridViewHeight,
       width: gridViewWidth,
+     
       child: GridView.builder(
-        physics: const NeverScrollableScrollPhysics(),
+        physics: NeverScrollableScrollPhysics(),
         itemCount: gridItems.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: columns,
@@ -207,7 +187,7 @@ class _SearchMainState extends State<SearchMain> {
         itemBuilder: (context, index) {
           return _buildGridItem(
             gridItems[index].label,
-            AppTheme.textTheme.bodySmall!,
+            AppTheme.textTheme.caption!,
             gridItems[index].iconPath,
             gridItems[index].route,
             singleItemHeight,
@@ -237,51 +217,53 @@ class _SearchMainState extends State<SearchMain> {
         ],
       ),
       //Bottom tab menu
-      // bottomNavigationBar: BottomNavigationBar(
-      //   currentIndex: currentIndex,
-      //   showUnselectedLabels: true,
-      //   unselectedItemColor: NavigationBarStyle.unselectedItemColor,
-      //   selectedItemColor: NavigationBarStyle.selectedItemColor,
-      //   unselectedFontSize: NavigationBarStyle.unselectedFontSize,
-      //   selectedFontSize: NavigationBarStyle.selectedFontSize,
-      //   type: BottomNavigationBarType.fixed,
-      //   onTap: (index) {
-      //     setState(() {
-      //       currentIndex = index;
-      //     });
-      //   },
-      //   items: const <BottomNavigationBarItem>[
-      //     BottomNavigationBarItem(
-      //       icon: Icon(
-      //         Icons.search,
-      //       ),
-      //       label: 'Search',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(
-      //         Icons.schedule,
-      //       ),
-      //       label: 'Appointment',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(
-      //         Icons.explore,
-      //       ),
-      //       label: 'Explore',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(
-      //         Icons.person,
-      //       ),
-      //       label: 'Profile',
-      //     ),
-      //   ],
-      // ),
+      bottomNavigationBar: Container(
+        child: BottomNavigationBar(
+          currentIndex: currentIndex,
+          showUnselectedLabels: true,
+          unselectedItemColor: NavigationBarStyle.unselectedItemColor,
+          selectedItemColor: NavigationBarStyle.selectedItemColor,
+          unselectedFontSize: NavigationBarStyle.unselectedFontSize,
+          selectedFontSize: NavigationBarStyle.selectedFontSize,
+          type: BottomNavigationBarType.fixed,
+          onTap: (index) {
+            setState(() {
+              currentIndex = index;
+            });
+          },
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.search,
+              ),
+              label: 'Search',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.schedule,
+              ),
+              label: 'Appointment',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.explore,
+              ),
+              label: 'Explore',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person,
+              ),
+              label: 'Profile',
+            ),
+          ],
+        ),
+      ),
 
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -298,25 +280,30 @@ class _SearchMainState extends State<SearchMain> {
               height: MediaQuery.of(context).size.height * 0.05,
             ),
             //"What are you looking for $"username"?
-            //Where the first part use h1headline and username use h2headline
-            SizedBox(
+
+            Container(
               height: MediaQuery.of(context).size.height * 0.11,
               child: RichText(
                 text: TextSpan(
-                  style: Theme.of(context).textTheme.displayLarge,
+                  style: Theme.of(context).textTheme.headline1,
                   children: <TextSpan>[
-                    const TextSpan(text: 'What are you looking for, '),
                     TextSpan(
-                      text: '${GlobalData.displayName} ?',
-                      style: Theme.of(context)
-                          .textTheme
-                          .displayLarge!
-                          .copyWith(color: Colors.orange),
+                      text: 'What are you looking for, ',
+                      style: Theme.of(context).textTheme.headline1!.copyWith(
+                            fontSize: MediaQuery.of(context).size.width * 0.078,
+                          ),
+                    ),
+                    TextSpan(
+                      text: ' $userName?',
+                      style: Theme.of(context).textTheme.headline1!.copyWith(
+                          fontSize: MediaQuery.of(context).size.width * 0.078,
+                          color: Colors.orange),
                     ),
                   ],
                 ),
               ),
             ),
+
             //Grid view currrently contains 9 items, each with its own icon and label that will be used to navigate to a new page. Where icon takes from assets\mainSearchIcon
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.05,

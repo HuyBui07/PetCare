@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_search/utils/dentist_item.dart';
 
-
 class DentisList extends StatelessWidget {
   const DentisList({super.key, required this.dentists});
 

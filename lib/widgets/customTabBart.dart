@@ -9,7 +9,11 @@ class CustomTabBar extends StatefulWidget {
   final double width;
   final String tab1;
   final String tab2;
-  const CustomTabBar({required this.height, required this.width, required this.tab1, required this.tab2});
+  const CustomTabBar(
+      {required this.height,
+      required this.width,
+      required this.tab1,
+      required this.tab2});
   @override
   State<CustomTabBar> createState() => _CustomTabBarState();
 }
@@ -53,13 +57,13 @@ class _CustomTabBarState extends State<CustomTabBar>
             30,
           ),
           boxShadow: [
-                BoxShadow(
-                  color: Color(0xff4552CB).withOpacity(0.1), 
-                  spreadRadius:1, 
-                  blurRadius: 18, 
-                  offset: Offset(0,3),
-                ),
-              ],
+            BoxShadow(
+              color: Color(0xff4552CB).withOpacity(0.1),
+              spreadRadius: 1,
+              blurRadius: 18,
+              offset: Offset(0, 3),
+            ),
+          ],
           color: AppColors.violet,
         ),
         labelColor: Colors.white,
@@ -69,7 +73,7 @@ class _CustomTabBarState extends State<CustomTabBar>
             child: Text(
               widget.tab1,
               style: GoogleFonts.encodeSans(
-                fontSize: 14.0,
+                fontSize: 13,
                 fontWeight: FontWeight.w600,
                 height: 20 / 16,
               ),
@@ -79,7 +83,7 @@ class _CustomTabBarState extends State<CustomTabBar>
             child: Text(
               widget.tab2,
               style: GoogleFonts.encodeSans(
-                fontSize: 14.0,
+                fontSize: 13,
                 fontWeight: FontWeight.w600,
                 height: 20 / 16,
               ),
