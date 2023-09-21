@@ -100,7 +100,16 @@ Future<void> addUser(
   //   users.doc(id).set({'name': displayName, 'email': email, 'avatar': avatar});
   // }
   // return;
-  
+  if (id == null ) 
+  {
+    print("[USER DATA] User not logged in");
+    return;
+  }
+  if (await UserRepository.DoesUserWithUIDExist(id))
+  {
+    print ("[USER DATA] User already exists");
+    return;
+  }
   //Make an UserModel -> Add to database 
   UserModel user = UserModel (
     aboutMe: "Nothing yet~",
@@ -108,7 +117,7 @@ Future<void> addUser(
     name: displayName!,
     email: email!,
   );
-
+  user.avatarPath = avatar!;
   //Add user to db
   await UserRepository.AddUser(user);
 
