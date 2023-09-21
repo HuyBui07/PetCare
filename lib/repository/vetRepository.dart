@@ -13,7 +13,19 @@ class VeterinaryRepository {
   VeterinaryRepository._internal() {
     // init things inside this
   }
-  
+
+  //Get vets names
+  static GetVetsNames() async {
+    try {
+      final vetCollection = await db.collection("Veterinaries").get();
+      vetCollection.docs.forEach((element) {
+        vetsNames.add(Veterinary.fromJson(element.data()).name);
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
   //Get all vets
   static Future<List<Veterinary>> GetAllVets() async {
     List<Veterinary> vets = [];

@@ -16,7 +16,7 @@ class _VetCardState extends State<VetCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 16),
+      padding: const EdgeInsets.only(left: 16),
       child: Container(
         height: scaleH(128, context),
         width: scaleW(296, context),

@@ -1,12 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:petcare_search/constants/colors.dart';
 import 'package:petcare_search/utils/dentist_list.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
-import 'package:petcare_search/vetenaries/veterinary_uid_list.dart';
+
 import 'package:petcare_search/widgets/customTabBart.dart';
 import '../../repository/vetRepository.dart';
 
@@ -57,7 +56,6 @@ class _SearchResultsState extends State<SearchResults>
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       body: Column(
         children: [
@@ -97,7 +95,7 @@ class _SearchResultsState extends State<SearchResults>
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.arrow_back,
                                   color: AppColors.violet,
                                 ),
@@ -126,7 +124,7 @@ class _SearchResultsState extends State<SearchResults>
                                   'Map',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .headline6
+                                      .titleLarge
                                       ?.apply(
                                         color: AppColors.violet,
                                       ),
@@ -145,22 +143,24 @@ class _SearchResultsState extends State<SearchResults>
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: AppColors.lightgray,
-                              prefixIcon: Icon(
+                              prefixIcon: const Icon(
                                 Icons.search,
                                 color: Color(0xff070821),
                                 size: 27,
                               ),
                               hintText: 'search',
-                              hintStyle:
-                                  Theme.of(context).textTheme.headline5?.apply(
-                                        color: AppColors.gray,
-                                      ),
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall
+                                  ?.apply(
+                                    color: AppColors.gray,
+                                  ),
                               border: OutlineInputBorder(
                                 borderSide: BorderSide.none,
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               isDense: true,
-                              contentPadding: EdgeInsets.all(8),
+                              contentPadding: const EdgeInsets.all(8),
                             ),
                           ),
                         ),
@@ -171,7 +171,7 @@ class _SearchResultsState extends State<SearchResults>
                               right: scaleW(20, context)),
                           child: Row(
                             children: [
-                              Container(
+                              SizedBox(
                                 height: scaleH(33, context),
                                 width: scaleW(91, context),
                                 child: TextButton.icon(
@@ -190,7 +190,7 @@ class _SearchResultsState extends State<SearchResults>
                                     formatter.format(widget.date),
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline5
+                                        .headlineSmall
                                         ?.apply(
                                           color: Colors.white,
                                         ),
@@ -201,7 +201,7 @@ class _SearchResultsState extends State<SearchResults>
                               const SizedBox(
                                 width: 16,
                               ),
-                              Container(
+                              SizedBox(
                                 height: scaleH(33, context),
                                 width: scaleW(91, context),
                                 child: TextButton(
@@ -226,7 +226,7 @@ class _SearchResultsState extends State<SearchResults>
                                 ),
                               ),
                               const Spacer(),
-                              Container(
+                              SizedBox(
                                 height: scaleH(33, context),
                                 width: scaleW(91, context),
                                 child: TextButton.icon(
@@ -265,7 +265,7 @@ class _SearchResultsState extends State<SearchResults>
                 DentisList(
                   dentists: displayList,
                 ),
-                Center(
+                const Center(
                   child: Text(
                     'Clinics',
                     style: TextStyle(

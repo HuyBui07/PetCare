@@ -13,7 +13,8 @@ class DentistItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, RouteGenerator.vetecard),
+      onTap: () => Navigator.pushNamed(context, RouteGenerator.vetecard,
+          arguments: name),
       child: Padding(
         padding: EdgeInsets.all(scaleH(8, context)),
         child: Container(

@@ -81,6 +81,7 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
 
   @override
   Widget build(BuildContext context) {
+    final name = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
         bottomNavigationBar: Container(
           height: scaleH(108, context),
@@ -218,7 +219,7 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                 Padding(
                                   padding: const EdgeInsets.all(0),
                                   child: Text(
-                                    'Alekseenco Vasily',
+                                    name.toString(),
                                     style: AppTheme.textTheme.displaySmall!
                                         .copyWith(height: 1.2),
                                   ),
