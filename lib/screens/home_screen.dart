@@ -73,52 +73,55 @@ class _MainScreenState extends State<MainScreen> {
         //Bottom tab menu
         bottomNavigationBar: Provider.of<LogProvider>(context).loggedState !=
                 false
-            ? SizedBox(
-                height: scaleH(83, context),
-                child: BottomNavigationBar(
-                  currentIndex: _currentIndex,
-                  showUnselectedLabels: true,
-                  unselectedItemColor: NavigationBarStyle.unselectedItemColor,
-                  selectedItemColor: NavigationBarStyle.selectedItemColor,
-                  unselectedFontSize: NavigationBarStyle.unselectedFontSize,
-                  selectedFontSize: NavigationBarStyle.selectedFontSize,
-                  type: BottomNavigationBarType.fixed,
-                  onTap: (index) {
-                    setState(() {
-                      _currentIndex = index;
-                      _pageController.animateToPage(index,
-                          curve: Curves.decelerate,
-                          duration: Duration(milliseconds: 300));
-                    });
-                  },
-                  items: const <BottomNavigationBarItem>[
-                    BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.search,
-                      ),
-                      label: 'Search',
+            ? ModalRoute.of(context)?.settings.name != '/vetcard'
+                ? SizedBox(
+                    height: scaleH(83, context),
+                    child: BottomNavigationBar(
+                      currentIndex: _currentIndex,
+                      showUnselectedLabels: true,
+                      unselectedItemColor:
+                          NavigationBarStyle.unselectedItemColor,
+                      selectedItemColor: NavigationBarStyle.selectedItemColor,
+                      unselectedFontSize: NavigationBarStyle.unselectedFontSize,
+                      selectedFontSize: NavigationBarStyle.selectedFontSize,
+                      type: BottomNavigationBarType.fixed,
+                      onTap: (index) {
+                        setState(() {
+                          _currentIndex = index;
+                          _pageController.animateToPage(index,
+                              curve: Curves.decelerate,
+                              duration: Duration(milliseconds: 300));
+                        });
+                      },
+                      items: const <BottomNavigationBarItem>[
+                        BottomNavigationBarItem(
+                          icon: Icon(
+                            Icons.search,
+                          ),
+                          label: 'Search',
+                        ),
+                        BottomNavigationBarItem(
+                          icon: Icon(
+                            Icons.schedule,
+                          ),
+                          label: 'Appointment',
+                        ),
+                        BottomNavigationBarItem(
+                          icon: Icon(
+                            Icons.explore,
+                          ),
+                          label: 'Explore',
+                        ),
+                        BottomNavigationBarItem(
+                          icon: Icon(
+                            Icons.person,
+                          ),
+                          label: 'Profile',
+                        ),
+                      ],
                     ),
-                    BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.schedule,
-                      ),
-                      label: 'Appointment',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.explore,
-                      ),
-                      label: 'Explore',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.person,
-                      ),
-                      label: 'Profile',
-                    ),
-                  ],
-                ),
-              )
+                  )
+                : null
             : null);
   }
 }
