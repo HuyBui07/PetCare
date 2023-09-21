@@ -70,6 +70,26 @@ class Welcome2 extends StatelessWidget {
                 ),
               ),
             ),
+            // SizedBox(
+            //   height: 50,
+            //   width: 270,
+            //   child: TextButton(
+            //     style: TextButton.styleFrom(
+            //       backgroundColor: const Color(0xff4552CB),
+            //     ),
+            //     onPressed: onPressed,
+            //     child: Text(
+            //       'Next',
+            //       style: GoogleFonts.encodeSans(
+            //         textStyle: const TextStyle(
+            //           fontSize: 18,
+            //           fontWeight: FontWeight.w700,
+            //           color: Colors.white,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

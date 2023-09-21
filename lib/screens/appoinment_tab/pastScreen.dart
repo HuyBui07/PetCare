@@ -20,7 +20,7 @@ class PastScreen extends StatelessWidget {
                 left: scaleW(20, context),
                 top: scaleH(40, context),
                 right: scaleW(20, context)),
-            child: CustomAppointmentCard(),
+            child: Container(),
           ),
         ],
       ),
