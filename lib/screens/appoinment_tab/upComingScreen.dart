@@ -32,7 +32,12 @@ class UpcomingScreen extends StatelessWidget {
             child: BottomButtom(
                 'Find a specialist',
                 () => Navigator.of(context, rootNavigator: true).push(
-                      MaterialPageRoute(builder: (_) => SearchThanks()),
+                      MaterialPageRoute(
+                        builder: (_) => SearchThanks(
+                          datePicked: DateTime.now(),
+                          timePicked: '10:20 pm',
+                        ),
+                      ),
                     )),
           ),
         ],
