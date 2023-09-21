@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Balls',
+      title: 'Pet Care',
       theme: AppTheme,
       initialRoute: RouteGenerator.welcome,
       onGenerateRoute: RouteGenerator.generateRoute,

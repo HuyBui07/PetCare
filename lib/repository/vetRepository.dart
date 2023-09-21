@@ -13,7 +13,6 @@ class VeterinaryRepository {
   VeterinaryRepository._internal() {
     // init things inside this
   }
-
   //Get vets names
   static GetVetsNames() async {
     try {
