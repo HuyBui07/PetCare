@@ -135,8 +135,8 @@ class ProfileScreen extends StatelessWidget {
                               radius: scaleW(56, context),
                               backgroundImage: const AssetImage(
                                   'assets/imgs/profileImgs/photo.png'),
-                              foregroundImage: data['avatar'] != null
-                                  ? NetworkImage(data['avatar'])
+                              foregroundImage: GlobalData.avatar != null
+                                  ? NetworkImage(data['avatarPath']!)
                                   : const AssetImage(
                                           'assets/imgs/profileImgs/photo.png')
                                       as ImageProvider,
@@ -150,8 +150,8 @@ class ProfileScreen extends StatelessWidget {
                               style: Theme.of(context).textTheme.headline2,
                             ),
                             Text(
-                              data.data()!.containsKey('nickname')
-                                  ? data['nickname']
+                              data.data()!.containsKey('nickName')
+                                  ? data['nickName']
                                   : '',
                               style: Theme.of(context)
                                   .textTheme

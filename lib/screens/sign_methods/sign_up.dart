@@ -363,7 +363,7 @@ class _SignUpState extends State<SignUp> {
                                               user?.photoURL);
                                           await getUserData();
                                           if (context.mounted) {
-                                            Navigator.pushNamed(
+                                            Navigator.pushReplacementNamed(
                                                 context, RouteGenerator.home);
                                           }
                                         } catch (e) {
@@ -456,7 +456,7 @@ class _SignUpState extends State<SignUp> {
                               user?.email, user?.photoURL);
                           await getUserData();
                           if (context.mounted) {
-                            Navigator.pushNamed(context, RouteGenerator.home);
+                            Navigator.pushReplacementNamed(context, RouteGenerator.home);
                           }
                         } catch (e) {
                           if (context.mounted) {
@@ -504,7 +504,7 @@ class _SignUpState extends State<SignUp> {
                               user?.email, user?.photoURL);
                           await getUserData();
                           if (context.mounted) {
-                            Navigator.pushNamed(context, RouteGenerator.home);
+                            Navigator.pushReplacementNamed(context, RouteGenerator.home);
                           }
                         } catch (e) {
                           if (context.mounted) {

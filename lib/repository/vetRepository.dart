@@ -13,26 +13,7 @@ class VeterinaryRepository {
   VeterinaryRepository._internal() {
     // init things inside this
   }
-  //Get vets names
-  static GetVetsNames() async {
-    try {
-      var collectionRef = db.collection('Veterinaries');
-
-      collectionRef.get().then((QuerySnapshot querySnapshot) => {
-            querySnapshot.docs.forEach((doc) async {
-              var uid = doc.id;
-              DocumentSnapshot snapshot = await FirebaseFirestore.instance
-                  .collection('Veterinaries')
-                  .doc(uid)
-                  .get();
-              vetsNames.add(snapshot["name"]);
-            })
-          });
-    } catch (e) {
-      print(e);
-    }
-  }
-
+  
   //Get all vets
   static Future<List<Veterinary>> GetAllVets() async {
     List<Veterinary> vets = [];

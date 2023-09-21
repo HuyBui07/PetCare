@@ -22,39 +22,99 @@ class UserRepository {
     return currentUser;
   }
   //Does user exist in db?
-  static Future<bool> DoesUserExist(String userEmail) async {
-    DocumentSnapshot docSnap = await db.collection("Users").doc(userEmail).get();
-
-    return docSnap.exists;
-  }
+  
   //Used to assign upon signup/login
   static Future<void> AssignCurrentUser(UserModel user) async {
     //Check if user exist in db
-    if (await DoesUserExist(user.email) == false) {
-      print("[USER REPOS] User with ${user.email}} not found for assignment");
+    if (user.uid.isEmpty) 
+      return Future.error ("User UID is empty");
+    if (await DoesUserWithUIDExist(user.uid)== false) {
+      print("[USER REPOS] User with ${user.uid}} not found for assignment");
       return;
     }
     currentUser = user;
-    print("[USER REPOS] Current user assigned. Email: ${user.email}");
+    print("[USER REPOS] Current user assigned. Email: ${user.email } and  UID: ${user.uid}");
   }
 
-  //Remove user with email
-  static Future<void> RemoveUserWithEmail(String email) async {
+  //Does user with UID exist?
+  static Future<bool> DoesUserWithUIDExist(String uid) async {
+    DocumentSnapshot querySnapshot =
+        await db.collection("Users").doc(uid).get();
+
+    return querySnapshot.exists;
+  }
+
+  //Remove user UID. Since only the user can request their own account removal.
+  static Future<void> RemoveUserWithUID(String uid) async {
+    //Check if user exist in db
+    if (await DoesUserWithUIDExist(uid) == false) {
+      print("[USER REPOS] User with ${uid}} not found for removal");
+      return;
+    }
+    await db.collection("Users").doc(uid).delete();
+    print("[USER REPOS] User with ${uid}} removed");
+  }
+  //Get user with UID
+  static Future<UserModel?> GetUserWithUID(String uid) async {
     //Check if user exist
-    if (await GetUserWithEmail(email: email) == null) {
-      print("[USER REPOS] User with ${email}} not found for removal");
-      return Future.error(" User not found for removal");
+    DocumentSnapshot docSnap = await db.collection("Users").doc(uid).get();
+    if (docSnap.exists) {
+      // Convert Firestore data to Map
+      Map<String, dynamic> userData = docSnap.data() as Map<String, dynamic>;
+
+      // Pass the Map to UserModel.fromJson
+      return UserModel.fromJson(userData);
     } else {
-      //Remove user
-      try {
-        await db.collection("Users").doc(email).delete();
-        print("[USER REPOS] User with ${email}} removed");
-      } catch (e) {
-        print(e);
-      }
+      print("[USER REPOS] User not found with UID");
+      return null;
+    }
+  }
+  //Get user mail with UID
+  static Future<String?> GetUserMailWithUID(String uid) async {
+    //Check if user exist
+    DocumentSnapshot docSnap = await db.collection("Users").doc(uid).get();
+    if (docSnap.exists) {
+      // Convert Firestore data to Map
+      Map<String, dynamic> userData = docSnap.data() as Map<String, dynamic>;
+
+      // Pass the Map to UserModel.fromJson
+      return userData["email"];
+    } else {
+      print("[USER REPOS] User not found with UID");
+      return null;
+    }
+  }
+  //Get user UID with mail. Mail should be unique so this should be safe.
+  static Future<String?> GetUserUIDWithMail(String mail) async {
+    //Check if user exist
+    DocumentSnapshot docSnap = await db.collection("Users").where ("email", isEqualTo: mail).get().then((value) => value.docs.first);
+    if (docSnap.exists) {
+      // Convert Firestore data to Map
+      Map<String, dynamic> userData = docSnap.data() as Map<String, dynamic>;
+
+      // Pass the Map to UserModel.fromJson
+      return userData["uid"];
+    } else {
+      print("[USER REPOS] User not found with UID");
+      return null;
     }
   }
 
+  //Get user Ref with UID
+  static Future<DocumentReference> GetUserRefWithUID(String uid) async {
+    //Check if user exist
+    DocumentSnapshot docSnap = await db.collection("Users").doc(uid).get();
+    if (docSnap.exists) {
+      // Convert Firestore data to Map
+      Map<String, dynamic> userData = docSnap.data() as Map<String, dynamic>;
+
+      // Pass the Map to UserModel.fromJson
+      return docSnap.reference;
+    } else {
+      print("[USER REPOS] User not found with UID");
+      return Future.error("User not found with UID");
+    }
+  }
   //Get usermodel from database using a DocumentReference.
   static Future<UserModel?> GetUserWithReference(DocumentReference userRef) async {
     //Check if user exist
@@ -70,55 +130,66 @@ class UserRepository {
       return null;
     }
   }
-
-  //Get usermodel from database using email.
-  static Future<UserModel?> GetUserWithEmail({required String email , bool ignoreWarning = false}) async {
-    DocumentSnapshot docSnap = await db.collection("Users").doc(email).get();
-    if (docSnap.exists) {
-      // Convert Firestore data to Map
-      Map<String, dynamic> userData = docSnap.data() as Map<String, dynamic>;
-
-      // Pass the Map to UserModel.fromJson
-      print ("[USER REPOS] User found with email");
-      return UserModel.fromJson(userData);
-    } else {
-      print("[USER REPOS] User not found with email");
-      return null;
-    }
-  }
-  //Get DocumentReference of user using email
-  static Future<DocumentReference> GetUserReferenceWithEmail(
-      String email) async {
-    DocumentSnapshot docSnap = await db.collection("Users").doc(email).get();
-    if (!docSnap.exists) {
-      return Future.error("User not found with reference");
-    }
-    return docSnap.reference;
-  }
+  
+  
   //Add user to db. If they already exist, return error.
   static Future<void> AddUser(UserModel user) async {
+    //UID as document name
     //If user already exist, print errors. Else, add user
-    if (await GetUserWithEmail(email :user.email) != null) {
-      print("[USER REPOS - ADD USER] User with ${user.email}} already exist");
+    if (await DoesUserWithUIDExist(user.uid)) {
+      print("[USER REPOS] User with ${user.uid} and ${user.email} already exist");
       return Future.error("User already exist");
     } else {
-      //Create user
-      await db.collection("Users").doc(user.email).set(user.toJson());
-      print("[USER REPOS - ADD USER]User with ${user.email}} added");
+      //Add user
+      await db.collection("Users").doc(user.uid).set(user.toJson());
+      print("[USER REPOS] User with ${user.uid} and ${user.email} added");
       return Future.value(null);
     }
   }
   //Update user if they exist, if not return error.
   static Future<void> UpdateUser(UserModel user) async {
-    //If user already exist, print errors. Else, update user
-    if (await GetUserWithEmail(email :user.email) == null) {
-      print("[USER REPOS] User with ${user.email}} not found for update");
-      return Future.error("User not found for update");
-    } else {
+    //If user does not exist, print errors. Else, update user
+    if (await DoesUserWithUIDExist(user.uid)) {
       //Update user
-      await db.collection("Users").doc(user.email).update(user.toJson());
-      print("[USER REPOS] User with ${user.email}} updated");
-      return Future.value(null);
+      await db.collection("Users").doc(user.uid).update(user.toJson());
+      
+      print("[USER REPOS] User with ${user.uid} and ${user.email} updated");
+      return Future.value("Success");
+    } else {
+      print("[USER REPOS] User with ${user.uid} and ${user.email} does not exist");
+      return Future.error("User does not exist");
     }
+  }
+  // AVOID USING THESE IF YOU ONLY WANT CURRENT USER DATA. LOGIN/ SIGN UP AND USE USE UID
+  //
+  //Get usermodel from database using email.
+  //Scan through entire database.
+  static Future<UserModel?> GetUserWithEmail({required String email , bool ignoreWarning = false}) async {
+    //Check if user with email exist
+    DocumentSnapshot docSnap = await db.collection("Users").where ("email", isEqualTo: email).get().then((value) => value.docs.first);
+    if (docSnap.exists) {
+      // Convert Firestore data to Map
+      Map<String, dynamic> userData = docSnap.data() as Map<String, dynamic>;
+
+      // Pass the Map to UserModel.fromJson
+      return UserModel.fromJson(userData);
+    } else {
+      if (ignoreWarning == false)
+      {
+        print("[USER REPOS] User not found with email");
+      }
+      return null;
+    }
+
+  }
+  //Get DocumentReference of user using email
+  //Scan through entire database.
+  static Future<DocumentReference> GetUserReferenceWithEmail(
+      String email) async {
+    DocumentSnapshot docSnap = await db.collection("Users").where ("email", isEqualTo: email).get().then((value) => value.docs.first);
+    if (!docSnap.exists) {
+      return Future.error("User not found with reference");
+    }
+    return docSnap.reference;
   }
 }

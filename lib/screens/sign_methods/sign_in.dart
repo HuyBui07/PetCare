@@ -236,6 +236,8 @@ class _SignInState extends State<SignIn> {
                                           final authProvider =
                                               Provider.of<LogProvider>(context,
                                                   listen: false);
+                                          
+                                          
                                           userCredential = await authProvider
                                               .loggingInWithEmailAndPassword(
                                                   email: _emailController.text,
@@ -246,7 +248,10 @@ class _SignInState extends State<SignIn> {
 
                                           await getUserData();
                                           if (context.mounted) {
-                                            Navigator.pushNamed(
+                                            // Navigator.pushNamed(
+                                            //     context, RouteGenerator.home);
+                                            //Push replace
+                                            Navigator.pushReplacementNamed(
                                                 context, RouteGenerator.home);
                                           }
                                         } catch (e) {
@@ -339,7 +344,7 @@ class _SignInState extends State<SignIn> {
                               user?.email, user?.photoURL);
                           await getUserData();
                           if (context.mounted) {
-                            Navigator.pushNamed(context, RouteGenerator.home);
+                            Navigator.pushReplacementNamed(context, RouteGenerator.home);
                           }
                         } catch (e) {
                           if (context.mounted) {
@@ -389,7 +394,7 @@ class _SignInState extends State<SignIn> {
                               .then((value) => getUserData());
 
                           if (context.mounted) {
-                            Navigator.pushNamed(context, RouteGenerator.home);
+                            Navigator.pushReplacementNamed(context, RouteGenerator.home);
                           }
                         } catch (e) {
                           if (context.mounted) {
