@@ -29,7 +29,7 @@ class _SearchResultsState extends State<SearchResults>
 
   static List<VetArgs> mainDentistList = VeterinaryRepository.vets;
 
-  List<VetArgs> displayList = List.from(mainDentistList);
+  List<VetArgs> displayList = mainDentistList;
 
   @override
   void initState() {
@@ -45,13 +45,7 @@ class _SearchResultsState extends State<SearchResults>
 
   void updateList(String value) {
     setState(() {
-      displayList = mainDentistList
-          .where(
-            (element) => element.nameVet.toLowerCase().contains(
-                  value.toLowerCase(),
-                ),
-          )
-          .toList();
+      displayList = mainDentistList;
     });
   }
 

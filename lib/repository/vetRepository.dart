@@ -15,7 +15,7 @@ class VeterinaryRepository {
     // init things inside this
   }
   //Get vets names
-  static GetVetsNames() async {
+  static GetVetsInfos() async {
     try {
       final vetCollection = await db.collection("Veterinaries").get();
       vetCollection.docs.forEach((element) {
