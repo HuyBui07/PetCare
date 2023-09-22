@@ -3,8 +3,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:petcare_search/appStyle.dart';
 import 'package:petcare_search/constants/colors.dart';
+import 'package:petcare_search/constants/time.dart';
 import 'package:petcare_search/repository/vetRepository.dart';
 import 'package:petcare_search/utils/dentist_item.dart';
 
@@ -12,7 +14,6 @@ import 'package:petcare_search/utils/widget_utils.dart';
 import 'package:petcare_search/widgets/bottomsheet_booking.dart';
 import 'package:petcare_search/widgets/dateCard.dart';
 import 'package:petcare_search/widgets/reviewCard.dart';
-import 'package:petcare_search/widgets/timeCard.dart';
 
 class VeterinaryInfo extends StatefulWidget {
   const VeterinaryInfo({super.key, required this.name});
@@ -24,6 +25,8 @@ class VeterinaryInfo extends StatefulWidget {
 
 class _VeterinaryInfoState extends State<VeterinaryInfo> {
   static List<String> mainDentistList = VeterinaryRepository.vetsNames;
+  int _isSelected = 0;
+  var selectedTime = DateFormat.Hm().format(DateTime.now());
 
   List<String> displayList = List.from(mainDentistList);
 
@@ -47,29 +50,6 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
       ;
     }
     return list;
-  }
-
-  List<Widget> timeCardGenerator() {
-    List<String> timeList = [
-      '09:00',
-      '09:30',
-      '10:00',
-      '10:30',
-      '11:30',
-      '12:00',
-      '12:30',
-      '13:00',
-      '13:30',
-      '14:00',
-      '14:30',
-      '15:00',
-      '15:30',
-    ];
-    List<Widget> timeCardList = [];
-    for (int i = 0; i < timeList.length; i++) {
-      timeCardList.add(TimeCard(time: timeList[i]));
-    }
-    return timeCardList;
   }
 
   List<Widget> reviewCardGenerator() {
@@ -137,7 +117,7 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                   onTap: () {
                     showModalBottomSheet(
                       context: context,
-                      builder: (ctx) => BottomSheetBooking(),
+                      builder: (ctx) => const BottomSheetBooking(),
                     );
                   },
                   child: Container(
@@ -270,7 +250,7 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                           .textTheme
                                           .bodySmall
                                           ?.apply(
-                                            color: Color(0xff070821),
+                                            color: const Color(0xff070821),
                                           ),
                                     ),
                                     SizedBox(
@@ -485,16 +465,49 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                   const SizedBox(
                                     height: 8,
                                   ),
-                                  SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 4, right: 4),
-                                      child: Row(
-                                        children: timeCardGenerator(),
-                                      ),
-                                    ),
-                                  )
+                                  SizedBox(
+                                      height: scaleH(35, context),
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: times.length,
+                                        itemBuilder: (context, index) {
+                                          return Container(
+                                            margin: EdgeInsets.only(
+                                                left: scaleW(15, context)),
+                                            child: ChoiceChip(
+                                              selectedColor: AppColors.violet,
+                                              label: Container(
+                                                height: scaleH(28, context),
+                                                width: scaleH(68, context),
+                                                child: Center(
+                                                  child: Text(
+                                                    times[index],
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline5!
+                                                        .apply(
+                                                            color:
+                                                                _isSelected ==
+                                                                        index
+                                                                    ? Colors
+                                                                        .white
+                                                                    : Colors
+                                                                        .black),
+                                                  ),
+                                                ),
+                                              ),
+                                              selected: _isSelected == index,
+                                              onSelected: (bool selected) {
+                                                setState(() {
+                                                  _isSelected =
+                                                      selected ? index : 0;
+                                                  selectedTime = times[index];
+                                                });
+                                              },
+                                            ),
+                                          );
+                                        },
+                                      )),
                                 ],
                               ),
                             ),
