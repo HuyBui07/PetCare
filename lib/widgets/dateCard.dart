@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petcare_search/appStyle.dart';
+import 'package:petcare_search/constants/colors.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
 
 class DateCard extends StatefulWidget {
@@ -13,6 +14,8 @@ class DateCard extends StatefulWidget {
 }
 
 class _DateCardState extends State<DateCard> with TickerProviderStateMixin {
+  bool _isSelected = false;
+
   @override
   void initState() {
     super.initState();
@@ -47,12 +50,37 @@ class _DateCardState extends State<DateCard> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: Container(
+      onTap: () {
+        setState(() {
+          _isSelected = !_isSelected;
+        });
+      },
+      child: SizedBox(
         height: scaleH(72, context),
         width: scaleW(48, context),
         child: Center(
             child: Column(
           children: [
+            _isSelected == true
+                ? Container(
+                    height: 4,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: AppColors.violet,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          spreadRadius: 1,
+                          blurRadius: 4,
+                          offset:
+                              const Offset(0, 2), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                  )
+                : Container(
+                    height: 4,
+                  ),
             const SizedBox(
               height: 4,
               width: double.infinity,
