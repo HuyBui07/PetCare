@@ -8,20 +8,19 @@ import 'package:petcare_search/appStyle.dart';
 import 'package:petcare_search/constants/colors.dart';
 import 'package:petcare_search/constants/time.dart';
 import 'package:petcare_search/repository/vetRepository.dart';
+import 'package:petcare_search/screens/search_tab/search_results.dart';
 import 'package:petcare_search/utils/dentist_item.dart';
 
 import 'package:petcare_search/utils/widget_utils.dart';
 import 'package:petcare_search/vetenaries/veterinary_args.dart';
-
 import 'package:petcare_search/widgets/bottomsheet_booking.dart';
-
 import 'package:petcare_search/widgets/dateCard.dart';
-import 'package:petcare_search/widgets/google_map_widget.dart';
 import 'package:petcare_search/widgets/reviewCard.dart';
 
 class VeterinaryInfo extends StatefulWidget {
   const VeterinaryInfo({super.key, required this.vetArgs});
   final VetArgs vetArgs;
+
   @override
   State<VeterinaryInfo> createState() => _VeterinaryInfoState();
 }
@@ -35,8 +34,8 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
 
   List<Widget> vetCardgenerator() {
     List<Widget> list = [];
-    displayList.forEach((vet) {
-      list.add(DentistItem(vetArgs: vet));
+    displayList.forEach((index) {
+      list.add(DentistItem(vetArgs: index));
     });
     return list;
   }
@@ -77,7 +76,6 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -113,6 +111,9 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                       )
                     ]),
                   ],
+                ),
+                SizedBox(
+                  width: scaleW(44, context),
                 ),
                 GestureDetector(
                   onTap: () {
@@ -162,7 +163,12 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                     left: scaleW(14, context),
                     child: IconButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.of(context, rootNavigator: true)
+                            .push(MaterialPageRoute(
+                                builder: (_) => SearchResults(
+                                      date: DateTime.now(),
+                                      speciality: 'Dentists',
+                                    )));
                       },
                       icon: const Icon(Icons.arrow_back),
                       color: Colors.white,
@@ -214,7 +220,7 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                   ),
                                 ),
                                 Text(
-                                  widget.vetArgs.nameLocation,
+                                  'Veterinary Dentist',
                                   style: AppTheme.textTheme.headlineSmall!
                                       .copyWith(height: 1.2),
                                 ),
@@ -516,7 +522,7 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                             ),
                             SizedBox(height: scaleH(27, context)),
                             Container(
-                              height: scaleH(250, context),
+                              height: scaleH(203, context),
                               width: scaleW(335, context),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
@@ -575,30 +581,18 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                         ],
                                       ),
                                     ),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                            // height: scaleH(135, context),
-                                            // width: scaleH(342, context),
-                                            decoration: const BoxDecoration(
-                                              borderRadius: BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(10),
-                                                  bottomRight:
-                                                      Radius.circular(10)),
-                                              // image: DecorationImage(
-                                              //   image:
-                                              //       AssetImage('assets/imgs/map.png'),
-                                              //   fit: BoxFit.fitWidth,
-                                              // )),
-                                            ),
-                                            child: GoogleMapWidget(
-                                                lat: widget.vetArgs.lat,
-                                                long: widget.vetArgs.long,
-                                                name: widget
-                                                    .vetArgs.nameLocation)),
-                                      ),
+                                    Container(
+                                      height: scaleH(135, context),
+                                      width: scaleH(342, context),
+                                      decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                              bottomLeft: Radius.circular(10),
+                                              bottomRight: Radius.circular(10)),
+                                          image: DecorationImage(
+                                            image: AssetImage(
+                                                'assets/imgs/map.png'),
+                                            fit: BoxFit.fitWidth,
+                                          )),
                                     ),
                                   ],
                                 ),
@@ -621,32 +615,167 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                               color: Colors.black,
                                               height: 1.2),
                                     ),
-                                    const SizedBox(
-                                      height: 112,
+                                    SizedBox(height: scaleH(10, context)),
+                                    Text(
+                                      '${widget.vetArgs.nameVet}, born in 1974',
+                                      style: const TextStyle(height: 1.4),
+                                    ),
+                                    const Text(
+                                      'Master of Veterinary Medicine',
+                                      style: TextStyle(height: 1.4),
+                                    ),
+                                    const Text(
+                                      'Leading doctor Veterinary clinic "Alden Vet"',
+                                      style: TextStyle(height: 1.4),
+                                    ),
+                                    const Text(
+                                      'Specialization: clinical diagnostics, surgery vet, dentist',
+                                      style: TextStyle(height: 1.4),
+                                    ),
+                                    SizedBox(
+                                      height: scaleH(24, context),
                                     ),
                                     Text(
                                       'Education',
                                       style: AppTheme.textTheme.headlineMedium,
                                       textAlign: TextAlign.left,
                                     ),
-                                    const SizedBox(
-                                      height: 112,
+                                    SizedBox(
+                                      height: scaleH(10, context),
+                                    ),
+                                    const Text(
+                                      'Before entering the agricultural Academy he worked at the department of surgery of the veterinary faculty (1991-1992). He graduated from the Faculty of Veterinary Medicine of NAU in 1997. He defended his thesis at the Departmentof Surgery on the topic: "Surgery on the urinary organs of cats." Scientific advisor prof. Borisevich V.B. In 1998 graduated from the Magistracy.',
+                                      style: TextStyle(height: 1.4),
+                                    ),
+                                    SizedBox(
+                                      height: scaleH(24, context),
                                     ),
                                     Text(
                                       'Professional Experience',
                                       style: AppTheme.textTheme.headlineMedium,
                                       textAlign: TextAlign.left,
                                     ),
-                                    const SizedBox(
-                                      height: 112,
+                                    SizedBox(
+                                      height: scaleH(10, context),
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 7, right: 8),
+                                          child: Container(
+                                            height: 8,
+                                            width: 8,
+                                            decoration: const BoxDecoration(
+                                                color: Colors.yellow,
+                                                shape: BoxShape.circle),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: scaleW(320, context),
+                                          child: const Text(
+                                            'Repeated participant and winner of the International Conferences, reports on the topic: “Iatrogenic pathology in urology”, “Foreign bodies of the gastrointestinal tract in small domestic animals.',
+                                            style: TextStyle(height: 1.4),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: scaleH(10, context),
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 7, right: 8),
+                                          child: Container(
+                                            height: 8,
+                                            width: 8,
+                                            decoration: const BoxDecoration(
+                                                color: Colors.yellow,
+                                                shape: BoxShape.circle),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: scaleW(320, context),
+                                          child: const Text(
+                                              'From 1998 to 2001, he was the chief physician of the\nEquus veterinary medicine clinic.',
+                                              style: TextStyle(height: 1.4)),
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: scaleH(10, context),
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 7, right: 8),
+                                          child: Container(
+                                            height: 8,
+                                            width: 8,
+                                            decoration: const BoxDecoration(
+                                                color: Colors.yellow,
+                                                shape: BoxShape.circle),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: scaleW(320, context),
+                                          child: const Text(
+                                              'Constantly increases the level of his qualifications,\nattending international conferences, congresses, \nworkshops on veterinary services for small pets.',
+                                              style: TextStyle(height: 1.4)),
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: scaleH(10, context),
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 7, right: 8),
+                                          child: Container(
+                                            height: 8,
+                                            width: 8,
+                                            decoration: const BoxDecoration(
+                                                color: Colors.yellow,
+                                                shape: BoxShape.circle),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: scaleW(320, context),
+                                          child: const Text(
+                                              'Since 2006, the leading doctor of veterinary care "UCCA". At the same time, she continues to conduct reception at the Equus veterinary medicine clinic, where he has been working since 1997.',
+                                              style: TextStyle(height: 1.4)),
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: scaleH(24, context),
                                     ),
                                     Text(
                                       'Personal Infomation',
                                       style: AppTheme.textTheme.headlineMedium,
                                       textAlign: TextAlign.left,
                                     ),
-                                    const SizedBox(
-                                      height: 112,
+                                    SizedBox(
+                                      height: scaleH(10, context),
+                                    ),
+                                    const Text(
+                                        'Candidate master of sports in equestrian sport (dressage). Favorite breed of dog is German Shepherd. He is married, has two children: daughter Alika and son Timur.',
+                                        style: TextStyle(height: 1.4)),
+                                    SizedBox(
+                                      height: scaleH(24, context),
                                     ),
                                     Row(
                                       children: [
