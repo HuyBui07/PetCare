@@ -20,7 +20,6 @@ class _DateCardState extends State<DateCard> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -54,10 +53,9 @@ class _DateCardState extends State<DateCard> with TickerProviderStateMixin {
         child: Center(
             child: Column(
           children: [
-            Container(
+            const SizedBox(
               height: 4,
               width: double.infinity,
-              decoration: BoxDecoration(color: Color(0xFF4552CB)),
             ),
             SizedBox(
               height: scaleH(7, context),
