@@ -4,19 +4,19 @@ import 'package:petcare_search/constants/colors.dart';
 import 'package:petcare_search/screens/search_tab/vetenary_info.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:petcare_search/vetenaries/veterinary_args.dart';
 
 class DentistItem extends StatelessWidget {
-  const DentistItem({super.key, required this.name});
+  const DentistItem({super.key, required this.vetArgs});
 
-  final String name;
-
+  final VetArgs vetArgs;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () =>
           Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
               builder: (_) => VeterinaryInfo(
-                    name: name,
+                    vetArgs: vetArgs,
                   ))),
       child: Padding(
         padding: EdgeInsets.all(scaleH(8, context)),
@@ -66,13 +66,13 @@ class DentistItem extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          name,
+                          vetArgs.nameVet,
                           style: Theme.of(context).textTheme.headline3?.apply(
                                 color: Color(0xff070821),
                               ),
                         ),
                         Text(
-                          'Vaterinary Dentist',
+                          vetArgs.nameLocation,
                           style: Theme.of(context).textTheme.headline5?.apply(
                                 color: Color(0xff070821),
                               ),

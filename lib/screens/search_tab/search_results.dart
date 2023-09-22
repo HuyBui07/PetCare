@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:petcare_search/constants/colors.dart';
 import 'package:petcare_search/utils/dentist_list.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
+import 'package:petcare_search/vetenaries/veterinary_args.dart';
 
 import 'package:petcare_search/widgets/customTabBart.dart';
 import '../../repository/vetRepository.dart';
@@ -26,9 +27,9 @@ class _SearchResultsState extends State<SearchResults>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
 
-  static List<String> mainDentistList = VeterinaryRepository.vetsNames;
+  static List<VetArgs> mainDentistList = VeterinaryRepository.vets;
 
-  List<String> displayList = List.from(mainDentistList);
+  List<VetArgs> displayList = List.from(mainDentistList);
 
   @override
   void initState() {
@@ -46,7 +47,7 @@ class _SearchResultsState extends State<SearchResults>
     setState(() {
       displayList = mainDentistList
           .where(
-            (element) => element.toLowerCase().contains(
+            (element) => element.nameVet.toLowerCase().contains(
                   value.toLowerCase(),
                 ),
           )

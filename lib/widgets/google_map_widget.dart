@@ -25,6 +25,8 @@ class _GoogleMapWidgetState extends State<GoogleMapWidget> {
   late GoogleMapController controller;
   @override
   void initState() {
+    print('lat: ${widget.lat}');
+    print('long: ${widget.long}');
     // TODO: implement initState
     super.initState();
     _markers.add(

@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:petcare_search/models/veterinary_model.dart';
+import 'package:petcare_search/vetenaries/veterinary_args.dart';
 
 class VeterinaryRepository {
-  static List<String> vetsNames = [];
+  static List<VetArgs> vets = [];
 
   static final VeterinaryRepository _instance =
       VeterinaryRepository._internal();
@@ -18,7 +19,11 @@ class VeterinaryRepository {
     try {
       final vetCollection = await db.collection("Veterinaries").get();
       vetCollection.docs.forEach((element) {
-        vetsNames.add(Veterinary.fromJson(element.data()).name);
+        vets.add(VetArgs(
+            Veterinary.fromJson(element.data()).name,
+            Veterinary.fromJson(element.data()).clinic.name,
+            Veterinary.fromJson(element.data()).latitude,
+            Veterinary.fromJson(element.data()).longitude));
       });
     } catch (e) {
       print(e);
