@@ -13,11 +13,10 @@ import 'package:petcare_search/utils/dentist_item.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
 import 'package:petcare_search/vetenaries/veterinary_args.dart';
 
-import 'package:petcare_search/widgets/GoogleMapTesting.dart';
-
 import 'package:petcare_search/widgets/bottomsheet_booking.dart';
 
 import 'package:petcare_search/widgets/dateCard.dart';
+import 'package:petcare_search/widgets/google_map_widget.dart';
 import 'package:petcare_search/widgets/reviewCard.dart';
 
 class VeterinaryInfo extends StatefulWidget {
