@@ -91,7 +91,10 @@ class RouteGenerator {
 
       case thanks:
         return MaterialPageRoute(
-          builder: (_) => SearchThanks(),
+          builder: (_) => SearchThanks(
+            datePicked: DateTime.now(),
+            timePicked: '10:20pm',
+          ),
         );
       case registration:
         return MaterialPageRoute<Registration>(

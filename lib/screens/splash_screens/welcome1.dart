@@ -76,6 +76,29 @@ class Welcome1 extends StatelessWidget {
                 ),
               ),
             ),
+            // Container(
+            //   height: 50,
+            //   width: 270,
+            //   child: TextButton(
+            //     style: TextButton.styleFrom(
+            //       backgroundColor: Color(0xff4552CB),
+            //     ),
+            //     // onPressed: () {
+            //     //   //Navigator.pushNamed(context, RouteGenerator.welcome2);
+            //     // },
+            //     onPressed: onPressed,
+            //     child: Text(
+            //       'Next',
+            //       style: GoogleFonts.encodeSans(
+            //         textStyle: TextStyle(
+            //           fontSize: 18,
+            //           fontWeight: FontWeight.w700,
+            //           color: Colors.white,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
