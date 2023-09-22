@@ -16,7 +16,9 @@ class LoaderScreen extends StatefulWidget {
 class _LoaderScreenState extends State<LoaderScreen> {
   void initState() {
     Future.delayed(const Duration(seconds: 1), () {
-      Navigator.pushReplacementNamed(context, RouteGenerator.welcome);
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, RouteGenerator.welcome);
+      }
     });
     super.initState();
   }
