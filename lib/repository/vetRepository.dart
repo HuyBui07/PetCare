@@ -20,10 +20,12 @@ class VeterinaryRepository {
       final vetCollection = await db.collection("Veterinaries").get();
       vetCollection.docs.forEach((element) {
         vets.add(VetArgs(
-            Veterinary.fromJson(element.data()).name,
-            Veterinary.fromJson(element.data()).clinic.name,
-            Veterinary.fromJson(element.data()).latitude,
-            Veterinary.fromJson(element.data()).longitude));
+          Veterinary.fromJson(element.data()).name,
+          Veterinary.fromJson(element.data()).clinic.name,
+          Veterinary.fromJson(element.data()).latitude,
+          Veterinary.fromJson(element.data()).longitude,
+          Veterinary.fromJson(element.data()).personalInformation,
+        ));
       });
     } catch (e) {
       print(e);

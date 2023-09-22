@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,7 +9,6 @@ import 'package:petcare_search/constants/time.dart';
 import 'package:petcare_search/repository/vetRepository.dart';
 import 'package:petcare_search/screens/search_tab/search_results.dart';
 import 'package:petcare_search/utils/dentist_item.dart';
-
 import 'package:petcare_search/utils/widget_utils.dart';
 import 'package:petcare_search/vetenaries/veterinary_args.dart';
 import 'package:petcare_search/widgets/bottomsheet_booking.dart';
@@ -42,7 +40,7 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
 
   List<Widget> dateCardGenerator() {
     List<Widget> list = [];
-    int dayGen = 2;
+    int dayGen = 6;
     for (int i = 1; i < 32; i++) {
       list.add(DateCard(dayOfTheWeek: dayGen, date: i));
       dayGen++;
@@ -485,7 +483,7 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                                 left: scaleW(15, context)),
                                             child: ChoiceChip(
                                               selectedColor: AppColors.violet,
-                                              label: Container(
+                                              label: SizedBox(
                                                 height: scaleH(28, context),
                                                 width: scaleH(68, context),
                                                 child: Center(
@@ -675,9 +673,9 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                         ),
                                         SizedBox(
                                           width: scaleW(320, context),
-                                          child: const Text(
-                                            'Repeated participant and winner of the International Conferences, reports on the topic: “Iatrogenic pathology in urology”, “Foreign bodies of the gastrointestinal tract in small domestic animals.',
-                                            style: TextStyle(height: 1.4),
+                                          child: Text(
+                                            widget.vetArgs.personalInf,
+                                            style: const TextStyle(height: 1.4),
                                           ),
                                         )
                                       ],
