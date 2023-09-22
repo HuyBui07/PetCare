@@ -10,21 +10,21 @@ class PetDialog extends StatelessWidget {
   final List<String> species = [
     'Dogs',
     'Cats',
-    'Fish',
-    'Birds',
-    'Snake',
-    'Hamsters',
-    'Guinea pigs',
-    'Turtles',
-    'Frogs',
-    'Rabbits',
-    'Hedgehogs',
+    // 'Fish',
+    // 'Birds',
+    // 'Snake',
+    // 'Hamsters',
+    // 'Guinea pigs',
+    // 'Turtles',
+    // 'Frogs',
+    // 'Rabbits',
+    // 'Hedgehogs',
   ];
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: scaleH(300, context),
+      height: scaleH(150, context),
       width: scaleW(300, context),
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(15)),
