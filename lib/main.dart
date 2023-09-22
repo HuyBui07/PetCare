@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:petcare_search/appStyle.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:petcare_search/repository/vetRepository.dart';
 import 'package:petcare_search/routes/routes.dart';
 import 'package:petcare_search/providers/auth_provider.dart';
+import 'package:petcare_search/screens/TestScreen/GoogleMapTesting.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -32,7 +35,8 @@ class MyApp extends StatelessWidget {
       theme: AppTheme,
       initialRoute: RouteGenerator.welcome,
       onGenerateRoute: RouteGenerator.generateRoute,
-      //home: SearchThanks(),
+      // home: GoogleMapWidget(
+      //     lat: 10.87017746037323, long: 106.8030326433549, name: 'ĐH CNTT'));
     );
   }
 }
