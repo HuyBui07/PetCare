@@ -7,7 +7,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:petcare_search/repository/vetRepository.dart';
 import 'package:petcare_search/routes/routes.dart';
 import 'package:petcare_search/providers/auth_provider.dart';
-import 'package:petcare_search/screens/TestScreen/GoogleMapTesting.dart';
 import 'package:provider/provider.dart';
 
 void main() async {

@@ -78,6 +78,7 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -113,9 +114,6 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                       )
                     ]),
                   ],
-                ),
-                SizedBox(
-                  width: scaleW(44, context),
                 ),
                 GestureDetector(
                   onTap: () {
@@ -164,7 +162,9 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                     top: scaleH(49, context),
                     left: scaleW(14, context),
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                       icon: const Icon(Icons.arrow_back),
                       color: Colors.white,
                     )),
@@ -576,34 +576,32 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                         ],
                                       ),
                                     ),
-
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                          // height: scaleH(135, context),
-                                          // width: scaleH(342, context),
-                                          decoration: const BoxDecoration(
-                                            
-                                            borderRadius: BorderRadius.only(
-                                                bottomLeft: Radius.circular(10),
-                                                bottomRight:
-                                                    Radius.circular(10)),
-                                            // image: DecorationImage(
-                                            //   image:
-                                            //       AssetImage('assets/imgs/map.png'),
-                                            //   fit: BoxFit.fitWidth,
-                                            // )),
-                                          ),
-                                          child: GoogleMapWidget(
-                                              lat: 10.87017746037323,
-                                              long: 106.8030326433549,
-                                              name: 'ĐH CNTT')),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                            // height: scaleH(135, context),
+                                            // width: scaleH(342, context),
+                                            decoration: const BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(10),
+                                                  bottomRight:
+                                                      Radius.circular(10)),
+                                              // image: DecorationImage(
+                                              //   image:
+                                              //       AssetImage('assets/imgs/map.png'),
+                                              //   fit: BoxFit.fitWidth,
+                                              // )),
+                                            ),
+                                            child: GoogleMapWidget(
+                                                lat: 10.87017746037323,
+                                                long: 106.8030326433549,
+                                                name: 'ĐH CNTT')),
+                                      ),
                                     ),
-                                  ),
-                                ],
-
+                                  ],
+                                ),
                               ),
                             ),
                             SizedBox(
