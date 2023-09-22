@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:petcare_search/constants/colors.dart';
-import 'package:petcare_search/routes/routes.dart';
 import 'package:petcare_search/screens/search_tab/vetenary_info.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,8 +13,11 @@ class DentistItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.of(context, rootNavigator: true)
-          .push(MaterialPageRoute(builder: (_) => VeterinaryInfo())),
+      onTap: () =>
+          Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+              builder: (_) => VeterinaryInfo(
+                    name: name,
+                  ))),
       child: Padding(
         padding: EdgeInsets.all(scaleH(8, context)),
         child: Container(

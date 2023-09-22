@@ -3,19 +3,25 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:petcare_search/appStyle.dart';
 import 'package:petcare_search/constants/colors.dart';
+import 'package:petcare_search/constants/time.dart';
 import 'package:petcare_search/repository/vetRepository.dart';
 import 'package:petcare_search/utils/dentist_item.dart';
 
 import 'package:petcare_search/utils/widget_utils.dart';
+
 import 'package:petcare_search/widgets/GoogleMapTesting.dart';
+
+import 'package:petcare_search/widgets/bottomsheet_booking.dart';
+
 import 'package:petcare_search/widgets/dateCard.dart';
 import 'package:petcare_search/widgets/reviewCard.dart';
-import 'package:petcare_search/widgets/timeCard.dart';
 
 class VeterinaryInfo extends StatefulWidget {
-  const VeterinaryInfo({super.key});
+  const VeterinaryInfo({super.key, required this.name});
+  final String name;
 
   @override
   State<VeterinaryInfo> createState() => _VeterinaryInfoState();
@@ -23,6 +29,8 @@ class VeterinaryInfo extends StatefulWidget {
 
 class _VeterinaryInfoState extends State<VeterinaryInfo> {
   static List<String> mainDentistList = VeterinaryRepository.vetsNames;
+  int _isSelected = 0;
+  var selectedTime = DateFormat.Hm().format(DateTime.now());
 
   List<String> displayList = List.from(mainDentistList);
 
@@ -48,29 +56,6 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
     return list;
   }
 
-  List<Widget> timeCardGenerator() {
-    List<String> timeList = [
-      '09:00',
-      '09:30',
-      '10:00',
-      '10:30',
-      '11:30',
-      '12:00',
-      '12:30',
-      '13:00',
-      '13:30',
-      '14:00',
-      '14:30',
-      '15:00',
-      '15:30',
-    ];
-    List<Widget> timeCardList = [];
-    for (int i = 0; i < timeList.length; i++) {
-      timeCardList.add(TimeCard(time: timeList[i]));
-    }
-    return timeCardList;
-  }
-
   List<Widget> reviewCardGenerator() {
     List<String> names = ["Ann & Leo", "Bob"];
     List<Widget> list = [];
@@ -93,7 +78,6 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -130,8 +114,16 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                     ]),
                   ],
                 ),
+                SizedBox(
+                  width: scaleW(44, context),
+                ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (ctx) => const BottomSheetBooking(),
+                    );
+                  },
                   child: Container(
                     height: scaleH(45, context),
                     width: scaleW(150, context),
@@ -172,9 +164,7 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                     top: scaleH(49, context),
                     left: scaleW(14, context),
                     child: IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+                      onPressed: () {},
                       icon: const Icon(Icons.arrow_back),
                       color: Colors.white,
                     )),
@@ -219,7 +209,7 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                 Padding(
                                   padding: const EdgeInsets.all(0),
                                   child: Text(
-                                    'Alekseenco Vasily',
+                                    widget.name,
                                     style: AppTheme.textTheme.displaySmall!
                                         .copyWith(height: 1.2),
                                   ),
@@ -264,7 +254,7 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                           .textTheme
                                           .bodySmall
                                           ?.apply(
-                                            color: Color(0xff070821),
+                                            color: const Color(0xff070821),
                                           ),
                                     ),
                                     SizedBox(
@@ -479,16 +469,49 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                   const SizedBox(
                                     height: 8,
                                   ),
-                                  SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 4, right: 4),
-                                      child: Row(
-                                        children: timeCardGenerator(),
-                                      ),
-                                    ),
-                                  )
+                                  SizedBox(
+                                      height: scaleH(35, context),
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: times.length,
+                                        itemBuilder: (context, index) {
+                                          return Container(
+                                            margin: EdgeInsets.only(
+                                                left: scaleW(15, context)),
+                                            child: ChoiceChip(
+                                              selectedColor: AppColors.violet,
+                                              label: Container(
+                                                height: scaleH(28, context),
+                                                width: scaleH(68, context),
+                                                child: Center(
+                                                  child: Text(
+                                                    times[index],
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline5!
+                                                        .apply(
+                                                            color:
+                                                                _isSelected ==
+                                                                        index
+                                                                    ? Colors
+                                                                        .white
+                                                                    : Colors
+                                                                        .black),
+                                                  ),
+                                                ),
+                                              ),
+                                              selected: _isSelected == index,
+                                              onSelected: (bool selected) {
+                                                setState(() {
+                                                  _isSelected =
+                                                      selected ? index : 0;
+                                                  selectedTime = times[index];
+                                                });
+                                              },
+                                            ),
+                                          );
+                                        },
+                                      )),
                                 ],
                               ),
                             ),
@@ -500,56 +523,60 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                 borderRadius: BorderRadius.circular(10),
                                 color: Colors.white,
                               ),
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8),
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          height: 36,
-                                          width: 36,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                            color: AppColors.lightgray,
-                                          ),
-                                          child: IconButton(
-                                            onPressed: () {},
-                                            icon: SvgPicture.asset(
-                                                'assets/icons/iconsvg/work.svg'),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: scaleW(16, context),
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Veterinary clinic "Alden-Vet"',
-                                              style: AppTheme
-                                                  .textTheme.headlineSmall!
-                                                  .copyWith(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 15),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            height: 36,
+                                            width: 36,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                              color: AppColors.lightgray,
                                             ),
-                                            Text(
-                                              '141N Union Ave, Los Angeles, CA',
-                                              style: AppTheme
-                                                  .textTheme.bodySmall!
-                                                  .copyWith(
-                                                      height: 1.2,
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.normal),
-                                            )
-                                          ],
-                                        )
-                                      ],
+                                            child: IconButton(
+                                              onPressed: () {},
+                                              icon: SvgPicture.asset(
+                                                  'assets/icons/iconsvg/work.svg'),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: scaleW(16, context),
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Veterinary clinic "Alden-Vet"',
+                                                style: AppTheme
+                                                    .textTheme.headlineSmall!
+                                                    .copyWith(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 15),
+                                              ),
+                                              Text(
+                                                '141N Union Ave, Los Angeles, CA',
+                                                style: AppTheme
+                                                    .textTheme.bodySmall!
+                                                    .copyWith(
+                                                        height: 1.2,
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.normal),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
                                     ),
+
                                   ),
                                   Expanded(
                                     child: Padding(
@@ -558,7 +585,7 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                           // height: scaleH(135, context),
                                           // width: scaleH(342, context),
                                           decoration: const BoxDecoration(
-                                            color: Colors.amber,
+                                            
                                             borderRadius: BorderRadius.only(
                                                 bottomLeft: Radius.circular(10),
                                                 bottomRight:
@@ -576,6 +603,7 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                     ),
                                   ),
                                 ],
+
                               ),
                             ),
                             SizedBox(

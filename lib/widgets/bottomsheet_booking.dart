@@ -1,10 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:petcare_search/constants/colors.dart';
 import 'package:petcare_search/constants/time.dart';
+import 'package:petcare_search/screens/search_tab/search_tks.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
+
+final formatter = DateFormat('MMMM d, y');
 
 class BottomSheetBooking extends StatefulWidget {
   const BottomSheetBooking({super.key});
@@ -16,6 +21,9 @@ class BottomSheetBooking extends StatefulWidget {
 class _BottomSheetBookingState extends State<BottomSheetBooking> {
   TextEditingController dateInput = TextEditingController();
   int _isSelected = 0;
+  var selectedDate = DateTime.now();
+  var selectedTime = DateFormat.Hm().format(DateTime.now());
+
   @override
   void initState() {
     dateInput.text = DateFormat("EEE, MMM d").format(DateTime.now());
@@ -34,8 +42,16 @@ class _BottomSheetBookingState extends State<BottomSheetBooking> {
       String formattedDate = DateFormat("EEE, MMM d").format(picked);
       setState(() {
         dateInput.text = formattedDate;
+        selectedDate = picked;
       });
     }
+  }
+
+  void _saveData() {
+    FirebaseFirestore.instance.collection('Appointments').add({
+      'bookedDate': '${formatter.format(selectedDate)} at $selectedTime UTC+7',
+      'bookedOn': DateTime.now(),
+    });
   }
 
   @override
@@ -57,7 +73,9 @@ class _BottomSheetBookingState extends State<BottomSheetBooking> {
                   margin: EdgeInsets.only(left: scaleW(18, context)),
                   width: scaleW(30, context),
                   child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                       icon: Icon(
                         Icons.close,
                         color: AppColors.violet,
@@ -167,13 +185,13 @@ class _BottomSheetBookingState extends State<BottomSheetBooking> {
                       bottom: BorderSide(color: AppColors.gray),
                     )),
                     child: ListTile(
-                      contentPadding: EdgeInsets.all(0),
-                      visualDensity: VisualDensity(vertical: -4),
+                      contentPadding: const EdgeInsets.all(0),
+                      visualDensity: const VisualDensity(vertical: -4),
                       title: Text(
                         dateInput.text,
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
-                      trailing: Icon(Icons.arrow_forward_ios),
+                      trailing: const Icon(Icons.arrow_forward_ios),
                       onTap: () => _selectDate(context),
                     ),
                   ),
@@ -210,6 +228,7 @@ class _BottomSheetBookingState extends State<BottomSheetBooking> {
                         onSelected: (bool selected) {
                           setState(() {
                             _isSelected = selected ? index : 0;
+                            selectedTime = times[index];
                           });
                         },
                       ),
@@ -234,7 +253,18 @@ class _BottomSheetBookingState extends State<BottomSheetBooking> {
                     ],
                   ),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _saveData();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (ctx) => SearchThanks(
+                              datePicked: selectedDate,
+                              timePicked: selectedTime,
+                            ),
+                          ),
+                        );
+                      },
                       child: Container(
                         height: scaleH(38, context),
                         width: scaleW(168, context),
