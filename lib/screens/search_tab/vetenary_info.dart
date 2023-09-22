@@ -13,6 +13,7 @@ import 'package:petcare_search/utils/widget_utils.dart';
 import 'package:petcare_search/vetenaries/veterinary_args.dart';
 import 'package:petcare_search/widgets/bottomsheet_booking.dart';
 import 'package:petcare_search/widgets/dateCard.dart';
+import 'package:petcare_search/widgets/google_map_widget.dart';
 import 'package:petcare_search/widgets/reviewCard.dart';
 
 class VeterinaryInfo extends StatefulWidget {
@@ -74,6 +75,7 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -109,9 +111,6 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                       )
                     ]),
                   ],
-                ),
-                SizedBox(
-                  width: scaleW(44, context),
                 ),
                 GestureDetector(
                   onTap: () {
@@ -579,19 +578,29 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                         ],
                                       ),
                                     ),
-                                    Container(
-                                      height: scaleH(135, context),
-                                      width: scaleH(342, context),
-                                      decoration: const BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(10),
-                                              bottomRight: Radius.circular(10)),
-                                          image: DecorationImage(
-                                            image: AssetImage(
-                                                'assets/imgs/map.png'),
-                                            fit: BoxFit.fitWidth,
-                                          )),
-                                    ),
+                                    Expanded(
+                                        child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                          // height: scaleH(135, context),
+                                          // width: scaleH(342, context),
+                                          decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                                bottomLeft: Radius.circular(10),
+                                                bottomRight:
+                                                    Radius.circular(10)),
+                                            // image: DecorationImage(
+                                            //   image:
+                                            //       AssetImage('assets/imgs/map.png'),
+                                            //   fit: BoxFit.fitWidth,
+                                            // )),
+                                          ),
+                                          child: GoogleMapWidget(
+                                              lat: widget.vetArgs.lat,
+                                              long: widget.vetArgs.long,
+                                              name:
+                                                  widget.vetArgs.nameLocation)),
+                                    )),
                                   ],
                                 ),
                               ),
@@ -644,6 +653,7 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                     const Text(
                                       'Before entering the agricultural Academy he worked at the department of surgery of the veterinary faculty (1991-1992). He graduated from the Faculty of Veterinary Medicine of NAU in 1997. He defended his thesis at the Departmentof Surgery on the topic: "Surgery on the urinary organs of cats." Scientific advisor prof. Borisevich V.B. In 1998 graduated from the Magistracy.',
                                       style: TextStyle(height: 1.4),
+                                      textAlign: TextAlign.justify,
                                     ),
                                     SizedBox(
                                       height: scaleH(24, context),
@@ -671,11 +681,12 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                                 shape: BoxShape.circle),
                                           ),
                                         ),
-                                        SizedBox(
-                                          width: scaleW(320, context),
+                                        Expanded(
+                                          //width: scaleW(320, context),
                                           child: Text(
                                             widget.vetArgs.personalInf,
                                             style: const TextStyle(height: 1.4),
+                                            textAlign: TextAlign.justify,
                                           ),
                                         )
                                       ],
@@ -698,11 +709,13 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                                 shape: BoxShape.circle),
                                           ),
                                         ),
-                                        SizedBox(
-                                          width: scaleW(320, context),
+                                        Expanded(
+                                          // width: scaleW(320, context),
                                           child: const Text(
-                                              'From 1998 to 2001, he was the chief physician of the\nEquus veterinary medicine clinic.',
-                                              style: TextStyle(height: 1.4)),
+                                            'From 1998 to 2001, he was the chief physician of the\nEquus veterinary medicine clinic.',
+                                            style: TextStyle(height: 1.4),
+                                            textAlign: TextAlign.justify,
+                                          ),
                                         )
                                       ],
                                     ),
@@ -724,11 +737,13 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                                 shape: BoxShape.circle),
                                           ),
                                         ),
-                                        SizedBox(
-                                          width: scaleW(320, context),
-                                          child: const Text(
-                                              'Constantly increases the level of his qualifications,\nattending international conferences, congresses, \nworkshops on veterinary services for small pets.',
-                                              style: TextStyle(height: 1.4)),
+                                        const Expanded(
+                                          //width: scaleW(320, context),
+                                          child: Text(
+                                            'Constantly increases the level of his qualifications,\nattending international conferences, congresses, \nworkshops on veterinary services for small pets.',
+                                            style: TextStyle(height: 1.4),
+                                            textAlign: TextAlign.justify,
+                                          ),
                                         )
                                       ],
                                     ),
@@ -750,11 +765,13 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                                 shape: BoxShape.circle),
                                           ),
                                         ),
-                                        SizedBox(
-                                          width: scaleW(320, context),
-                                          child: const Text(
-                                              'Since 2006, the leading doctor of veterinary care "UCCA". At the same time, she continues to conduct reception at the Equus veterinary medicine clinic, where he has been working since 1997.',
-                                              style: TextStyle(height: 1.4)),
+                                        const Expanded(
+                                          //width: scaleW(320, context),
+                                          child: Text(
+                                            'Since 2006, the leading doctor of veterinary care "UCCA". At the same time, she continues to conduct reception at the Equus veterinary medicine clinic, where he has been working since 1997.',
+                                            style: TextStyle(height: 1.4),
+                                            textAlign: TextAlign.justify,
+                                          ),
                                         )
                                       ],
                                     ),
@@ -770,8 +787,10 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                       height: scaleH(10, context),
                                     ),
                                     const Text(
-                                        'Candidate master of sports in equestrian sport (dressage). Favorite breed of dog is German Shepherd. He is married, has two children: daughter Alika and son Timur.',
-                                        style: TextStyle(height: 1.4)),
+                                      'Candidate master of sports in equestrian sport (dressage). Favorite breed of dog is German Shepherd. He is married, has two children: daughter Alika and son Timur.',
+                                      style: TextStyle(height: 1.4),
+                                      textAlign: TextAlign.justify,
+                                    ),
                                     SizedBox(
                                       height: scaleH(24, context),
                                     ),
