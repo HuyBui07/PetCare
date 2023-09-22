@@ -11,6 +11,7 @@ import 'package:petcare_search/repository/vetRepository.dart';
 import 'package:petcare_search/utils/dentist_item.dart';
 
 import 'package:petcare_search/utils/widget_utils.dart';
+import 'package:petcare_search/vetenaries/veterinary_args.dart';
 
 import 'package:petcare_search/widgets/GoogleMapTesting.dart';
 
@@ -20,24 +21,23 @@ import 'package:petcare_search/widgets/dateCard.dart';
 import 'package:petcare_search/widgets/reviewCard.dart';
 
 class VeterinaryInfo extends StatefulWidget {
-  const VeterinaryInfo({super.key, required this.name});
-  final String name;
-
+  const VeterinaryInfo({super.key, required this.vetArgs});
+  final VetArgs vetArgs;
   @override
   State<VeterinaryInfo> createState() => _VeterinaryInfoState();
 }
 
 class _VeterinaryInfoState extends State<VeterinaryInfo> {
-  static List<String> mainDentistList = VeterinaryRepository.vetsNames;
+  static List<VetArgs> mainDentistList = VeterinaryRepository.vets;
   int _isSelected = 0;
   var selectedTime = DateFormat.Hm().format(DateTime.now());
 
-  List<String> displayList = List.from(mainDentistList);
+  List<VetArgs> displayList = List.from(mainDentistList);
 
   List<Widget> vetCardgenerator() {
     List<Widget> list = [];
-    displayList.forEach((name) {
-      list.add(DentistItem(name: name));
+    displayList.forEach((vet) {
+      list.add(DentistItem(vetArgs: vet));
     });
     return list;
   }
@@ -209,13 +209,13 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                 Padding(
                                   padding: const EdgeInsets.all(0),
                                   child: Text(
-                                    widget.name,
+                                    widget.vetArgs.nameVet,
                                     style: AppTheme.textTheme.displaySmall!
                                         .copyWith(height: 1.2),
                                   ),
                                 ),
                                 Text(
-                                  'Veterinary Dentist',
+                                  widget.vetArgs.nameLocation,
                                   style: AppTheme.textTheme.headlineSmall!
                                       .copyWith(height: 1.2),
                                 ),
@@ -595,9 +595,10 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                               // )),
                                             ),
                                             child: GoogleMapWidget(
-                                                lat: 10.87017746037323,
-                                                long: 106.8030326433549,
-                                                name: 'ĐH CNTT')),
+                                                lat: widget.vetArgs.lat,
+                                                long: widget.vetArgs.long,
+                                                name: widget
+                                                    .vetArgs.nameLocation)),
                                       ),
                                     ),
                                   ],
