@@ -1,12 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:petcare_search/constants/colors.dart';
 import 'package:petcare_search/routes/routes.dart';
-import 'package:petcare_search/screens/home_screen.dart';
 import 'package:petcare_search/utils/widget_utils.dart';
-import 'package:petcare_search/widgets/bottomsheet_booking.dart';
 
 final formatter = DateFormat('EEE d MMM');
 

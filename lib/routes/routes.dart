@@ -105,9 +105,6 @@ class RouteGenerator {
             builder: (_) => ForgotPassword());
       case settingsscreen:
         return MaterialPageRoute<Settings>(builder: (_) => SettingsScreen());
-      case vetecard:
-        return MaterialPageRoute<VeterinaryInfo>(
-            builder: (_) => VeterinaryInfo());
       default:
         throw const RouteException("Route not found");
     }

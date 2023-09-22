@@ -185,13 +185,13 @@ class _BottomSheetBookingState extends State<BottomSheetBooking> {
                       bottom: BorderSide(color: AppColors.gray),
                     )),
                     child: ListTile(
-                      contentPadding: EdgeInsets.all(0),
-                      visualDensity: VisualDensity(vertical: -4),
+                      contentPadding: const EdgeInsets.all(0),
+                      visualDensity: const VisualDensity(vertical: -4),
                       title: Text(
                         dateInput.text,
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
-                      trailing: Icon(Icons.arrow_forward_ios),
+                      trailing: const Icon(Icons.arrow_forward_ios),
                       onTap: () => _selectDate(context),
                     ),
                   ),
