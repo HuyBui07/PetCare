@@ -707,6 +707,10 @@ class _AddDetailPetState extends State<AddDetailPet> {
         setState(() {
           _pet.imgPath = temp;
         });
+      } else {
+        setState(() {
+          _isUploading = false;
+        });
       }
     } catch (e) {
       // ignore: use_build_context_synchronously

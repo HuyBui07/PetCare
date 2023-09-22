@@ -466,6 +466,10 @@ class _EditProfileState extends State<EditProfileScreen> {
           _avt = temp;
         });
         print('avt check: $_avt');
+      } else {
+        setState(() {
+          _isUploading = false;
+        });
       }
     } catch (e) {
       // ignore: use_build_context_synchronously
