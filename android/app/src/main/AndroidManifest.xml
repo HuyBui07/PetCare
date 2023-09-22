@@ -37,6 +37,12 @@
         android:configChanges=
                 "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
         android:label="@string/app_name" />
+         <meta-data android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyBKj53D-20Zqljwf3ztrJEy18wemx_Gny0"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+<uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+
 </manifest>

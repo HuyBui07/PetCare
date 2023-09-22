@@ -9,6 +9,7 @@ import 'package:petcare_search/repository/vetRepository.dart';
 import 'package:petcare_search/utils/dentist_item.dart';
 
 import 'package:petcare_search/utils/widget_utils.dart';
+import 'package:petcare_search/widgets/GoogleMapTesting.dart';
 import 'package:petcare_search/widgets/dateCard.dart';
 import 'package:petcare_search/widgets/reviewCard.dart';
 import 'package:petcare_search/widgets/timeCard.dart';
@@ -493,7 +494,7 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                             ),
                             SizedBox(height: scaleH(27, context)),
                             Container(
-                              height: scaleH(203, context),
+                              height: scaleH(250, context),
                               width: scaleW(335, context),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
@@ -550,18 +551,29 @@ class _VeterinaryInfoState extends State<VeterinaryInfo> {
                                       ],
                                     ),
                                   ),
-                                  Container(
-                                    height: scaleH(135, context),
-                                    width: scaleH(342, context),
-                                    decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                            bottomLeft: Radius.circular(10),
-                                            bottomRight: Radius.circular(10)),
-                                        image: DecorationImage(
-                                          image:
-                                              AssetImage('assets/imgs/map.png'),
-                                          fit: BoxFit.fitWidth,
-                                        )),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                          // height: scaleH(135, context),
+                                          // width: scaleH(342, context),
+                                          decoration: const BoxDecoration(
+                                            color: Colors.amber,
+                                            borderRadius: BorderRadius.only(
+                                                bottomLeft: Radius.circular(10),
+                                                bottomRight:
+                                                    Radius.circular(10)),
+                                            // image: DecorationImage(
+                                            //   image:
+                                            //       AssetImage('assets/imgs/map.png'),
+                                            //   fit: BoxFit.fitWidth,
+                                            // )),
+                                          ),
+                                          child: GoogleMapWidget(
+                                              lat: 10.87017746037323,
+                                              long: 106.8030326433549,
+                                              name: 'ĐH CNTT')),
+                                    ),
                                   ),
                                 ],
                               ),
