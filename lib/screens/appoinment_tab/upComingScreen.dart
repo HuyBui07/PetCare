@@ -25,7 +25,7 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
             FirebaseFirestore.instance.collection('Appointments').snapshots(),
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return LoaderScreen();
+            return Center(child: CircularProgressIndicator());
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
