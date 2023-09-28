@@ -20,31 +20,6 @@ class GlobalData {
 // String? id = auth.currentUser?.uid.toString();
 
 Future<void> getUserData() async {
-  // FirebaseAuth auth = FirebaseAuth.instance;
-  // GlobalData.id = auth.currentUser?.uid.toString();
-  // DocumentSnapshot snapshot = await FirebaseFirestore.instance
-  //     .collection('Users')
-  //     .doc(GlobalData.id)
-  //     .get();
-  // GlobalData.displayName = snapshot['name'];
-  // GlobalData.nickName = snapshot.data().toString().contains('nickName')
-  //     ? snapshot['nickName']
-  //     : '';
-  // GlobalData.avatar = snapshot['avatar'];
-  // GlobalData.email = snapshot['email'];
-  // GlobalData.phone = snapshot.data().toString().contains('phoneNumber')
-  //     ? snapshot['phoneNumber']
-  //     : '';
-  // GlobalData.gender = snapshot.data().toString().contains('gender')
-  //     ? snapshot['gender'] == 'Gender.male'
-  //         ? Gender.male
-  //         : Gender.female
-  //     : Gender.other;
-  // GlobalData.about =
-  //     snapshot.data().toString().contains('aboutMe') ? snapshot['aboutMe'] : '';
-
-  //Get UID from auth -> Assign current user (if not already done) -> Get user data from db -> Assign to global data
-
   FirebaseAuth auth = FirebaseAuth.instance;
   GlobalData.id = auth.currentUser?.uid.toString();
   if (GlobalData.id == null) {
@@ -82,18 +57,6 @@ Future<void> getUserData() async {
 
 Future<void> addUser(
     String? id, String? displayName, String? email, String? avatar) async {
-  // bool isExisted = false;
-  // final dataUsrs = await FirebaseFirestore.instance.collection('Users').get();
-  // dataUsrs.docs.forEach((docs) => {
-  //       if (docs.id == id) {isExisted = true}
-  //     });
-  // if (!isExisted) {
-  //   CollectionReference users = FirebaseFirestore.instance.collection('Users');
-  //   FirebaseAuth auth = FirebaseAuth.instance;
-  //   String? email = auth.currentUser?.email.toString();
-  //   users.doc(id).set({'name': displayName, 'email': email, 'avatar': avatar});
-  // }
-  // return;
   if (id == null) {
     print("[USER DATA] User not logged in");
     return;
@@ -109,39 +72,14 @@ Future<void> addUser(
     name: displayName!,
     email: email!,
   );
-  user.avatarPath = avatar ?? "";
+  user.avatarPath = avatar ??
+      "https://firebasestorage.googleapis.com/v0/b/petcarevz.appspot.com/o/UserAvatar%2FAmongUs.jpg?alt=media&token=b65158df-9acc-4626-8b28-345404eebfff";
   //Add user to db
   await UserRepository.AddUser(user);
 }
 
 Future updateUserData(String? userName, String? nickName, String? email,
     String? avt, Gender? gender, String? phone, String? about) async {
-  //return await FirebaseFirestore.instance
-  //  .collection('Users')
-  //.doc(GlobalData.id)
-  // .set({
-  //'name': userName,
-  //'nickName': nickName,
-  // 'email': email,
-  //  'imagePath': avt,
-  // 'gender': gender.toString(),
-  //  'phoneNumber': phone,
-//'aboutMe': about,
-//});
-
-  // return await FirebaseFirestore.instance
-  //     .collection('Users')
-  //     .doc(GlobalData.id)
-  //     .set({
-  //   'name': userName,
-  //   'nickName': nickName,
-  //   'email': email,
-  //   'avatar': avt,
-  //   'gender': gender.toString(),
-  //   'phoneNumber': phone,
-  //   'aboutMe': about,
-  // });
-
   UserModel newUser = UserModel(
     name: userName!,
     nickName: nickName!,

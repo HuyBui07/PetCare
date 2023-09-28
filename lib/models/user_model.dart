@@ -20,7 +20,7 @@ class UserModel {
   String nickName; //Optional
   String email;
 
-  late String avatarPath; //In URL
+  String avatarPath; //In URL
   Gender? gender;
   String? phoneNumber;
   String aboutMe;
@@ -37,8 +37,6 @@ class UserModel {
     this.avatarPath =
         "https://firebasestorage.googleapis.com/v0/b/petcarevz.appspot.com/o/UserAvatar%2FAmongUs.jpg?alt=media&token=b65158df-9acc-4626-8b28-345404eebfff", //default value
   }) {
-    //imagePath = "UserAvatar/AmongUs.jpg";
-
     if (gender == null) {
       gender = Gender.other;
     }
@@ -130,7 +128,7 @@ class UserModel {
     UserModel newUser = UserModel(
       uid: json.containsKey('uid') ? json['uid'] as String : "",
       avatarPath:
-          json.containsKey('imagePath') ? json['imagePath'] as String : "",
+          json.containsKey('avatarPath') ? json['avatarPath'] as String : "",
       name: json.containsKey('name') ? json['name'] as String : "",
       nickName: json.containsKey('nickName') ? json['nickName'] as String : "",
       email: json.containsKey('email') ? json['email'] as String : "",
